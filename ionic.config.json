@@ -1,0 +1,7 @@
+{
+  "name": "ionicRRSS",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
