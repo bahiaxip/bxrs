@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "ionicRRSS",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

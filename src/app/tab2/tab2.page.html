@@ -1,17 +1,56 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 2
+      Usuarios
+      <a [routerLink]="['/add']">
+          <ion-icon name="add-circle-outline" style="float:right"></ion-icon>
+      </a>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list >
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+      <ion-item *ngFor="let item of users" lines="inset" >
+      <!--
+        <ion-grid>
+          <ion-row class="ion-align-items-start">
+            <ion-col size="2">
+              <ion-avatar text-end>
+                <img [src]="'assets/icon/help.png'" />
+              </ion-avatar>
+            </ion-col>
+            <ion-col size="5" >
+              <h5>{{ item.name }}</h5>
+            </ion-col>
+            <ion-col size="5" class="ion-margin-top">
+              <ion-button class="padding_buttons">
+                <ion-icon  name="search-outline" size="small"></ion-icon>
+              </ion-button>
+              <ion-button class="padding_buttons">
+                <ion-icon  name="create-outline" size="small"></ion-icon>
+              </ion-button>
+              <ion-button class="padding_buttons">
+                <ion-icon  name="trash-outline" size="small"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      -->
+      <ion-avatar slot="start">
+        <img [src]="'assets/icons/person.png'" />
+      </ion-avatar>
+      <ion-label>
+        <h3>{{item.name}}</h3>
+      </ion-label>
+      <ion-label>
+        <p>{{item.email}}</p>
+      </ion-label>
+
+      </ion-item>
+
+  </ion-list>
+
+  <!--<app-explore-container name="Tab 1 page"></app-explore-container>-->
 </ion-content>

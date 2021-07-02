@@ -1,0 +1,51 @@
+<ion-card style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">
+    <ion-card-header>
+      <ion-card-title style="text-align: center;color:blue">
+        Inicio de sesión
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div>
+            <mat-form-field>
+              <mat-label >E-Mail</mat-label>
+              <input matInput name="email" formControlName="email" />
+              <mat-icon matSuffix>email</mat-icon>
+
+              <mat-hint *ngIf="!form.controls.email.value && form.controls.email.touched;  else hint" style="color:red">Debe introducir un correo</mat-hint>
+
+              <ng-template #hint >
+                <mat-hint *ngIf="form.controls.email.value && !form.controls.email.valid && form.controls.email.touched; else hint3" style="color:red">Debe introducir un correo válido</mat-hint>
+              </ng-template>
+
+              <ng-template #hint3>
+                <mat-hint>Correo electrónico</mat-hint>
+              </ng-template>
+
+            </mat-form-field>
+          </div>
+          <div ></div>
+          <div>
+            <mat-form-field>
+              <mat-label >Password</mat-label>
+              <input matInput name="password" formControlName="password" />
+              <mat-icon matSuffix>lock</mat-icon>
+
+            </mat-form-field>
+          </div>
+          <div style="clear:left;height:5px;width:100%"></div>
+
+          <ion-row>
+            <ion-col>
+              <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">
+                Enviar
+              </button>
+            </ion-col>
+            <!--<ion-col>
+              <a mat-raised-button href="#" color="primary" [routerLink]="['/register']">Registrarse</a>
+            </ion-col>-->
+          </ion-row>
+        </form>
+    </ion-card-content>
+  </ion-card>
+

@@ -1,0 +1,29 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>
+      Publicaciones {{datoId}}
+    </ion-card-title>
+    <ion-card-content>
+      <div>
+      <form [formGroup] ="formAddPublication" (ngSubmit) = "onSubmit()">
+        <mat-form-field style="width:100%">
+          <mat-label>Comparte tu idea</mat-label>
+          <textarea matInput [placeholder]="data" rows="5" cols="10" name="textAddPublication" formControlName="textAddPublication">
+          </textarea>
+
+          <mat-hint *ngIf="!formAddPublication.controls.textAddPublication.value &&
+          formAddPublication.controls.textAddPublication.touched;else hint" style="color:red">Debe introducir un texto</mat-hint>
+          <ng-template #hint>
+            <mat-hint>Publicación</mat-hint>
+          </ng-template>
+        </mat-form-field>
+        <ion-row>
+          <ion-col>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!formAddPublication.valid" >Enviar</button>
+          </ion-col>
+        </ion-row>
+      </form>
+    </div>
+    </ion-card-content>
+  </ion-card-header>
+</ion-card>

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-tab2',
@@ -7,6 +9,30 @@ import { Component } from '@angular/core';
 })
 export class Tab2Page {
 
-  constructor() {}
+  private users:Array<User>;
+
+  constructor(private _userService:UserService) {}
+
+  ngOnInit(){
+
+    this.getUsers();
+  }
+  getUsers(){
+    this._userService.getUsers().subscribe(
+      response=>{
+        if(!response){
+
+        }else{
+          console.log(response);
+          this.users=response.users;
+        }
+
+      },
+      error=>{
+        console.log(error);
+      }
+
+    )
+  }
 
 }
