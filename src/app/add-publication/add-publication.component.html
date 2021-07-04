@@ -8,11 +8,11 @@
       <form [formGroup] ="formAddPublication" (ngSubmit) = "onSubmit()">
         <mat-form-field style="width:100%">
           <mat-label>Comparte tu idea</mat-label>
-          <textarea matInput [placeholder]="data" rows="5" cols="10" name="textAddPublication" formControlName="textAddPublication">
+          <textarea matInput [placeholder]="data" rows="5" cols="10" name="text" formControlName="text">
           </textarea>
 
-          <mat-hint *ngIf="!formAddPublication.controls.textAddPublication.value &&
-          formAddPublication.controls.textAddPublication.touched;else hint" style="color:red">Debe introducir un texto</mat-hint>
+          <mat-hint *ngIf="!formAddPublication.controls.text.value &&
+          formAddPublication.controls.text.touched;else hint" style="color:red">Debe introducir un texto</mat-hint>
           <ng-template #hint>
             <mat-hint>Publicación</mat-hint>
           </ng-template>

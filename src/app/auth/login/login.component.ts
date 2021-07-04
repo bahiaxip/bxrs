@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   public user:User;
   private url:string = Global.url;
   private status:string;
+  private token;
 
 
   form = new FormGroup({
@@ -49,13 +50,35 @@ export class LoginComponent implements OnInit {
         this.status="success";
         this.form.reset();
         this._storageService.set("identity",JSON.stringify(response));
+        this.getToken();
         console.log("guardado con storage")
-        this._router.navigate(["/home"]);
+
 
       },
       error => {
         console.log(error)
         this.status="error";
+      }
+    )
+  }
+
+  getToken(){
+    this._userService.login(this.user,"true").subscribe(
+      response => {
+        this.token = response.token;
+        if(this.token.length <= 0){
+          this.status="error";
+        }else{
+          this._storageService.set("token",this.token);
+          this._router.navigate(["/home"]);
+        }
+      },
+      error => {
+        var errorMessage = <any>error;
+        console.log(errorMessage);
+        if(errorMessage != null){
+          this.status = "error";
+        }
       }
     )
   }

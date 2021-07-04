@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 //import { Storage } from '@ionic/storage-angular';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { StorageService } from '../services/storage.service';
 
@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   constructor(
     //private _storage:Storage,
     private _router:Router,
+    private _route:ActivatedRoute,
     private _userService:UserService,
     private _storageService:StorageService
 
@@ -33,11 +34,15 @@ export class HomeComponent implements OnInit {
     */
   }
   async identity(){
-    if(await this._storageService.getIdentity()){
-      this.login=true;
-      console.log(JSON.parse(await this._storageService.getIdentity()));
-      this._router.navigate(["/tabs"]);
-    }
+    //if(this._router.url=="/home"){
+      if(await this._storageService.getIdentity()){
+        this.login=true;
+        //llega más tarse que tabs
+        console.log("desde home: ",JSON.parse(await this._storageService.getIdentity()));
+        this._router.navigate(["/tabs"]);
+      }
+    //}
+
   }
 
   ionViewWillEnter(){

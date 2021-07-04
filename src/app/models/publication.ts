@@ -1,6 +1,6 @@
 export interface Publication {
   _id: string,
-  textPublication: string,
+  text: string,
   file: string,
   user_id: string
 }

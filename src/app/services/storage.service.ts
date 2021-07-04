@@ -29,6 +29,11 @@ export class StorageService {
       return await this._storage?.get("identity");
     }
   }
+  async getToken(){
+   if(await this._storage?.get("token")){
+      return await this._storage?.get("token");
+    }
+  }
 
 
 }

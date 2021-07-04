@@ -27,7 +27,7 @@ export class UserService {
       return this._http.post(this.url+"register",user,{headers:headers});
   }
 
-  login(user,gettoken=null){
+  login(user,gettoken=null):Observable<any>{
     if(gettoken!=null){
       user=Object.assign(user,{gettoken});
     }

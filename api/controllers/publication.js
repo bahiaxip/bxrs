@@ -15,7 +15,7 @@ var controller = {
     console.log(req.body)
     publication.text = params.text;
     publication.file="null";
-    publication.user = req.user._id;
+    publication.user = req.user.sub;
     publication.created_at = moment().unix();
     publication.save((err,publicationStored) => {
       if(err)
@@ -24,7 +24,19 @@ var controller = {
         return res.status(404).send({message: "publication hasn't been stored"})
       return res.status(200).send({publication:publicationStored});
     })
-}
+  },
+  getPublications:function(req,res){
+    Publication.find((err,publications) => {
+      if(err)
+        return res.status(500).send({message: "Error al solicitar publicaciones"})
+      if(!publications)
+        return res.status(404).send({message: ""})
+      return res.status(200).send({
+        publications
+      })
+    })
+  }
+
 
 }
 module.exports = controller;

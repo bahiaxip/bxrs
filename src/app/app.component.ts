@@ -26,7 +26,7 @@ export class AppComponent{
   */
 
   async init(){
-//revisar si los dispositivos tienen localStorage
+//revisar si los dispositivos tienen localStorage, cambiar por platform
     //si es en el dispositivo se resetea
     if(!localStorage)
       await this._storage.create().then((storage) => {
