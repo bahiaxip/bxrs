@@ -9,6 +9,6 @@ var auth=require("../middleware/auth");
 
 //rutas
 api.post("/follow",auth.ensureAuth,FollowController.saveFollow);
-//api.delete("/follow/:id",auth.ensureAuth,FollowController.deleteFollow);
+api.delete("/follow/:id",auth.ensureAuth,FollowController.deleteFollow);
 
 module.exports = api;

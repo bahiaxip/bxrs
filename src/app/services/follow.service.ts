@@ -38,9 +38,18 @@ export class FollowService {
     )
   }
 
-  //deleteFollow(follow){
-
-  //}
+  deleteFollow(id){
+    return from(this._storageService.getToken()).pipe(
+      switchMap(token => {
+        console.log("token: ",token);
+        let headers = new HttpHeaders({
+          "Content-Type":"application/json",
+          "Authorization":token
+        });
+        return this._http.delete(this.url+"follow/"+id,{headers:headers})
+      })
+    )
+  }
 
 
 }

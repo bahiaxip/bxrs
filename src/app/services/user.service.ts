@@ -77,7 +77,7 @@ export class UserService {
           "Content-Type":"application/json",
          "Authorization":token
         });
-        return this._http.get(this.url+"users",{headers:headers})
+        return this._http.get(this.url+"users/"+page,{headers:headers})
       })
     )
 

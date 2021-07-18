@@ -2,12 +2,13 @@
 
 var User=require("../models/user");
 var Visibility=require("../models/visibility");
-
+var Follow = require("../models/follow");
 //librería de encriptación para el pass
 var bcrypt = require("bcrypt-nodejs");
 var jwt = require("../services/jwt");
 var path= require("path");
 var fs = require("fs")
+
 var controller= {
   home:function(req,res){
     return res.status(200).send({
@@ -79,14 +80,34 @@ var controller= {
   },
 
   getUsers:function(req,res){
-    //var identity_user_id=req.user.sub;
+    var identityUserId=req.user.sub;
     var page=1;
 
     if(req.params.page){
       page= req.params.page;
     }
-    var itemsPerPage = 7;
+    var itemsPage = 4;
+    const options = {
+      page:page,
+      limit:itemsPage,
+      sort:{_id:"desc"}
+    }
 
+    User.paginate({},options,(err,users)=> {
+
+      if(err) return res.status(500).send({message:"Error en la petición"});
+      if(!users) return res.status(404).send({message: "No hay usuarios disponibles"});
+
+      followUserIds(identityUserId).then((value) => {
+
+        return res.status(200).send({
+          users,
+          users_following:value.following,
+          users_followed:value.followed
+        })
+      })
+
+    })
 
     //User.find().sort("_id").paginate(page,itemsPerPage,(err,users,total) => {
     /*User.find((err,users) => {
@@ -226,14 +247,40 @@ var controller= {
         res.status(200).send({message: "No existe la imagen"});
     });
   },
-  //elimina la imagen subida
+  //elimina la imagen subida (si da error sacar fuera del objeto controller, como
+  //la función followUserIds)
   removeFilesUploads:function(res,file_path,message){
     fs.unlink(file_path,(err)=>{
       return res.status(200).send({message: message})
     })
   }
+}
+async function followUserIds(user_id){
 
+  var following = await Follow.find({user:user_id})
+    .select({"_id":0,"__v":0,"user":0})
+    .exec().then((follows) => {
+      var followList = [];
+      follows.forEach((follow) => {
+        followList.push(follow.followed);
+      });
+      return followList;
+    });
 
+  var followed = await Follow.find({"followed":user_id})
+    .select({"_id":0,"__v":0,"followed":0})
+    .exec().then((follows) => {
+      var followList = [];
+      follows.forEach((follow) => {
+        followList.push(follow);
+      });
+      return followList;
+    });
+
+  return {
+    following:following,
+    followed:followed
+  }
 }
 
 module.exports=controller;

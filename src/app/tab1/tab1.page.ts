@@ -130,7 +130,6 @@ export class Tab1Page implements OnInit{
     if(this.page==this.pages)
       this.switchMore=true;
     this.getPublications(this.page,true)
-
   }
 
 
