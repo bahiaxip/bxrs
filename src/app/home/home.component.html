@@ -1,26 +1,26 @@
 <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-title>
-        RRSS Ionic
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content >
-    <div id="container" *ngIf="!login" >
-    <ion-grid>
-      <ion-row class="ion-align-self-center">
-        <ion-col>
-          <ion-button [routerLink]="['/login']">Login</ion-button>
-        </ion-col>
-      </ion-row>
-      <ion-row class="ion-align-items-center">
-        <ion-col>
-          <ion-button [routerLink]="['/register']">Registrarse</ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-    <!--<strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>-->
-  </div>
-  </ion-content>
+  <ion-toolbar color="primary">
+    <ion-title class="title">
+      Ionic RRSS
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content >
+  <div id="container" *ngIf="!login" >
+  <ion-grid>
+    <ion-row class="ion-align-self-center">
+      <ion-col>
+        <ion-button [routerLink]="['/login']">Login</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-align-items-center">
+      <ion-col>
+        <ion-button [routerLink]="['/register']">Registrarse</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!--<strong>Ready to create an app?</strong>
+  <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>-->
+</div>
+</ion-content>
 

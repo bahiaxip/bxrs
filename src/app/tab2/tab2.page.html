@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
+  <ion-toolbar color="primary">
+    <ion-title class="title">
       Usuarios
       <a [routerLink]="['/add']">
           <ion-icon name="add-circle-outline" style="float:right"></ion-icon>
@@ -10,47 +10,108 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list >
 
-      <ion-item *ngFor="let item of users" lines="inset" >
-      <!--
-        <ion-grid>
-          <ion-row class="ion-align-items-start">
-            <ion-col size="2">
-              <ion-avatar text-end>
-                <img [src]="'assets/icon/help.png'" />
+  <ion-list >
+    <mat-accordion *ngFor="let user of users">
+      <div *ngIf="identity._id != user._id">
+        <mat-expansion-panel *ngIf="!user.surname" hideToggle disabled>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+            <ion-item  >
+              <ion-avatar slot="start">
+                <img [src]="'assets/icons/person.png'" />
               </ion-avatar>
-            </ion-col>
-            <ion-col size="5" >
-              <h5>{{ item.name }}</h5>
-            </ion-col>
-            <ion-col size="5" class="ion-margin-top">
-              <ion-button class="padding_buttons">
-                <ion-icon  name="search-outline" size="small"></ion-icon>
-              </ion-button>
-              <ion-button class="padding_buttons">
-                <ion-icon  name="create-outline" size="small"></ion-icon>
-              </ion-button>
-              <ion-button class="padding_buttons">
-                <ion-icon  name="trash-outline" size="small"></ion-icon>
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      -->
-      <ion-avatar slot="start">
-        <img [src]="'assets/icons/person.png'" />
-      </ion-avatar>
-      <ion-label>
-        <h3>{{item.name}}</h3>
-      </ion-label>
-      <ion-label>
-        <p>{{item.email}}</p>
-      </ion-label>
+            </ion-item>
+          </mat-panel-title>
+          <mat-panel-description *ngIf="!user.surname">
+            <ion-item style="margin-top:1%;">
+                <p>{{user.nick}}</p>
+            </ion-item>
+          </mat-panel-description>
+          <ion-item style="margin-top:1%;cursor:pointer" title="Seguir" (click)="testfollow(user._id)"  background="trasnparent">
+            <ion-icon name="thumbs-up-outline" style="pointer-events:none;z-index:999"></ion-icon>
+          </ion-item>
+          <!-- añadimos el indicador y ocultamos con opacity para alinear -->
+          <span class="mat-expansion-indicator" style="opacity:0"></span>
+          </mat-expansion-panel-header>
+          asdfsdf
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="user.surname" [disabled]="clickButton" (click)="clickButton=false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+            <ion-item  >
+              <ion-avatar slot="start">
+                <img [src]="'assets/icons/person.png'" />
+              </ion-avatar>
+            </ion-item>
+          </mat-panel-title>
+          <mat-panel-description>
+            <ion-item style="margin-top:1%">
+                <p>{{user.nick}}</p>
+          </ion-item>
+          </mat-panel-description>
+          <ion-item style="margin-top:1%;z-index:999;" (click)="testfollow(user._id,true)">
+            <ion-icon name="thumbs-up-outline"></ion-icon>
+          </ion-item>
+          </mat-expansion-panel-header>
+          asdfsdf
+        </mat-expansion-panel>
+      </div>
+    </mat-accordion>
+
+  </ion-list>
+<mat-accordion>
+        <mat-expansion-panel>
+
+            <!--
+            <mat-panel-title>
+              hola
+            </mat-panel-title>
+            <mat-panel-description>
+              adios
+            </mat-panel-description>
+          -->
+          <ion-item  >
+            <ion-avatar slot="start">
+              <img [src]="'assets/icons/person.png'" />
+            </ion-avatar>
+            <ion-label>
+              <h3>nombre</h3>
+            </ion-label>
+            <ion-label>
+              <p>item.email</p>
+            </ion-label>
+
+
+          </ion-item>
+
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-expansion-panel-header>
+              Self
+            </mat-expansion-panel-header>
+            <mat-panel-description>
+              Currently
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+    </mat-accordion>
+  <!--<ion-list >
+        <ion-avatar slot="start">
+          <img [src]="'assets/icons/person.png'" />
+        </ion-avatar>
+        <ion-label>
+          <h3>{{item.name}}</h3>
+        </ion-label>
+        <ion-label>
+          <p>{{item.email}}</p>
+        </ion-label>
+
 
       </ion-item>
 
-  </ion-list>
+  </ion-list>-->
 
   <!--<app-explore-container name="Tab 1 page"></app-explore-container>-->
 </ion-content>

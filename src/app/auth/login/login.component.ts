@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   private url:string = Global.url;
   private status:string;
   private token;
+  private title:string="Login";
 
 
   form = new FormGroup({
@@ -28,7 +29,7 @@ export class LoginComponent implements OnInit {
     private _userService:UserService,
     private _router:Router,
     private _storageService:StorageService
-  ) { }
+  ) {this.title="Login" }
 
   ngOnInit() {}
 
@@ -40,8 +41,10 @@ export class LoginComponent implements OnInit {
       nick:"",
       email:this.form.controls.email.value,
       password:this.form.controls.password.value,
+      city:"",
+      phone:"",
       role:"",
-      image:""
+      image:null
     }
 
     this._userService.login(this.user).subscribe(

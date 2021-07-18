@@ -37,12 +37,14 @@ export class RegisterComponent implements OnInit {
     this.user={
       _id:null,
       name:"",
-      surname:"",
+      surname:null,
       nick:this.form.controls.nick.value,
       email:this.form.controls.email.value,
       password:this.form.controls.password.value,
+      city:"",
+      phone:"",
       role:"",
-      image:""
+      image:null
     }
 
     this._userService.register(this.user).subscribe(

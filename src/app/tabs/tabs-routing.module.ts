@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 import { AddPublicationComponent } from '../add-publication/add-publication.component';
-
+//import { EditUserComponent } from '../perfil/perfil'
 const routes: Routes = [
   {
     path: 'tabs',
@@ -21,6 +21,10 @@ const routes: Routes = [
         loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
       },
       {
+        path: 'perfil',
+        loadChildren: () => import('../perfil/perfil.module').then(m => m.PerfilPageModule)
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
@@ -35,7 +39,14 @@ const routes: Routes = [
   {
     path:'add',
     component: AddPublicationComponent
+  },
+  /*
+  {
+    path:'edit-user',
+    component: EditUserComponent
   }
+  */
+
 ];
 
 @NgModule({

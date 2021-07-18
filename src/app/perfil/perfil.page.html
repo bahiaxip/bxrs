@@ -1,0 +1,192 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mi Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="theSlides.slidePrev()">
+        <ion-icon name="person" style="float:right"></ion-icon>
+      </ion-button>
+      <ion-button (click)="theSlides.slideNext()">
+        <ion-icon name="pencil-outline" style="float:right"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="text-align:center" >
+  <ion-slides #theSlides >
+    <ion-slide>
+      <ion-card *ngIf="user">
+        <div *ngIf="user.image && user.image.name">
+          <img style="max-width:300px" src="{{url+'image-user/'+user.image.name}}"/>
+        </div>
+        <div *ngIf="!user.image ">
+          <img src="assets/icons/person.png" />
+        </div>
+        <ion-card-header>
+            <ion-card-title>
+              Datos personales
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-row *ngIf="user.nick">
+            <ion-col>
+              <p>{{user.nick}}</p>
+            </ion-col>
+              <ion-toggle ></ion-toggle>
+          </ion-row>
+          <ion-row *ngIf="user.name">
+            <ion-col>
+              <p>{{user.name}}</p>
+            </ion-col>
+              <ion-toggle ></ion-toggle>
+          </ion-row>
+          <ion-row *ngIf="user.surname">
+            <ion-col>
+              <p>{{user.surname}}</p>
+            </ion-col>
+              <ion-toggle ></ion-toggle>
+          </ion-row>
+          <ion-row *ngIf="user.city">
+            <ion-col>
+              <p>{{user.city}}</p>
+            </ion-col>
+            <ion-toggle ></ion-toggle>
+          </ion-row >
+          <ion-row *ngIf="user.email">
+            <ion-col>
+              <p>{{user.email}}</p>
+            </ion-col>
+            <ion-toggle></ion-toggle>
+          </ion-row>
+          <ion-row *ngIf="user.phone">
+            <ion-col>
+              <p>{{user.phone}}</p>
+            </ion-col>
+            <ion-toggle></ion-toggle>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button size="small" (click)="logout()">
+                Salir
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide>
+      <form  #profileForm="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+        <ion-card *ngIf="user">
+          <ion-row>
+          <ion-col>
+            <ion-input name="avatar" type="file" (change)="fileChangeEvent($event)" style="position:absolute;bottom:0;right:0;">
+              <!--<ion-input type="file" accept="image/*" change="changeListener($event)"></ion-input>-->
+              <ion-icon name="add" ></ion-icon>
+            </ion-input>
+            <div *ngIf="user.image && user.image.name">
+              <img style="max-width:300px" src="{{url+'image-user/'+user.image.name}}"/>
+            </div>
+            <div *ngIf="!user.image">
+              <img src="assets/icons/person.png"/>
+            </div>
+          </ion-col>
+        </ion-row>
+          <ion-card-header>
+              <ion-card-title>
+                Datos personales
+              </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-row>
+              <ion-col>
+                <div>
+                  <mat-form-field>
+                    <mat-label>Nick de usuario</mat-label>
+                    <input matInput name="nick" #nick="ngModel" [ngStyle]="user.nick ?{'color':'blue'}:{'color':'blue'}" [(ngModel)]="user.nick" required/>
+                    <mat-icon matSuffix>person</mat-icon>
+                    <mat-hint *ngIf="!nick.valid && nick.touched;  else hint" style="color:red">Debe introducir un nick</mat-hint>
+                    <ng-template>
+                      <mat-hint #hint>Nick</mat-hint>
+                    </ng-template>
+                  </mat-form-field>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <div>
+                  <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input matInput name="name" #name="ngModel" [ngStyle]="user.name ?{'color':'blue'}:{'color':'blue'}" [(ngModel)]="user.name"/>
+                    <mat-icon matSuffix>person</mat-icon>
+                  </mat-form-field>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <div>
+                  <mat-form-field>
+                    <mat-label>Apellidos</mat-label>
+                    <input  matInput name="surname" [(ngModel)]="user.surname" [ngStyle]="user.surname ?{'color':'blue'}:{'color':'blue'}" />
+                    <mat-icon matSuffix>person</mat-icon>
+                  </mat-form-field>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <div>
+                  <mat-form-field>
+                    <mat-label>E-Mail</mat-label>
+                    <input matInput name="email" #email="ngModel" [ngStyle]="user.surname ?{'color':'blue'}:{'color':'blue'}" [(ngModel)]="user.email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
+                    <mat-icon matSuffix>email</mat-icon>
+                    <mat-hint *ngIf="!email.value && email.touched;  else hint" style="color:red">Debe introducir un correo</mat-hint>
+
+                    <ng-template #hint >
+                      <mat-hint *ngIf="email.value && !email.valid && email.touched" style="color:red">Debe introducir un correo válido</mat-hint>
+                    </ng-template>
+
+                    <ng-template #hint3>
+                      <mat-hint>Correo electrónico</mat-hint>
+                    </ng-template>
+                  </mat-form-field>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <div>
+                  <mat-form-field>
+                    <mat-label>Teléfono</mat-label>
+                    <input matInput name="phone" #phone="ngModel" [ngStyle]="user.surname ?{'color':'blue'}:{'color':'blue'}" [(ngModel)]="user.phone"/>
+                    <mat-icon matSuffix>phone</mat-icon>
+                  </mat-form-field>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <div>
+                  <mat-form-field>
+                    <mat-label>Ciudad</mat-label>
+                    <input matInput name="city" #city="ngModel" [ngStyle]="user.surname ?{'color':'blue'}:{'color':'blue'}"  [(ngModel)]="user.city"/>
+                    <mat-icon matSuffix>business-outline</mat-icon>
+                  </mat-form-field>
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+            <ion-col>
+              <ion-button size="small" type="submit">
+                Actualizar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </form>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

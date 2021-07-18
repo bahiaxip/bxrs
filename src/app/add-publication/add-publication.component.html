@@ -1,5 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+      <!--<ion-back-button
+      defaultHref="tab1"
+      >
+      </ion-back-button>-->
+    </ion-buttons>
+    <ion-title class="title">Nueva publicación</ion-title>
+    <ion-buttons slot="end">
+      <a [routerLink]="['/add']">
+        <ion-icon name="pencil-outline" style="float:right"></ion-icon>
+      </a>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
 <ion-card>
   <ion-card-header>
+
     <ion-card-title>
       Publicaciones {{datoId}}
     </ion-card-title>

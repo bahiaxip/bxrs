@@ -2,6 +2,7 @@
 
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+var mongoosePaginate=require("mongoose-paginate-v2");
 
 var PublicationSchema = Schema ({
   text: String,
@@ -10,4 +11,5 @@ var PublicationSchema = Schema ({
   user: { type: Schema.ObjectId, ref: "User"}
 
 })
+PublicationSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model( "Publication", PublicationSchema);

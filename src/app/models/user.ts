@@ -5,6 +5,12 @@ export interface User {
     nick:string,
     email:string,
     password:string,
+    city:string,
+    phone:string,
     role:string,
-    image:string
+    image:{
+      original:string,
+      name:string,
+      ext:string
+    }
 }

@@ -1,10 +1,16 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
+  <ion-toolbar color="primary">
+    <ion-title class="title">
       Publicaciones
-      <a [routerLink]="['/add']">
-          <ion-icon name="add-circle-outline" style="float:right"></ion-icon>
+      <a (click)="presentModal()">
+        <ion-icon name="add-circle" style="float:right;cursor:pointer;color:white">
+        </ion-icon>
+
       </a>
+        <!--<a [routerLink]="['/add']">
+          <ion-icon name="add-circle-outline" style="float:right"></ion-icon>
+        </a>-->
+
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,11 +20,14 @@
 
       <ion-item *ngFor="let item of publications" lines="inset" >
 
-      <ion-avatar slot="start">
+      <ion-avatar slot="start" *ngIf="item.user.image && item.user.image.name">
+        <img src="{{url+'image-user/'+item.user.image.name}}" />
+      </ion-avatar>
+      <ion-avatar slot="start" *ngIf="!item.user.image">
         <img [src]="'assets/icons/person.png'" />
       </ion-avatar>
       <ion-label>
-        <h3>{{item.user}}</h3>
+        <h3>{{item.user.name}}</h3>
       </ion-label>
       <ion-label>
         <p>{{item.text}}</p>
@@ -27,6 +36,12 @@
       </ion-item>
 
   </ion-list>
-
+  <ion-row>
+    <ion-col>
+      <ion-button (click)="morePublications()" *ngIf="!switchMore" style="display:block">
+        <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
   <!--<app-explore-container name="Tab 1 page"></app-explore-container>-->
 </ion-content>

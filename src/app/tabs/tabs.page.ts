@@ -13,7 +13,7 @@ export class TabsPage {
     private _storageService:StorageService,
     private _router:Router
   ) {
-    this.identity();
+    //this.identity();
   }
 
   async identity(){

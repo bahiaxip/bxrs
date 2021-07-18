@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mi Perfil</ion-title>
+    <a [routerLink]="['/edit-user']">
+          <ion-icon name="add-circle-outline" style="float:right"></ion-icon>
+      </a>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="text-align:center">
+  <ion-card>
+    <form [formGroup] = formUser (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <img src="assets/icons/person.png"/>
+
+      </mat-form-field>
+
+      <ion-card-header>
+          <ion-card-title>
+            Datos personales
+          </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <p>Mi nombre</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <p>Mi ciudad</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <p>Mi correo</p>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </form>
+  </ion-card>
+</ion-content>

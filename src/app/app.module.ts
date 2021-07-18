@@ -28,13 +28,18 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+//import { HTTP_INTERCEPTORS } from '@angular/common/http';
+//import { UserService } from './services/user.service';
+//import { UploadService } from './services/upload.service';
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    AddPublicationComponent
+    AddPublicationComponent,
+
   ],
   entryComponents: [],
   imports: [
@@ -58,10 +63,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatIconModule,
     MatSidenavModule,
 
+
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     //Storage,
+    /*
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UserService,
+      multi:true,
+    }
+    */
     ],
   bootstrap: [AppComponent],
 })

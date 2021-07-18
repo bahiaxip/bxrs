@@ -4,6 +4,7 @@ import { Publication } from '../models/publication';
 import { StorageService } from '../services/storage.service';
 import { PublicationService } from '../services/publication.service';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 @Component({
   selector: 'app-add-publication',
   templateUrl: './add-publication.component.html',
@@ -22,7 +23,8 @@ export class AddPublicationComponent implements OnInit {
   constructor(
     private _router:Router,
     private _storageService:StorageService,
-    private _publicationService: PublicationService
+    private _publicationService: PublicationService,
+    private modalController:ModalController
   ) {
 
   }
@@ -33,6 +35,15 @@ export class AddPublicationComponent implements OnInit {
   ionViewWillEnter(){
     this.identity();
   }
+
+  dismiss(){
+    this.modalController.dismiss({
+      'dismissed':true,
+      //pasamos el publication
+      'publication':this.publication
+    })
+  }
+
 
 
   async identity(){
@@ -55,7 +66,8 @@ export class AddPublicationComponent implements OnInit {
         response => {
           console.log("respuesta de addPublication: ",response);
           this.formAddPublication.reset();
-          this._router.navigate(["/tabs/tab1"]);
+          this.dismiss();
+          //this._router.navigate(["/tabs/tab1"]);
         },
         error => {
           var errorMessage = <any>error;

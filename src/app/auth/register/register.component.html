@@ -1,3 +1,10 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title class="title">
+      Ionic RRSS
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-card style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">
   <ion-card-header>
     <ion-card-title style="text-align: center;color:blue">
@@ -8,12 +15,12 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div>
           <mat-form-field>
-            <mat-label>Nombre de usuario</mat-label>
+            <mat-label>Nick de usuario</mat-label>
             <input matInput name="nick" formControlName="nick" />
             <mat-icon matSuffix>person</mat-icon>
             <mat-hint *ngIf="!form.controls.nick.value && form.controls.nick.touched;else hintName">Debe introducir un nombre</mat-hint>
             <ng-template #hintName>
-              <mat-hint>Nombre</mat-hint>
+              <mat-hint>Nombre de usuario</mat-hint>
             </ng-template>
           </mat-form-field>
         </div>

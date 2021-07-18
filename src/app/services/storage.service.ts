@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
   private _storage:Storage | null=null;
 
-  constructor(private storage:Storage){
+  constructor(
+    private storage:Storage,
+    private _router:Router
+  ){
     this.init();
   }
 
@@ -33,6 +36,12 @@ export class StorageService {
    if(await this._storage?.get("token")){
       return await this._storage?.get("token");
     }
+  }
+  async logout(){
+    await this._storage.create().then((storage)=> {
+      storage.clear();
+      this._router.navigate(["/"]);
+    })
   }
 
 

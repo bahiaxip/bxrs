@@ -5,7 +5,7 @@ var app = require("./app");
 var port = 3389;
 
 mongoose.Promise=global.Promise;
-mongoose.connect("mongodb://localhost:27017/ionicRRSS",{useNewUrlParser:true, useUnifiedTopology:true})
+mongoose.connect("mongodb://localhost:27017/ionicRRSS",{useNewUrlParser:true, useUnifiedTopology:true,useFindAndModify:false})
   .then(()=> {
     console.log("La conexión a mongoDB se ha realizado correctamente");
     app.listen(port,()=>{
