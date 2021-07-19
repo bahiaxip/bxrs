@@ -31,6 +31,18 @@ var controller = {
 
   },
 
+  getVisibility:function(req,res){
+    console.log("llega")
+    var userId = req.user.sub;
+    Visibility.find({"user":userId},(err,visibility) => {
+      if(err) return res.status(500).send({message: "Error al obtener visibility"});
+      if(!visibility) return res.status(404).send({message: "No se encontró visibility del usuario"});
+      return res.status(200).send({
+        visibility
+      })
+    })
+  },
+
   offVisibility: function(req,res){
 
   }

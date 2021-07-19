@@ -58,10 +58,20 @@ var controller= {
                   message: "Error al guardar el usuario"
                 })
                 if(userStored){
-                  res.status(200).send({
-                    user:userStored,
-                    message: "Usuario creado correctamente"
+                  visibility.user=user._id;
+                  visibility.save((err,visibilityStored) => {
+                    if(err) return res.status(500).send({message: "Error al guardar visibility"})
+
+                    if(!visibilityStored) return res.status(200).send({message: "Usuario creado pero hubo un error con visibility"})
+
+                    if(visibilityStored){
+                      res.status(200).send({
+                        user:userStored,
+                        message: "Usuario creado correctamente"
+                      })
+                    }
                   })
+
                 }else{
                   res.status(404).send({
                     message: "No se ha podido crear el usuario"
@@ -69,6 +79,7 @@ var controller= {
                 }
               });
             });
+
           }
         })
 

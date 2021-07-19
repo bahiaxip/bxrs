@@ -33,7 +33,9 @@
     "@ionic/angular": "^5.6.10",
     "@ionic/storage-angular": "^3.0.6",
     "cordova-plugin-camera-preview": "^0.12.2",
+    "moment": "^2.29.1",
     "multer": "^1.4.2",
+    "ngx-moment": "^5.0.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

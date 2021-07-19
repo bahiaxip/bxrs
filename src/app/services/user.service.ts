@@ -114,6 +114,18 @@ export class UserService {
     return this._http.get(this.url+"user/"+id,{headers:headers});
   }
 
+  getVisibility(id):Observable<any>{
+    return from(this.getToken()).pipe(
+      switchMap(token => {
+        let headers = new HttpHeaders({
+          "Content-Type":"application/json",
+          "Authorization":token
+        });
+        return this._http.get(this.url+"visibility/"+id,{headers:headers});
+      })
+    )
+  }
+
 
 
 

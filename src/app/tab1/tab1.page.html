@@ -27,7 +27,9 @@
           </ion-avatar>
           <ion-label style="min-width:25%;max-width:25%">
             <p style="font-size:12px">{{item.user.name}}</p>
-            <p style="font-size:10px;color:#B3B3B3">hace 2 días</p>
+            <p style="font-size:10px;color:#B3B3B3">
+            {{ (item.created_at | amFromUnix) | amLocale: "es" | amTimeAgo }}
+            </p>
           </ion-label>
           <ion-label [ngStyle]="clickButton[i] ? {'white-space': 'normal'}:{'white-space':'nowrap'}">
             <p >

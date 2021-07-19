@@ -35,18 +35,18 @@
             </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <ion-row *ngIf="user.nick">
-            <ion-col>
-              <p>{{user.nick}}</p>
-            </ion-col>
-              <ion-toggle ></ion-toggle>
-          </ion-row>
           <ion-row *ngIf="user.name">
             <ion-col>
               <p>{{user.name}}</p>
             </ion-col>
-            <!--<ion-col>-->
               <ion-toggle ></ion-toggle>
+          </ion-row>
+          <ion-row *ngIf="user.surname">
+            <ion-col>
+              <p>{{user.surname}}</p>
+            </ion-col>
+            <!--<ion-col>-->
+              <ion-toggle (change)="toggleVisibility()"></ion-toggle>
             <!--</ion-col>-->
           </ion-row>
           <ion-row *ngIf="user.surname">

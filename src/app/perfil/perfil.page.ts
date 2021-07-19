@@ -27,8 +27,17 @@ export class PerfilPage implements OnInit {
     city: '',
     phone: '',
     image: ''
-
   }
+
+  private toggle ={
+    name: Boolean,
+    surname:Boolean,
+    email: Boolean,
+    city: Boolean,
+    phone: Boolean,
+    image: Boolean
+  }
+
   formProfile = new FormGroup({
     name: new FormControl('',[Validators.required]),
     nick: new FormControl('',[Validators.required]),
@@ -53,6 +62,20 @@ export class PerfilPage implements OnInit {
         console.log("existe pero no muestra: ",identi)
         let identityUser = JSON.parse(identi);
         this.user=identityUser.user;
+        this._userService.getVisibility(this.user._id).subscribe(
+          response=>{
+            if(response.visibility)
+              if(!response.visibility.one){
+                console.log("todos false");
+              }else{
+                console.log("asignar los visibilities")
+              }
+
+          },
+          error => {
+
+          }
+        )
     //comprobar pk unas veces retorna en un objeto y otras veces en una propiedad user
         console.log("user: ",this.user)
         console.log("user2: ",identityUser)
@@ -61,6 +84,7 @@ export class PerfilPage implements OnInit {
         console.log("no existe identity, ir a home");
         this._router.navigate(["/"])
       }
+
     });
   }
 
@@ -124,6 +148,10 @@ export class PerfilPage implements OnInit {
   }
   logout(){
     this._storageService.logout();
+  }
+
+  toggleVisibility(){
+    console.log("cambio de toggle")
   }
 
 }
