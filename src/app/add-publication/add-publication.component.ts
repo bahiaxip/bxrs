@@ -57,7 +57,8 @@ export class AddPublicationComponent implements OnInit {
     //}
 
   }
-
+  //en lugar de asignar el token en el servicio lo asignamos aquí en el
+  //componente, de esa forma, probamos 2 métodos distintos
   async addPublication(){
     await this._storageService.getToken().then((token)=>{
       console.log("el token: ",token)

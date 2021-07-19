@@ -6,8 +6,9 @@ import { PublicationService } from '../services/publication.service';
 import { Observable } from 'rxjs';
 import { Global } from '../services/Global';
 
-//ejemplo modal
-import { ModalController } from '@ionic/angular';
+//ejemplo modal y popover
+import { ModalController,PopoverController } from '@ionic/angular';
+import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
 import { AddPublicationComponent } from '../add-publication/add-publication.component';
 @Component({
   selector: 'app-tab1',
@@ -30,7 +31,8 @@ export class Tab1Page implements OnInit{
     private _storageService:StorageService,
     private _publicationService:PublicationService,
     // modal
-    private modalController: ModalController
+    private modalController: ModalController,
+    private popoverController:PopoverController
   ) {
     this.page=1;
     this.url=Global.url;
@@ -39,6 +41,24 @@ export class Tab1Page implements OnInit{
   ngOnInit(){
     console.log("nueva publicacion")
 
+  }
+  async settingsPopover(id){
+    const siteInfo = {id:1,name:'edupala'};
+    const popover = await this.popoverController.create({
+      component:SettingsModalComponent,
+      //event:ev,
+      componentProps:{
+        publicationId:id,
+
+      }
+    });
+
+    popover.onDidDismiss().then((result) => {
+      console.log(result.data);
+      this.getPublications(this.page)
+    });
+
+    return await popover.present();
   }
 
   async presentModal(){
