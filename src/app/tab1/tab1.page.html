@@ -17,28 +17,58 @@
 
 <ion-content [fullscreen]="true">
   <ion-list >
+      <ion-item *ngFor="let item of publications;let i = index" lines="inset" id="{{item._id}}">
 
-      <ion-item *ngFor="let item of publications" lines="inset" >
+          <ion-avatar slot="start" *ngIf="item.user.image && item.user.image.name">
+            <img src="{{url+'image-user/'+item.user.image.name}}" />
+          </ion-avatar>
+          <ion-avatar slot="start" *ngIf="!item.user.image">
+            <img [src]="'assets/icons/person.png'" />
+          </ion-avatar>
+          <ion-label style="min-width:25%;max-width:25%">
+            <p style="font-size:12px">{{item.user.name}}</p>
+            <p style="font-size:10px;color:#B3B3B3">hace 2 días</p>
+          </ion-label>
+          <ion-label [ngStyle]="clickButton[i] ? {'white-space': 'normal'}:{'white-space':'nowrap'}">
+            <p >
+              {{item.text}}
+            </p>
+          </ion-label>
+          <ion-button size="small" fill="clear" (click)="showMore(i);" style="position: absolute;top:0;right:0">
+            <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" (click)="showMore(i);">
 
-      <ion-avatar slot="start" *ngIf="item.user.image && item.user.image.name">
-        <img src="{{url+'image-user/'+item.user.image.name}}" />
-      </ion-avatar>
-      <ion-avatar slot="start" *ngIf="!item.user.image">
-        <img [src]="'assets/icons/person.png'" />
-      </ion-avatar>
-      <ion-label>
-        <h3>{{item.user.name}}</h3>
-      </ion-label>
-      <ion-label>
-        <p>{{item.text}}</p>
-      </ion-label>
+          <ion-icon name="caret-down-outline"></ion-icon>
+        </ion-button>
 
       </ion-item>
-
   </ion-list>
+  <!--<ion-list>
+    <ion-item *ngFor="let item of publications" lines="inset">
+      <ion-row >
+        <ion-col size="2">
+          <ion-avatar slot="start" *ngIf="item.user.image && item.user.image.name">
+            <img src="{{url+'image-user/'+item.user.image.name}}" />
+          </ion-avatar>
+          <ion-avatar slot="start" *ngIf="!item.user.image">
+            <img [src]="'assets/icons/person.png'" />
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="3">
+          <h3>{{item.user.name}}</h3>
+        </ion-col>
+        <ion-col>
+          <ion-label>
+            <p>{{item.text}}</p>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>-->
   <ion-row>
     <ion-col>
-      <ion-button (click)="morePublications()" *ngIf="!switchMore" style="display:block">
+      <ion-button (click)="morePublications()" *ngIf="switchMore" style="display:block">
         <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
       </ion-button>
     </ion-col>

@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Mi Perfil</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title >Perfil de usuario</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="theSlides.slidePrev()">
         <ion-icon name="person" style="float:right"></ion-icon>
@@ -12,7 +12,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content style="text-align:center" >
+<ion-content  >
   <ion-slides #theSlides >
     <ion-slide>
       <ion-card *ngIf="user">
@@ -24,7 +24,14 @@
         </div>
         <ion-card-header>
             <ion-card-title>
-              Datos personales
+              <ion-row >
+                <ion-col>
+              <p>Datos </p>
+                </ion-col>
+                <ion-button fill="clear" title="Visibilidad">
+                  <ion-icon name="eye" color="dark"></ion-icon>
+                </ion-button>
+              </ion-row>
             </ion-card-title>
         </ion-card-header>
         <ion-card-content>
@@ -38,7 +45,9 @@
             <ion-col>
               <p>{{user.name}}</p>
             </ion-col>
+            <!--<ion-col>-->
               <ion-toggle ></ion-toggle>
+            <!--</ion-col>-->
           </ion-row>
           <ion-row *ngIf="user.surname">
             <ion-col>

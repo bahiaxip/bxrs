@@ -41,7 +41,8 @@ export class Tab2Page {
       this.identity=identity.user;
       console.log("desde tab2 cridem a identity: ",this.identity)
     });
-
+    if(this.page != this.pages)
+      this.switchMore=false;
     if(!this.users){
       this.page=1;
       this.getUsers(this.page);
@@ -64,6 +65,7 @@ export class Tab2Page {
             console.log("siguiente pagina: ",response.users.docs)
             this.users = this.concatList(this.users,response.users.docs);
           }
+
           this.follows = response.users_following;
           console.log("followings: ",this.follows)
           console.log(this.testFollowing(this.identity._id));

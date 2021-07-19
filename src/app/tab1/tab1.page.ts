@@ -23,8 +23,9 @@ export class Tab1Page implements OnInit{
   private data;
   private page:number;
   private pages;
-  private switchMore=false;
+  private switchMore:boolean;
   private url:string;
+  private clickButton=[];
   constructor(
     private _storageService:StorageService,
     private _publicationService:PublicationService,
@@ -86,7 +87,12 @@ export class Tab1Page implements OnInit{
     });
 
     console.log("nueva publicacion")
-    this.getPublications(this.page);
+    if(!this.publications){
+      this.page=1;
+      this.getPublications(this.page);
+    }else{
+      this.getPublications(1);
+    }
 
 
   }
@@ -96,20 +102,30 @@ export class Tab1Page implements OnInit{
       response => {
         if(response){
           if(response.publications){
-            this.pages=response.publications.totalPages;
-            console.log(response.publications)
+            if(response.publications.docs && response.publications.docs.length >0){
+              this.pages=response.publications.totalPages;
+              console.log(response.publications);
+              (this.page == this.pages) ? false:true;
+              if(!adding)
+                this.publications = response.publications.docs;
+              else{
+                let list1=this.publications;
+                let list2 = response.publications.docs;
+                this.publications=list1.concat(list2);
+              }
+
+            }else{
+              console.log("no existe ninguna publicación")
+              this.switchMore=false;
+            }
 
           //si no indicamos el tipado(Observable<any>) en el servicio, podemos
           //(aunque no es lo recomendable) indicarlo en formato de array y no nos mostrará error
           //this.publications=response["publications"]
+          }else{
+            console.log("no existen publicaciones")
           }
-          if(!adding)
-            this.publications = response.publications.docs;
-          else{
-            let list1=this.publications;
-            let list2 = response.publications.docs;
-            this.publications=list1.concat(list2);
-          }
+
         }
       },
       error => {
@@ -128,8 +144,17 @@ export class Tab1Page implements OnInit{
     console.log("more");
     this.page+=1;
     if(this.page==this.pages)
-      this.switchMore=true;
+      this.switchMore=false;
     this.getPublications(this.page,true)
+  }
+
+  showMore(id){
+    let selectedButton=this.clickButton[id];
+    if(!selectedButton)
+      this.clickButton[id]=true;
+    else
+      this.clickButton[id]=false;
+    //console.log(this.publications[id])
   }
 
 
