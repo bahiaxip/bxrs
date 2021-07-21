@@ -4,6 +4,7 @@ import { User } from '../models/user';
 import { FollowService } from '../services/follow.service';
 import { Follow } from '../models/follow';
 import { StorageService } from '../services/storage.service';
+import { Global } from '../services/Global';
 
 @Component({
   selector: 'app-tab2',
@@ -19,8 +20,10 @@ export class Tab2Page {
   private page:number;
   private pages:number;
   private follows:Array<string>;
+  private visibility:Array<any>;
   private total:number;
   private switchMore:boolean=false;
+  private url:string;
 
   constructor(
     private _userService:UserService,
@@ -28,6 +31,7 @@ export class Tab2Page {
     private _storageService:StorageService
   ){
     this.page=1;
+    this.url=Global.url;
   }
 
   ngOnInit(){
@@ -69,6 +73,8 @@ export class Tab2Page {
           this.follows = response.users_following;
           console.log("followings: ",this.follows)
           console.log(this.testFollowing(this.identity._id));
+          console.log("visibility: ",response.visibility)
+          this.visibility = response.visibility;
           //this.follows=response.users_following;
           //this.total=response.users.totalDocs;
         }else {
@@ -89,7 +95,22 @@ export class Tab2Page {
   testFollowing(id){
     return this.follows.includes(id)
   }
-
+  //comprueba si algún dato se ha marcado con visibilidad
+  testVisibility(id){
+    //console.log(this.visibility.some(vis => vis.user == id && vis.one ==true));
+    let data= this.visibility.filter(vis=>
+      vis.user == id && vis.one == true
+    );
+    //console.log(data)
+    if(data.length > 0){
+      console.log(data)
+      return true
+    }
+    else
+      return false;
+    //console.log("visibilidad: ",this.visibility)
+    //console.log("visibilidad: ", id)
+  }
 
   moreUsers(){
     console.log("more");

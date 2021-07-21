@@ -7,8 +7,14 @@ var controller = {
   onVisibility:function(req,res){
     var userId = req.user.sub;
     var update = req.body;
+    console.log(update);
+    if(userId && update){
+      if(update.name==true || update.surname==true || update.email==true
+        || update.phone==true || update.city==true || update.image==true)
 
-    if(update.name || update.surname || update.email || update.phone || update.city || params.image){
+        update.one=true;
+      else
+        update.one=false;
       /*
       Visibility.find({user:userId},(err,onVisibility) => {
         if(err) return res.status(500).send({message: "Error en la petición"});
@@ -20,7 +26,8 @@ var controller = {
           })
       })
       */
-      Visibility.findOneAndUpdate({user:userId},{update},(err,updated) => {
+
+      Visibility.findOneAndUpdate({user:userId},update,(err,updated) => {
         if(err) return res.status(500).send({message: "Hubo un error"});
         if(!updated) return res.status(404).send({message: "No existe esa visibilidad"});
         return res.status(200).send({message: "Existe respuesta"});
@@ -32,9 +39,9 @@ var controller = {
   },
 
   getVisibility:function(req,res){
-    console.log("llega")
+    //console.log("llega")
     var userId = req.user.sub;
-    Visibility.find({"user":userId},(err,visibility) => {
+    Visibility.findOne({"user":userId},(err,visibility) => {
       if(err) return res.status(500).send({message: "Error al obtener visibility"});
       if(!visibility) return res.status(404).send({message: "No se encontró visibility del usuario"});
       return res.status(200).send({

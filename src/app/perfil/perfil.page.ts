@@ -30,12 +30,12 @@ export class PerfilPage implements OnInit {
   }
 
   private toggle ={
-    name: Boolean,
-    surname:Boolean,
-    email: Boolean,
-    city: Boolean,
-    phone: Boolean,
-    image: Boolean
+    name: null,
+    surname:null,
+    email: null,
+    city: null,
+    phone: null,
+    image: null
   }
 
   formProfile = new FormGroup({
@@ -62,14 +62,15 @@ export class PerfilPage implements OnInit {
         console.log("existe pero no muestra: ",identi)
         let identityUser = JSON.parse(identi);
         this.user=identityUser.user;
+        //se podría obtener el visibility desde el mismo identity con un método asíncrono
+        //(async) y devolviéndolo en un objeto
         this._userService.getVisibility(this.user._id).subscribe(
           response=>{
             if(response.visibility)
-              if(!response.visibility.one){
-                console.log("todos false");
-              }else{
-                console.log("asignar los visibilities")
-              }
+              console.log(response.visibility)
+                //al crearse en el registro siempre debería devolver algún resultado
+                this.toggle=response.visibility;
+                console.log("asignar los visibilities: ",this.toggle)
 
           },
           error => {
@@ -99,39 +100,47 @@ export class PerfilPage implements OnInit {
   }
 
   onSubmit(){
-    this._userService.updateUser(this.user).subscribe(
-      response =>{
-        //console.log(response);
-        if(!response.user){
-          console.log("Error en la respuesta de la petición");
-        }else{
-          console.log("llega al else")
-          //subir imagen y actualizar storage (set identity)
-    //antes comprobar si existe imagen subida
-          //this._storageService.set("identity",JSON.stringify(response.user));
-          //this.user=response.user;
-          this._uploadService.makeFileRequest(
-            this.url+"upload-image-user/"+this.user._id,[],
-            this.filesToUpload,
-            "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MGRiM2NjNGNjZjJiODQyODZhZmVlZmQiLCJuYW1lIjoieGF2aWVycyIsIm5pY2siOiJ4YXZpZXIiLCJlbWFpbCI6InhhdmllckBob3RtYWlsLmNvbSIsImltYWdlIjpudWxsLCJpYXQiOjE2MjYyNzUyMzQsImV4cCI6MTYyNjQ0ODAzNH0.H44QLAu1tB3cGjwVVaWEuIFgywb34VyTYeB9hU0EAf8",
-            "avatar").then((result)=>{
-              //para poder acceder a la propiedad "user" mediante punto
-              //en lugar de corchetes sin mostrar error es necesario declarar
-              //el tipo (Promise) en el método (upload.service)
-              //ej:  makeFileRequest(...):Promise<any>
-              if(result.user){
-                this.user.image.name=result.user.image.name;
-                this._storageService.set("identity",JSON.stringify(result));
-              }
-            });
+    this._storageService.getToken().then(token => {
+      this._userService.updateUser(this.user,token).subscribe(
+        response =>{
+          //console.log(response);
+          if(!response.user){
+            console.log("Error en la respuesta de la petición");
+          }else{
+            //subir imagen y actualizar storage (set identity)
+      //antes comprobar si existe imagen subida
+            //this._storageService.set("identity",JSON.stringify(response.user));
+            //this.user=response.user;
+            if(this.filesToUpload){
+              this._uploadService.makeFileRequest(
+                this.url+"upload-image-user/"+this.user._id,[],
+                this.filesToUpload,
+                token,
+                "avatar").then((result)=>{
+                  //para poder acceder a la propiedad "user" mediante punto
+                  //en lugar de corchetes sin mostrar error es necesario declarar
+                  //el tipo (Promise) en el método (upload.service)
+                  //ej:  makeFileRequest(...):Promise<any>
+                  if(result.user){
+                    console.log("result_user: ",this.user)
+                    this.user.image=result.user.image;
+                    this._storageService.set("identity",JSON.stringify(result));
+                    //this._userService.updateUser(this.user,token);
+                  }
+              });
+            }else{
+              console.log("no existe imagen")
+              this._storageService.set("identity",JSON.stringify(response));
+            }
+          }
+        },
+        error =>{
+          var errorMessage = <any>error;
+          console.log(errorMessage);
         }
+      )
+    })
 
-      },
-      error =>{
-        var errorMessage = <any>error;
-        console.log(errorMessage);
-      }
-    )
   }
 
   getUser(id){
@@ -150,8 +159,19 @@ export class PerfilPage implements OnInit {
     this._storageService.logout();
   }
 
-  toggleVisibility(){
-    console.log("cambio de toggle")
+  updateToggle(){
+    console.log("cambio de toggle: "+this.toggle)
+    //return;
+    this._userService.updateVisibility(this.toggle,this.user._id).subscribe(
+      response => {
+        console.log(response)
+      }
+    )
+
+  }
+
+  showToast(toggleName,name){
+    console.log(name+": "+toggleName)
   }
 
 }

@@ -28,6 +28,7 @@ export class SettingsModalComponent implements OnInit {
 
       }
     )
+//establecer datos para toast
     this.popoverController.dismiss('publication');
   }
 

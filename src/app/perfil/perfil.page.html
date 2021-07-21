@@ -26,7 +26,7 @@
             <ion-card-title>
               <ion-row >
                 <ion-col>
-              <p>Datos </p>
+                  <p>{{user.nick}}</p>
                 </ion-col>
                 <ion-button fill="clear" title="Visibilidad">
                   <ion-icon name="eye" color="dark"></ion-icon>
@@ -35,49 +35,54 @@
             </ion-card-title>
         </ion-card-header>
         <ion-card-content>
+          <!--<ion-row *ngIf="user.nick">
+            <ion-col>
+              <p>{{user.nick}}</p>
+            </ion-col>
+              <ion-toggle ></ion-toggle>
+          </ion-row>-->
           <ion-row *ngIf="user.name">
             <ion-col>
               <p>{{user.name}}</p>
             </ion-col>
-              <ion-toggle ></ion-toggle>
-          </ion-row>
-          <ion-row *ngIf="user.surname">
-            <ion-col>
-              <p>{{user.surname}}</p>
-            </ion-col>
             <!--<ion-col>-->
-              <ion-toggle (change)="toggleVisibility()"></ion-toggle>
+              <ion-toggle [(ngModel)]="toggle.name"></ion-toggle>
             <!--</ion-col>-->
           </ion-row>
           <ion-row *ngIf="user.surname">
             <ion-col>
               <p>{{user.surname}}</p>
             </ion-col>
-              <ion-toggle ></ion-toggle>
+              <ion-toggle [(ngModel)]="toggle.surname" (ionChange)="showToast(toggle.surname,'surname')"></ion-toggle>
           </ion-row>
           <ion-row *ngIf="user.city">
             <ion-col>
               <p>{{user.city}}</p>
             </ion-col>
-            <ion-toggle ></ion-toggle>
+            <ion-toggle [(ngModel)]="toggle.city"></ion-toggle>
           </ion-row >
           <ion-row *ngIf="user.email">
             <ion-col>
               <p>{{user.email}}</p>
             </ion-col>
-            <ion-toggle></ion-toggle>
+            <ion-toggle [(ngModel)]="toggle.email"></ion-toggle>
           </ion-row>
           <ion-row *ngIf="user.phone">
             <ion-col>
               <p>{{user.phone}}</p>
             </ion-col>
-            <ion-toggle></ion-toggle>
+            <ion-toggle [(ngModel)]="toggle.phone"></ion-toggle>
           </ion-row>
           <ion-row>
             <ion-col>
               <ion-button size="small" (click)="logout()">
                 Salir
               </ion-button>
+              <ion-col>
+              <ion-button size="small" (click)="updateToggle()" title="Actualizar visibilidad">
+                Actualizar
+              </ion-button>
+            </ion-col>
             </ion-col>
           </ion-row>
         </ion-card-content>

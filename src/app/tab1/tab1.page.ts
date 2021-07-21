@@ -54,7 +54,9 @@ export class Tab1Page implements OnInit{
     });
 
     popover.onDidDismiss().then((result) => {
-      console.log(result.data);
+      if(result && result.data)
+        console.log(result.data);
+
       this.getPublications(this.page)
     });
 
@@ -84,7 +86,7 @@ export class Tab1Page implements OnInit{
     //podemos llamar al getPublications
 
   }
-  //podemos hacer la llamada a los datos al iniciar el tab de esta forma
+  //podemos hacer la llamada a los datos al iniciar el tab de esta forma,
   //o como se encuentra en los usuarios en tab2.ts (realizando la llamada
   //desde el user.service primero al token y después la petición)
   async getToken(){

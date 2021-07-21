@@ -14,16 +14,19 @@
   <ion-list >
     <mat-accordion *ngFor="let user of users">
       <div *ngIf="identity._id != user._id">
-        <mat-expansion-panel *ngIf="!user.surname" hideToggle disabled>
+        <mat-expansion-panel *ngIf="!testVisibility(user._id)" hideToggle disabled>
           <mat-expansion-panel-header>
             <mat-panel-title>
             <ion-item  >
-              <ion-avatar slot="start">
-                <img [src]="'assets/icons/person.png'" />
+              <ion-avatar slot="start" *ngIf="user.image">
+                <img style="max-width:300px" src="{{url+'image-user/'+user.image.name}}" />
+              </ion-avatar>
+              <ion-avatar slot="start" *ngIf="!user.image">
+                <img src="assets/icons/person.png" />
               </ion-avatar>
             </ion-item>
           </mat-panel-title>
-          <mat-panel-description *ngIf="!user.surname">
+          <mat-panel-description >
             <ion-item style="margin-top:1%;">
                 <p>{{user.nick}}</p>
             </ion-item>
@@ -36,15 +39,21 @@
           </ion-item>
           <!-- añadimos el indicador y ocultamos con opacity para alinear -->
           <span class="mat-expansion-indicator" style="opacity:0"></span>
+          <!--probando testVisibility()-->
+          <!--<button (click)="testVisibility(user._id)">boton</button>-->
           </mat-expansion-panel-header>
           asdfsdf
+
         </mat-expansion-panel>
         <!-- añadimos clickButton para no abrir el desplegable al clicar el icono de seguir o dejar de seguir-->
-        <mat-expansion-panel *ngIf="user.surname" [disabled]="clickButton" (click)="clickButton=false">
+        <mat-expansion-panel *ngIf="testVisibility(user._id)" [disabled]="clickButton" (click)="clickButton=false">
           <mat-expansion-panel-header>
             <mat-panel-title>
             <ion-item  >
-              <ion-avatar slot="start">
+              <ion-avatar slot="start" *ngIf="user.image">
+                <img src="{{url+'image-user/'+user.image.name}}" />
+              </ion-avatar>
+              <ion-avatar slot="start" *ngIf="!user.image">
                 <img [src]="'assets/icons/person.png'" />
               </ion-avatar>
             </ion-item>
@@ -61,8 +70,12 @@
           <ion-item style="margin-top:1%;z-index:999;" title="Seguir" (click)="testFollow(user._id,'follow',true)" *ngIf="!testFollowing(user._id)">
             <ion-icon name="star-outline" style="pointer-events:none"></ion-icon>
           </ion-item>
+          <!--probando testVisibility()-->
+          <!--<button (click)="testVisibility(user._id)">boton</button>-->
           </mat-expansion-panel-header>
-          asdfsdf
+          <ion-item *ngIf="">
+          </ion-item>
+
         </mat-expansion-panel>
       </div>
     </mat-accordion>
@@ -74,6 +87,7 @@
       </ion-col>
     </ion-row>
   </ion-list>
+
 
 <mat-accordion>
         <mat-expansion-panel>

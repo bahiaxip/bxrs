@@ -31,16 +31,21 @@ export class UserService {
     return await this._storageService.getToken();
   }
 
-  updateUser(user):Observable<any>{
-    return from(this._storageService.getToken()).pipe(
-      switchMap(token=>{
+  updateUser(user,token):Observable<any>{
+    /*return from(this.getToken()).pipe(
+      switchMap(token => {
         let headers = new HttpHeaders({
           "Content-Type": "application/json",
           "Authorization": token
         });
         return this._http.put(this.url+"user/"+user._id,user,{headers:headers});
       })
-    )
+    )*/
+    let headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      "Authorization": token
+    });
+    return this._http.put(this.url+"user/"+user._id,user,{headers:headers});
   }
 
   register(user):Observable<any>{
@@ -122,6 +127,18 @@ export class UserService {
           "Authorization":token
         });
         return this._http.get(this.url+"visibility/"+id,{headers:headers});
+      })
+    )
+  }
+
+  updateVisibility(toggle,id){
+    return from(this.getToken()).pipe(
+      switchMap(token => {
+        let headers = new HttpHeaders({
+          "Content-Type":"application/json",
+          "Authorization":token
+        });
+        return this._http.put(this.url+"visibility/"+id,toggle,{headers:headers});
       })
     )
   }

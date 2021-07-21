@@ -114,7 +114,8 @@ var controller= {
         return res.status(200).send({
           users,
           users_following:value.following,
-          users_followed:value.followed
+          users_followed:value.followed,
+          visibility:value.visibilitied
         })
       })
 
@@ -288,10 +289,35 @@ async function followUserIds(user_id){
       return followList;
     });
 
+  var visibilities = await Visibility.find()
+    .exec().then((visib) => {
+      var visibilityList = [];
+      visib.forEach((vis) => {
+        visibilityList.push(vis);
+      });
+      return visibilityList;
+    })
+
+
   return {
     following:following,
-    followed:followed
+    followed:followed,
+    visibilitied:visibilities
   }
 }
+
+/*async function getVisibility(){
+  console.log("llega")
+  var userId = req.user.sub;
+  Visibility.findOne({"user":userId},(err,visibility) => {
+    if(err) return res.status(500).send({message: "Error al obtener visibility"});
+    if(!visibility) return res.status(404).send({message: "No se encontró visibility del usuario"});
+    return res.status(200).send({
+      visibility
+    })
+  })
+},
+*/
+
 
 module.exports=controller;
