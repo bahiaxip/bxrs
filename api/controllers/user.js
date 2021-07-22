@@ -185,24 +185,52 @@ var controller= {
       return res.status(500).send({message: "No existe autorización para actualizar los datos"})
     }
   //falta revisar token...
-
-    User.find({ $or:[
-      {email:update.email.toLowerCase()},
-      {nick:update.nick.toLowerCase()}
-    ]}).exec((err,users) => {
+//sería mejor utilizar findOne y comprobar solo el
+    User.findOne({email:update.email.toLowerCase()}).exec((err,user) => {
       if(err) return res.status(500).send({message: "Error en la petición"});
-      var user_isset = false;
+      //var user_isset = false;
+
+
+
+
+
+      /*
       users.forEach((user) =>{
         if(user && user._id != userId) user_isset=true;
       })
-      if(user_isset) return res.status(404).send({message: "Los datos ya están en uso"});
+      */
+      //if(user_isset) return res.status(404).send({message: "Los datos ya están en uso"});
 
       User.findByIdAndUpdate(userId,update,{new:true},(err,userUpdated) => {
         if(err) return res.status(500).send({message: "Error en la petición"});
 
         if(!userUpdated) return res.status(404).send({message: "No se ha podido actualizar el usuario"});
+//es necesario revisar si se ha eliminado algún dato para desactivar la visibilidad
+        console.log("user: ",user)
 
-        return res.status(200).send({user:userUpdated});
+  //actualizar visibility
+        Visibility.findOne({user:userId},(err,vis) =>{
+          if(err) return res.status(500).send({message: "Error en la petición de visibilidad"});
+          if(user.name=='' || user.name == null)
+            vis.name = false;
+          if(user.surname == '' || user.surname == null)
+            vis.surname = false;
+          if(user.phone == '' || user.phone == null)
+            vis.phone = false;
+          if(user.city == '' || user.city == null)
+            vis.city = false;
+          if(vis) console.log("vis: ",vis)
+          vis.save((err,visStored) => {
+            //necesario devolver la visibilidad
+            console.log("visStored: ",visStored)
+            return res.status(200).send({user:userUpdated,visibilityUser:visStored});
+          })
+          //if(vis) return res.status(404).send({message:"No existe visibilidad aun"})
+
+        })
+
+
+
       });
     });
   },

@@ -9,6 +9,7 @@ var controller = {
     var update = req.body;
     console.log(update);
     if(userId && update){
+      console.log(update)
       if(update.name==true || update.surname==true || update.email==true
         || update.phone==true || update.city==true || update.image==true)
 

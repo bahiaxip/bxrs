@@ -107,6 +107,11 @@ export class PerfilPage implements OnInit {
           if(!response.user){
             console.log("Error en la respuesta de la petición");
           }else{
+            if(response.visibilityUser){
+              this.toggle=response.visibilityUser;
+            }
+        //actualizar el visibility
+            console.log(response.visibilityUser);
             //subir imagen y actualizar storage (set identity)
       //antes comprobar si existe imagen subida
             //this._storageService.set("identity",JSON.stringify(response.user));
@@ -123,6 +128,7 @@ export class PerfilPage implements OnInit {
                   //ej:  makeFileRequest(...):Promise<any>
                   if(result.user){
                     console.log("result_user: ",this.user)
+
                     this.user.image=result.user.image;
                     this._storageService.set("identity",JSON.stringify(result));
                     //this._userService.updateUser(this.user,token);
