@@ -35,11 +35,21 @@
   font-family:"TitanOne";
   src:url('./assets/fonts/TitanOne-Regular.ttf');
 }
+@font-face{
+  font-family:"Akashi";
+  src:url('./assets/fonts/akashi.ttf');
+}
+@font-face{
+  font-family:"Britanic";
+  src:url('./assets/fonts/BRITANIC.TTF');
+}
 
 .title{
   text-align:center;
-  font-family:Arial;
-  font-size:20px;
+  font-family:Britanic;
+  /*font-weight:bold;*/
+  font-size:22px;
   letter-spacing: 3px;
-
 }
+
+
