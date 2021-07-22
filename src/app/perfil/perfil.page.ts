@@ -6,6 +6,8 @@ import { StorageService } from '../services/storage.service';
 import { UploadService } from '../services/upload.service';
 import { Router } from '@angular/router';
 import { Global } from '../services/Global';
+import { ToastController } from '@ionic/angular';
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
@@ -51,12 +53,34 @@ export class PerfilPage implements OnInit {
     private _userService:UserService,
     private _router:Router,
     private _storageService:StorageService,
-    private _uploadService:UploadService
+    private _uploadService:UploadService,
+    private toastController:ToastController
     ){
     this.url=Global.url;
   }
+
+  async presentToast(data,bol){
+    let toast;
+    if(bol){
+      toast = await this.toastController.create({
+        message: "Visibilidad de "+data+" activada",
+        duration: 2000,
+      });
+    }
+    else{
+      toast = await this.toastController.create({
+        message: "Visibilidad de "+data+" desactivada",
+        duration: 2000,
+      });
+    }
+    this.updateToggle();
+    await toast.present();
+  }
+
+
+
   ionViewWillEnter(){
-    console.log("eo")
+    //console.log("eo")
     this._storageService.getIdentity().then((identi)=>{
       if(identi){
         console.log("existe pero no muestra: ",identi)
@@ -78,11 +102,11 @@ export class PerfilPage implements OnInit {
           }
         )
     //comprobar pk unas veces retorna en un objeto y otras veces en una propiedad user
-        console.log("user: ",this.user)
-        console.log("user2: ",identityUser)
+        //console.log("user: ",this.user)
+        //console.log("user2: ",identityUser)
       }
       else{
-        console.log("no existe identity, ir a home");
+        //console.log("no existe identity, ir a home");
         this._router.navigate(["/"])
       }
 
