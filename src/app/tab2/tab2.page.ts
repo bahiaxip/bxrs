@@ -24,7 +24,8 @@ export class Tab2Page {
   private total:number;
   private switchMore:boolean=false;
   private url:string;
-
+  private visibilityWithPropOne:Array<any>;
+  private counter:number;
   constructor(
     private _userService:UserService,
     private _followService:FollowService,
@@ -39,6 +40,7 @@ export class Tab2Page {
 
   }
   ionViewWillEnter(){
+    this.counter=0;
     //no es necesario obtener el identity...
     this._storageService.getIdentity().then((identi)=>{
       let identity=JSON.parse(identi);
@@ -69,12 +71,17 @@ export class Tab2Page {
             console.log("siguiente pagina: ",response.users.docs)
             this.users = this.concatList(this.users,response.users.docs);
           }
-
+          console.log("users: ",this.users);
           this.follows = response.users_following;
           console.log("followings: ",this.follows)
           console.log(this.testFollowing(this.identity._id));
           console.log("visibility: ",response.visibility)
           this.visibility = response.visibility;
+          //filtramos todos con propiedad one = true , para primer filtrado
+          this.visibilityWithPropOne=this.visibility.filter(vis => vis.one)
+          console.log("propone: ", this.visibilityWithPropOne)
+    //la visibilidad habría que comprobar sin recargar users
+          this.setVisibilityToUsers(this.users);
           //this.follows=response.users_following;
           //this.total=response.users.totalDocs;
         }else {
@@ -95,10 +102,35 @@ export class Tab2Page {
   testFollowing(id){
     return this.follows.includes(id)
   }
+  setVisibilityToUsers(users){
+    let setDataVisible = users.map((user) => {
+      let filteredVis = this.visibilityWithPropOne.filter(vis=>{
+        return user._id == vis.user
+      })
+      if(filteredVis.length>0){
+        user.visible={
+          name:filteredVis[0].name,
+          surname:filteredVis[0].surname,
+          email:filteredVis[0].email,
+          city:filteredVis[0].city,
+          phone:filteredVis[0].phone
+        };
+      }else{
+        user.visible=null;
+      }
+
+       console.log("array de filtrados de cada user: ",user)
+    })
+  }
   //comprueba si algún dato se ha marcado con visibilidad
-  testVisibility(id){
+  testVisibility(user){
+
+    this.counter++;
+    console.log(this.counter)
+    return true;
     //console.log(this.visibility.some(vis => vis.user == id && vis.one ==true));
-    let data= this.visibility.filter(vis=>
+    /*
+    let data= this.visibilityWithPropOne.filter(vis=>
       vis.user == id && vis.one == true
     );
     //console.log(data)
@@ -110,6 +142,11 @@ export class Tab2Page {
       return false;
     //console.log("visibilidad: ",this.visibility)
     //console.log("visibilidad: ", id)
+    */
+  }
+
+  setDataIfVisibility(){
+    console.log(this.visibility)
   }
 
   moreUsers(){

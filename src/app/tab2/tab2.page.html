@@ -13,8 +13,8 @@
 
   <ion-list >
     <mat-accordion *ngFor="let user of users">
-      <div *ngIf="identity._id != user._id">
-        <mat-expansion-panel *ngIf="!testVisibility(user._id)" hideToggle disabled>
+      <div >
+        <mat-expansion-panel *ngIf="!user.visible" hideToggle disabled>
           <mat-expansion-panel-header>
             <mat-panel-title>
             <ion-item  >
@@ -46,7 +46,7 @@
 
         </mat-expansion-panel>
         <!-- añadimos clickButton para no abrir el desplegable al clicar el icono de seguir o dejar de seguir-->
-        <mat-expansion-panel *ngIf="testVisibility(user._id)" [disabled]="clickButton" (click)="clickButton=false">
+        <mat-expansion-panel  *ngIf="user.visible" [disabled]="clickButton" (click)="clickButton=false">
           <mat-expansion-panel-header>
             <mat-panel-title>
             <ion-item  >
@@ -73,10 +73,24 @@
           <!--probando testVisibility()-->
           <!--<button (click)="testVisibility(user._id)">boton</button>-->
           </mat-expansion-panel-header>
-          <ion-item *ngIf="">
+          <ion-item *ngIf="user.visible.name">
+            {{user.name}}
+          </ion-item>
+          <ion-item *ngIf="user.visible.surname">
+            {{user.surname}}
+          </ion-item>
+          <ion-item *ngIf="user.visible.email">
+            {{user.email}}
+          </ion-item>
+          <ion-item *ngIf="user.visible.city">
+            {{user.city}}
+          </ion-item>
+          <ion-item *ngIf="user.visible.phone">
+            {{user.phone}}
           </ion-item>
 
         </mat-expansion-panel>
+
       </div>
     </mat-accordion>
     <ion-row>
