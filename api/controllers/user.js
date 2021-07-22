@@ -104,7 +104,7 @@ var controller= {
       sort:{_id:"desc"}
     }
 
-    User.paginate({},options,(err,users)=> {
+    User.paginate({_id:{$nin:identityUserId}},options,(err,users)=> {
 
       if(err) return res.status(500).send({message:"Error en la petición"});
       if(!users) return res.status(404).send({message: "No hay usuarios disponibles"});
