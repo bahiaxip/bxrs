@@ -41,7 +41,9 @@
         </mat-form-field>
         <ion-row>
           <ion-col>
-            <button mat-raised-button color="primary" type="submit" [disabled]="!formAddPublication.valid" >Enviar</button>
+            <button mat-raised-button color="primary" type="button" (click)="updatePublication()" [disabled]="!formAddPublication.valid" *ngIf="switchUpdate">Actualizar</button>
+
+            <button mat-raised-button color="primary" type="submit" [disabled]="!formAddPublication.valid" *ngIf="!switchUpdate">Enviar</button>
           </ion-col>
         </ion-row>
       </form>

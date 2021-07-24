@@ -39,6 +39,14 @@ export class PublicationService {
     return this._http.post(this.url+"publication",publication,{headers:headers});
   }
 
+  updatePublication(token,publication){
+    let headers = new HttpHeaders({
+      "Content-Type":"application/json",
+      "Authorization":token
+    });
+    return this._http.put(this.url+"publication/"+publication._id,publication,{headers:headers});
+  }
+
   deletePublication(id){
     return from(this.getToken()).pipe(
       switchMap(token => {

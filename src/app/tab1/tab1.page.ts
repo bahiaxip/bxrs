@@ -42,35 +42,80 @@ export class Tab1Page implements OnInit{
     //console.log("nueva publicacion")
 
   }
+
+  //popover (editar|borrar)
   async settingsPopover(id){
-    const siteInfo = {id:1,name:'edupala'};
+    //filtramos la publicación pulsada con el botón de popover
+    let filteredPub = this.publications.filter((item)=>{
+      return item._id==id
+    })
+    //console.log("publicaciones: ",filtroPub[0])
+    //const siteInfo = {id:1,name:'edupala'};
+    const pub = filteredPub[0];
     const popover = await this.popoverController.create({
       component:SettingsModalComponent,
-      //event:ev,
+      //pasamos la publicación pulsada
       componentProps:{
-        publicationId:id,
+        publication:pub,
       }
     });
 
     popover.onDidDismiss().then((result) => {
-      if(result && result.data)
-        console.log(result.data);
+      console.log(result)
+      //si se ha pulsado borrar borramos la publicación
+      if(result && result.data){
+        if(result.data == "delete"){
+          console.log("pulsando delete: ",pub);
 
-      this.getPublications(this.page)
+          this._publicationService.deletePublication(pub._id).subscribe(
+            response=>{
+              console.log("publicación eliminada: ",response)
+              //mostrar toast con response.publication
+            },
+            error => {
+              //mostrar toast con error
+            }
+          )
+
+        }
+        if(result.data == "edit"){
+          //crear toast con publicación eliminada y getPublications(this.page)
+          console.log("pulsando edit: ",pub);
+          this.presentModal(pub);
+        }
+      }
+      //enviamos los datos al modal (add-publication)
+        //console.log("filtroPub: ",filtroPub)
+        //this.presentModal(result.data);
+
+
+
+
+      //si se ha pulsado editar editamos la publicación
+
+
+      //this.getPublications(this.page)
     });
 
     return await popover.present();
   }
 
-  async presentModal(){
+  //modal
+  async presentModal(pub=null){
+    let text;
+    if(pub){
+      console.log("desde presentModal: ",pub)
+      text=pub;
+    }
     const modal = await this.modalController.create({
       component:AddPublicationComponent,
+
       //pasarle datos al modal con componentProps
-      /*
+
       componentProps:{
-        'nombre': 'dato'
+        'publicationUser': pub
       }
-      */
+
     });
     //return await modal.present();
     modal.present();

@@ -72,9 +72,11 @@ var controller = {
 
   updatePublication:function(req,res){
     var publicationId=req.params.id;
-    var publication=req.body.publication;
+    console.log("publicationId: ",publicationId);
+    var publication=req.body;
+    console.log("publicacion: ",publication)
     console.log(publication)
-    Publication.findByIdAndUpdate(publicationId,{text:publication},{new:true},(err,publicationUpdated)=> {
+    Publication.findByIdAndUpdate(publicationId,{text:publication.text},{new:true},(err,publicationUpdated)=> {
       if(err) return res.status(500).send({message: "Error con la actualización de la publicación"})
         return res.status(200).send({
           publicationUpdated

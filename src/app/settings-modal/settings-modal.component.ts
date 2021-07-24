@@ -8,19 +8,34 @@ import { PublicationService } from '../services/publication.service';
   styleUrls: ['./settings-modal.component.scss'],
 })
 export class SettingsModalComponent implements OnInit {
-  private publicationId:string;
+
+  //podemos evitar pasar datos en el caso de delete (por seguridad) y pasar tan solo
+  // el texto en el edit y evitar pasar datos entre el tab1 y el modal, después a la vuelta
+  // actualizar la publicación tan solo del texto
+
+  //evitamos pasar datos
+  //private publication:any;
+
   constructor(
     private popoverController:PopoverController,
     private _publicationService:PublicationService
   ) { }
 
   ngOnInit() {
-    console.log("modal: ",this.publicationId);
+    //console.log("modal: ",this.publication._id);
+  }
+
+  editPublication(){
+    //evitamos pasar datos
+    this.popoverController.dismiss('edit');
   }
 
   deletePublication(){
-    console.log(this.publicationId);
-    this._publicationService.deletePublication(this.publicationId).subscribe(
+    //se elimina en el tab1 y evitamos pasar datos
+    this.popoverController.dismiss('delete');
+    //console.log(this.publication);
+    /*
+    this._publicationService.deletePublication(this.publication).subscribe(
       response=>{
         console.log(response)
       },
@@ -28,8 +43,9 @@ export class SettingsModalComponent implements OnInit {
 
       }
     )
+    */
 //establecer datos para toast
-    this.popoverController.dismiss('publication');
+    //this.popoverController.dismiss('toast','deleted');
   }
 
 }
