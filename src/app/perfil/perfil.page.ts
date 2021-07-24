@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { User } from '../models/user';
 import { FormGroup, FormControl, Validators,AbstractControl } from '@angular/forms';
 import { UserService } from '../services/user.service';
@@ -23,6 +23,7 @@ export class PerfilPage implements OnInit {
   private url:string;
   private result2:any;
   private switchToast:any;
+
   newUser={
     name:'',
     surname:'',
@@ -51,6 +52,7 @@ export class PerfilPage implements OnInit {
     city: new FormControl('',[Validators.minLength(2)]),
 
   })
+  //@ViewChild("fileButton",{static:false}) fileButton;
   constructor(
     private _userService:UserService,
     private _router:Router,
@@ -69,6 +71,11 @@ export class PerfilPage implements OnInit {
     }
 
   }
+
+  /*
+  upload(){
+    this.fileButton.nativeElement.click();
+  }*/
 
   async presentToast(data,bol){
     let toast;
