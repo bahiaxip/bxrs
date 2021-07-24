@@ -4,10 +4,27 @@ var express = require("express");
 
 var PublicationController = require("../controllers/publication");
 var auth = require("../middleware/auth");
+var multer = require("multer");
+var storage=multer.diskStorage({
+  destination:function(req,file,cb){
+    cb(null,'./uploads/publications')
+  },
+  filename:function(req,file,cb){
+    //añadimos código aleatorio
+    const randomname=Math.random().toString(20).slice(2);
+    const ext=file.originalname.split('\.')[1];
+    console.log("desde routes: ",file);
+    cb(null,randomname+'.'+ext)
+  }
+});
+//con extensión
+var md_upload=multer({storage:storage});
 
 var api = express.Router();
 api.post("/publication",auth.ensureAuth,PublicationController.addPublication);
 api.put("/publication/:id",auth.ensureAuth,PublicationController.updatePublication);
 api.get("/publications/:page?",auth.ensureAuth,PublicationController.getPublications);
 api.delete("/publication/:id",auth.ensureAuth,PublicationController.deletePublication);
+
+api.post("/upload-image-pub/:id",[auth.ensureAuth,md_upload.single("imagepub")],PublicationController.uploadImage);
 module.exports = api;

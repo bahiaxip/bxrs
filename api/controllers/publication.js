@@ -91,6 +91,14 @@ var controller = {
       if(err) return res.status(500).send({message: "Error al borrar la publicación"});
       return res.status(200).send({publication: "Publicación eliminada"})
     });
+  },
+
+  uploadImage:function(req,res){
+    var publicationId=req.params.id;
+    if(req.file){
+      console.log(req.file)
+      return res.status(200).send({message: "llega"})
+    }
   }
 
 

@@ -70,7 +70,9 @@ export class Tab1Page implements OnInit{
           this._publicationService.deletePublication(pub._id).subscribe(
             response=>{
               console.log("publicación eliminada: ",response)
-              //mostrar toast con response.publication
+              //crear toast con publicación eliminada y getPublications(this.page)
+              this.getPublications(this.page)
+
             },
             error => {
               //mostrar toast con error
@@ -79,7 +81,7 @@ export class Tab1Page implements OnInit{
 
         }
         if(result.data == "edit"){
-          //crear toast con publicación eliminada y getPublications(this.page)
+
           console.log("pulsando edit: ",pub);
           this.presentModal(pub);
         }

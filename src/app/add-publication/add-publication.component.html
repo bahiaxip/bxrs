@@ -9,7 +9,8 @@
       >
       </ion-back-button>-->
     </ion-buttons>
-    <ion-title class="title">Nueva publicación</ion-title>
+    <ion-title class="title" *ngIf="!switchUpdate">NUEVA PUBLICACIÓN</ion-title>
+    <ion-title class="title" *ngIf="switchUpdate">EDITANDO PUBLICACIÓN</ion-title>
     <ion-buttons slot="end">
       <a [routerLink]="['/add']">
         <ion-icon name="pencil-outline" style="float:right"></ion-icon>
@@ -27,7 +28,7 @@
     </ion-card-title>
     <ion-card-content>
       <div>
-      <form [formGroup] ="formAddPublication" (ngSubmit) = "onSubmit()">
+      <form [formGroup] ="formAddPublication" (ngSubmit) = "onSubmit()" enctype="multipart/form-data">
         <mat-form-field style="width:100%">
           <mat-label>Comparte tu idea</mat-label>
           <textarea matInput [placeholder]="data" rows="5" cols="10" name="text" formControlName="text">
@@ -44,6 +45,11 @@
             <button mat-raised-button color="primary" type="button" (click)="updatePublication()" [disabled]="!formAddPublication.valid" *ngIf="switchUpdate">Actualizar</button>
 
             <button mat-raised-button color="primary" type="submit" [disabled]="!formAddPublication.valid" *ngIf="!switchUpdate">Enviar</button>
+          </ion-col>
+          <ion-col>
+            <ion-input name="imagepub" type="file" (change)="fileChangeEvent($event)">
+
+            </ion-input>
           </ion-col>
         </ion-row>
       </form>

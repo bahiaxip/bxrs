@@ -134,7 +134,8 @@ export class PerfilPage implements OnInit {
           response=>{
             if(response.visibility)
               console.log(response.visibility)
-                //al crearse en el registro siempre debería devolver algún resultado
+                //al crearse en el registro siempre debería devolver algún resultado.
+
                 //sumamos un entero a todos los false de visibilidad y después en el
                 //presentToast sumamos a todos los true. Esto se realiza para
                 //que no muestre el toast al cargar la página

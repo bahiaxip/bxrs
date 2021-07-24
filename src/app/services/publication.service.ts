@@ -31,7 +31,7 @@ export class PublicationService {
     )
   }
 
-  addPublication(token,publication){
+  addPublication(token,publication):Observable<any>{
     let headers = new HttpHeaders({
       "Content-Type" : "application/json",
       "Authorization" : token
