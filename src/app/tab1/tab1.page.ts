@@ -39,7 +39,7 @@ export class Tab1Page implements OnInit{
   }
 
   ngOnInit(){
-    console.log("nueva publicacion")
+    //console.log("nueva publicacion")
 
   }
   async settingsPopover(id){
@@ -49,7 +49,6 @@ export class Tab1Page implements OnInit{
       //event:ev,
       componentProps:{
         publicationId:id,
-
       }
     });
 
@@ -115,6 +114,7 @@ export class Tab1Page implements OnInit{
     }else{
       this.getPublications(1);
     }
+    console.log(this.publications)
 
 
   }
