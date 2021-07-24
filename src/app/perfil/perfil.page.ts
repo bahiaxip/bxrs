@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Global } from '../services/Global';
 import { ToastController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.page.html',
@@ -21,6 +22,7 @@ export class PerfilPage implements OnInit {
   private file;
   private url:string;
   private result2:any;
+  private switchToast:any;
   newUser={
     name:'',
     surname:'',
@@ -55,12 +57,33 @@ export class PerfilPage implements OnInit {
     private _storageService:StorageService,
     private _uploadService:UploadService,
     private toastController:ToastController
+
     ){
     this.url=Global.url;
+    this.switchToast={
+      name:0,
+      surname:0,
+      email:0,
+      city:0,
+      phone:0
+    }
+
   }
 
   async presentToast(data,bol){
     let toast;
+    //console.log(data)
+    //console.log(this.switchToast[data])
+    //this.switchToast[data]++;
+    console.log("desde present:",this.switchToast)
+    /*
+    if(this.switchToast[data]>=1){
+      console.log("data es true: ",data)
+      console.log(this.switchToast[data])
+      this.switchToast[data]++;
+    }
+    */
+
     if(bol){
       toast = await this.toastController.create({
         message: "Visibilidad de "+data+" activada",
@@ -70,11 +93,23 @@ export class PerfilPage implements OnInit {
     else{
       toast = await this.toastController.create({
         message: "Visibilidad de "+data+" desactivada",
-        duration: 2000,
+        duration: 1000,
       });
     }
-    this.updateToggle();
-    await toast.present();
+    //this.updateToggle();
+      //para que no se muestre al cargar la página no tenemos en cuenta
+      //los primeros cambios a true, los false se suman siempre
+      // al obtener el response
+      if(this.switchToast[data]>=1){
+        console.log(data)
+        console.log("comprobamos antes de await: ",this.switchToast[data])
+        await toast.present();
+        //toast.present();
+
+      }
+      //para que no se muestre al cargar la página añadimos uno
+      this.switchToast[data]++;
+
   }
 
 
@@ -93,7 +128,24 @@ export class PerfilPage implements OnInit {
             if(response.visibility)
               console.log(response.visibility)
                 //al crearse en el registro siempre debería devolver algún resultado
+                //sumamos un entero a todos los false de visibilidad y después en el
+                //presentToast sumamos a todos los true. Esto se realiza para
+                //que no muestre el toast al cargar la página
+                Object.entries(response.visibility).map((item,value) =>{
+                    if(item[1]===false){
+                      console.log("desde entreies: ",item[0])
+
+                    console.log("desde entreies2: ",this.switchToast[item[0]])
+                    this.switchToast[item[0]]++
+                  }
+                })
+
+
+
                 this.toggle=response.visibility;
+
+
+                console.log("hola: ",this.switchToast);
                 console.log("asignar los visibilities: ",this.toggle)
 
           },
@@ -190,11 +242,14 @@ export class PerfilPage implements OnInit {
   }
 
   updateToggle(){
-    console.log("cambio de toggle: "+this.toggle)
+    //console.log("cambio de toggle: "+this.toggle)
     //return;
     this._userService.updateVisibility(this.toggle,this.user._id).subscribe(
       response => {
-        console.log(response)
+        //console.log(response)
+      },
+      error => {
+        console.log(error)
       }
     )
 

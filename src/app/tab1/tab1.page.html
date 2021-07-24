@@ -1,17 +1,22 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
 
-    <ion-title class="title">
+    <ion-title class="title2">
       PUBLICACIONES
-      <a (click)="presentModal()">
-        <ion-icon name="add-circle" style="float:right;cursor:pointer;color:white">
-        </ion-icon>
-      </a>
+      <!--<a (click)="presentModal()">-->
+
+      <!--</a>-->
         <!--<a [routerLink]="['/add']">
           <ion-icon name="add-circle-outline" style="float:right"></ion-icon>
         </a>-->
 
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentModal()">
+        <ion-icon name="add-circle" style="float:right;cursor:pointer;color:white">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

@@ -5,6 +5,7 @@ import { FollowService } from '../services/follow.service';
 import { Follow } from '../models/follow';
 import { StorageService } from '../services/storage.service';
 import { Global } from '../services/Global';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab2',
@@ -29,7 +30,8 @@ export class Tab2Page {
   constructor(
     private _userService:UserService,
     private _followService:FollowService,
-    private _storageService:StorageService
+    private _storageService:StorageService,
+    private toastController:ToastController
   ){
     this.page=1;
     this.url=Global.url;
@@ -39,6 +41,24 @@ export class Tab2Page {
     console.log("eo")
 
   }
+
+  async presentToast(name,bol){
+    let toast;
+    if(bol){
+      toast = await this.toastController.create({
+        message: "Siguiendo a "+name,
+        duration: 2000,
+      });
+    }else{
+      toast = await this.toastController.create({
+        message: "Has dejado de seguir a "+name,
+        duration: 2000,
+      });
+    }
+    await toast.present();
+  }
+
+
   ionViewWillEnter(){
     this.counter=0;
     //no es necesario obtener el identity...
