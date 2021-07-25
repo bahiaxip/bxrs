@@ -6,7 +6,11 @@ var mongoosePaginate=require("mongoose-paginate-v2");
 
 var PublicationSchema = Schema ({
   text: String,
-  file: String,
+  image:  {
+    original: String,
+    name: String,
+    ext: String
+  },
   created_at: String,
   user: { type: Schema.ObjectId, ref: "User"}
 

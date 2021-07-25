@@ -4,6 +4,8 @@ var moment = require("moment");
 var Publication = require("../models/publication");
 var User = require("../models/user");
 var Follow=require("../models/follow");
+var path= require("path");
+var fs = require("fs");
 
 var controller = {
   addPublication: function(req,res){
@@ -14,7 +16,7 @@ var controller = {
     var publication = new Publication();
     console.log(req.body)
     publication.text = params.text;
-    publication.file="null";
+    publication.image=null;
     publication.user = req.user.sub;
     publication.created_at = moment().unix();
     publication.save((err,publicationStored) => {
@@ -83,7 +85,7 @@ var controller = {
         })
     })
   },
-
+//necesario borrar imagen si es que existe
   deletePublication: function(req,res){
     var publicationId=req.params.id;
 
@@ -96,11 +98,66 @@ var controller = {
   uploadImage:function(req,res){
     var publicationId=req.params.id;
     if(req.file){
-      console.log(req.file)
+      let splitname=path.basename(req.file.originalname).split('\.');
+      //extensión
+      let ext=splitname[1];
+      let file_name=req.file.filename;
+      let userId;
+
+      Publication.findById(publicationId,(err,publication) => {
+        if(err) return res.status(500).send({message: "Error obteniendo publicación asociada"});
+        if(!publication) return res.status(404).send({message: "No aparece la publicación"});
+
+        userId=publication.user;
+
+        if(userId != req.user.sub){
+          return res.status(500).send({message: "No existe autorización"})
+        }
+
+        //comprobación de extensión aceptada
+      let mime=req.file.mimetype;
+
+      if(mime !== "image/jpeg" && mime !== "image/png" && mime !== "image/gif"){
+        console.log("formato distinto a jpg|png|gif: ",ext);
+        return removeFilesUploads(res,req.file.path,"El formato de la imagen no está permitido");
+      }
+
+
+        Publication.findByIdAndUpdate(publicationId,{image:{original:req.file.originalname,name:file_name,ext:ext}},{new:true},(err,publicationUpdated) => {
+          if(err) return res.status(500).send({message: "Error actualizando imagen de publicación"});
+          return res.status(200).send({
+            publicationUpdated
+          })
+        })
+
+
+      })
+    }else{
       return res.status(200).send({message: "llega"})
     }
+  },
+
+  getImage:function(req,res){
+    if(req.params.email && req.params.image){
+      var email = req.params.email;
+      var image = req.params.image;
+
+      var path_file = "./uploads/publications/"+email+"/"+image;
+      fs.exists(path_file,(exists) => {
+        if(exists){
+          res.sendFile(path.resolve(path_file));
+        }else
+          res.status(200).send({message:"No existe la imagen"})
+      })
+    }else{
+      return res.status(200).send({message: "Faltan datos"});
+    }
   }
+}
 
-
+function removeFilesUploads(res,file_path,message){
+  fs.unlink(file_path,(err)=>{
+    return res.status(200).send({message: message})
+  })
 }
 module.exports = controller;

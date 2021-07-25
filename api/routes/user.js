@@ -11,7 +11,8 @@ var multer = require("multer");
 
 var storage=multer.diskStorage({
   destination:function(req,file,cb){
-    cb(null,'./uploads/users')
+    //mediante el método auth.ensureAuth obtenemos el email
+    cb(null,'./uploads/users/'+req.user.email)
   },
   filename:function(req,file,cb){
     //añadimos código aleatorio
@@ -34,5 +35,6 @@ api.get("/user/:id",auth.ensureAuth,UserController.getUser);
 api.put("/user/:id",auth.ensureAuth,UserController.updateUser);
 
 api.post("/upload-image-user/:id",[auth.ensureAuth,md_upload.single('avatar')],UserController.uploadImage);
-api.get("/image-user/:image",UserController.getImage);
+//podríamos comprobar el token del usuario
+api.get("/image-user/:email/:image",UserController.getImage);
 module.exports=api;

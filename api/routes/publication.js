@@ -7,7 +7,8 @@ var auth = require("../middleware/auth");
 var multer = require("multer");
 var storage=multer.diskStorage({
   destination:function(req,file,cb){
-    cb(null,'./uploads/publications')
+    //mediante el método auth.ensureAuth obtenemos el email
+    cb(null,'./uploads/publications/'+req.user.email)
   },
   filename:function(req,file,cb){
     //añadimos código aleatorio
@@ -27,4 +28,6 @@ api.get("/publications/:page?",auth.ensureAuth,PublicationController.getPublicat
 api.delete("/publication/:id",auth.ensureAuth,PublicationController.deletePublication);
 
 api.post("/upload-image-pub/:id",[auth.ensureAuth,md_upload.single("imagepub")],PublicationController.uploadImage);
+//podríamos comprobar el token del usuario
+api.get("/image-pub/:email/:image",PublicationController.getImage);
 module.exports = api;

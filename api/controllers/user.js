@@ -40,6 +40,8 @@ var controller= {
       visibility.city=false;
 
 
+
+
       User.find({$or: [
           {email:user.email.toLowerCase()},
           {nick: user.nick.toLowerCase()}
@@ -51,6 +53,16 @@ var controller= {
               message: "El usuario ya existe"
             });
           }else{
+            //comprobamos antes si los directorios ya existen con ese mismo correo y evitamos futuros conflictos
+            if(fs.existsSync("./uploads/users/"+params.email)
+               && fs.existsSync("./uploads/publications/"+params.email)){
+                console.log("Los directorios de imágenes ya estaban creados y pueden generar conflictos");
+                return res.status(200).send({message: "No se pudo crear el usuario, error al crear directorios"})
+            }
+            //creamos directorios individuales para imagen de perfil y publicaciones
+            fs.mkdirSync('./uploads/users/'+params.email,{recursive:true});
+            fs.mkdirSync('./uploads/publications/'+params.email,{recursive:true});
+
             bcrypt.hash(params.password,null,null,(err,hash) => {
               user.password=hash;
               user.save((err,userStored) => {
@@ -273,19 +285,23 @@ var controller= {
   getImage: function(req,res){
     //para no tener que buscar la extensión en la db optamos por almacenar las imágenes
     //con la extensión en el server (multer no las almacena por defecto)
+    if(req.params.email && req.params.image){
+      var email = req.params.email;
+      var image = req.params.image;
 
-    var image = req.params.image;
-
-//modificar por el correo o el id, el directorio
-    var path_file = "./uploads/users/"+image;
-    fs.exists(path_file,(exists) => {
-      if(exists){
-        console.log(path_file)
-        res.sendFile(path.resolve(path_file));
-      }
-      else
-        res.status(200).send({message: "No existe la imagen"});
-    });
+  //modificar por el correo o el id, el directorio
+      var path_file = "./uploads/users/"+email+"/"+image;
+      fs.exists(path_file,(exists) => {
+        if(exists){
+          console.log(path_file)
+          res.sendFile(path.resolve(path_file));
+        }
+        else
+          res.status(200).send({message: "No existe la imagen"});
+      });
+    }else{
+      return res.status(200).send({message: "Faltan datos"})
+    }
   },
   //elimina la imagen subida (si da error sacar fuera del objeto controller, como
   //la función followUserIds)

@@ -21,11 +21,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list >
-      <ion-item *ngFor="let item of publications;let i = index" lines="inset" id="{{item._id}}">
+  <ion-list *ngFor="let item of publications;let i = index" lines="inset" id="{{item._id}}">
+      <ion-item >
 
           <ion-avatar slot="start" *ngIf="item.user.image && item.user.image.name">
-            <img src="{{url+'image-user/'+item.user.image.name}}" />
+            <img src="{{url+'image-user/'+item.user.email+'/'+item.user.image.name}}" />
           </ion-avatar>
           <ion-avatar slot="start" *ngIf="!item.user.image">
             <img [src]="'assets/icons/person.png'" />
@@ -49,6 +49,9 @@
           <ion-icon name="caret-down-outline"></ion-icon>
         </ion-button>
 
+      </ion-item>
+      <ion-item *ngIf="item.image" >
+        <img src="{{url+'image-pub/'+item.user.email+'/'+item.image.name}}" width="200" style="margin:auto"/>
       </ion-item>
   </ion-list>
   <!--<ion-list>
