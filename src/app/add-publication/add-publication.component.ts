@@ -89,14 +89,15 @@ export class AddPublicationComponent implements OnInit {
                 //ej:  makeFileRequest(...):Promise<any>
                 if(result){
                   console.log("result_publication: ",result)
+                  this.formAddPublication.reset();
+                  this.dismiss();
                 }
             });
           }else{
             console.log("no existe imagen")
+            this.formAddPublication.reset();
+            this.dismiss();
           }
-
-          this.formAddPublication.reset();
-          this.dismiss();
           //this._router.navigate(["/tabs/tab1"]);
         },
         error => {

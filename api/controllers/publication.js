@@ -88,11 +88,32 @@ var controller = {
 //necesario borrar imagen si es que existe
   deletePublication: function(req,res){
     var publicationId=req.params.id;
-
+    /*
     Publication.find({"user":req.user.sub,"_id":publicationId}).remove(err=>{
       if(err) return res.status(500).send({message: "Error al borrar la publicación"});
       return res.status(200).send({publication: "Publicación eliminada"})
     });
+    */
+    Publication.findOne({"user":req.user.sub,"_id":publicationId},(err,publication) => {
+      if(err) return res.status(500).send({message: "Error al borrar publicación"});
+      if(!publication) return res.status(404).send({message: "No existe la publicación"})
+
+      if(publication.image && publication.image.name){
+        var path_file = "./uploads/publications/"+req.user.email+"/"+publication.image.name;
+        fs.exists(path_file,(exists) => {
+          if(exists){
+            console.log("la ruta: ",path_file)
+            //con unlink da error, probablemente requiera then()
+            fs.unlinkSync(path_file);
+          }
+        });
+      }
+      publication.remove(err => {
+        if(err) return res.status(500).send({message: "No se pudo eliminar la publicación"});
+          return res.status(200).send({publication: "Publicación eliminada"})
+        })
+    })
+
   },
 
   uploadImage:function(req,res){
