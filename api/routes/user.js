@@ -29,6 +29,7 @@ var md_upload=multer({storage:storage});
 //var md_upload = multer({storage:storage})
 api.get("/home",UserController.home);
 api.post("/register",UserController.saveUser);
+api.get("/users",auth.ensureAuth,UserController.getTotalUsers)
 api.get("/users/:page?",auth.ensureAuth,UserController.getUsers);
 api.post("/login",UserController.loginUser);
 api.get("/user/:id",auth.ensureAuth,UserController.getUser);

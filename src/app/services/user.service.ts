@@ -62,6 +62,18 @@ export class UserService {
     let headers = new HttpHeaders().set("Content-Type","application/json");
     return this._http.post(this.url+"login",user,{headers:headers});
   }
+
+  getTotalUsers():Observable<any>{
+    return from(this.getToken()).pipe(
+      switchMap(token => {
+        let headers = new HttpHeaders({
+          "Content-Type":"application/json",
+          "Authorization":token
+        });
+        return this._http.get(this.url+"users/",{headers:headers});
+      })
+    )
+  }
   /*
   setIdentity(identity){
     this.identity=identity;
