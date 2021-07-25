@@ -19,6 +19,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { HomeComponent } from './home/home.component';
 import { AddPublicationComponent } from './add-publication/add-publication.component';
+import { AddMessageComponent } from './add-message/add-message.component';
 //angular material
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule }  from '@angular/material/button';
@@ -39,7 +40,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RegisterComponent,
     HomeComponent,
     AddPublicationComponent,
-
+    AddMessageComponent,
   ],
   entryComponents: [],
   imports: [

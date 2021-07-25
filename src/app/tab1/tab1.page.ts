@@ -10,6 +10,7 @@ import { Global } from '../services/Global';
 import { ModalController,PopoverController } from '@ionic/angular';
 import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
 import { AddPublicationComponent } from '../add-publication/add-publication.component';
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',

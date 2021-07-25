@@ -11,11 +11,11 @@
     </ion-buttons>
     <ion-title class="title" *ngIf="!switchUpdate">NUEVA PUBLICACIÓN</ion-title>
     <ion-title class="title" *ngIf="switchUpdate">EDITANDO PUBLICACIÓN</ion-title>
-    <ion-buttons slot="end">
+    <!--<ion-buttons slot="end">
       <a [routerLink]="['/add']">
         <ion-icon name="pencil-outline" style="float:right"></ion-icon>
       </a>
-    </ion-buttons>
+    </ion-buttons>-->
   </ion-toolbar>
 </ion-header>
 
@@ -28,7 +28,7 @@
     </ion-card-title>
     <ion-card-content>
       <div>
-      <form [formGroup] ="formAddPublication" (ngSubmit) = "onSubmit()" enctype="multipart/form-data">
+      <form [formGroup] ="formAddPublication" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
         <mat-form-field style="width:100%">
           <mat-label>Comparte tu idea</mat-label>
           <textarea matInput [placeholder]="data" rows="5" cols="10" name="text" formControlName="text">

@@ -1,17 +1,76 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 3
+<ion-header>
+  <ion-toolbar color="primary" style="width:100%">
+    <ion-title class="title2">
+      MENSAJES
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button >
+        <ion-icon name="mail" ></ion-icon>
+      </ion-button>
+      <ion-button >
+        <ion-icon name="create" ></ion-icon>
+      </ion-button>
+      <ion-button (click)="presentModal()">
+        <ion-icon name="add" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-slides>
+    <ion-slide>
+      <ion-avatar slot="start" >
+        <img [src]="'assets/icons/person.png'" />
+      </ion-avatar>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+      <ion-label style="min-width:25%;max-width:25%">
+        <p style="font-size:12px"></p>
+        <p style="font-size:10px;color:#B3B3B3">
+        </p>
+      </ion-label>
+
+      <ion-label >
+        <p>
+
+        </p>
+      </ion-label>
+
+      <ion-button size="small" fill="clear" style="position: absolute;top:0;right:0">
+        <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="clear" >
+        <ion-icon name="caret-down-outline"></ion-icon>
+      </ion-button>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-avatar slot="start" >
+        <img [src]="'assets/icons/person.png'" />
+      </ion-avatar>
+
+      <ion-label style="min-width:25%;max-width:25%">
+        <p style="font-size:12px"></p>
+        <p style="font-size:10px;color:#B3B3B3">
+        </p>
+      </ion-label>
+
+      <ion-label >
+        <p>
+
+        </p>
+      </ion-label>
+
+      <ion-button size="small" fill="clear" style="position: absolute;top:0;right:0">
+        <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+
+      <ion-button fill="clear" >
+        <ion-icon name="caret-down-outline"></ion-icon>
+      </ion-button>
+    </ion-slide>
+  </ion-slides>
+
 </ion-content>
