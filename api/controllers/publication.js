@@ -81,7 +81,7 @@ var controller = {
     Publication.findByIdAndUpdate(publicationId,{text:publication.text},{new:true},(err,publicationUpdated)=> {
       if(err) return res.status(500).send({message: "Error con la actualización de la publicación"})
         return res.status(200).send({
-          publicationUpdated
+          publication:publicationUpdated
         })
     })
   },

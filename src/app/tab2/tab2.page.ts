@@ -60,7 +60,7 @@ export class Tab2Page {
 
 
   ionViewWillEnter(){
-    this.counter=0;
+    //this.counter=0;
     //no es necesario obtener el identity...
     this._storageService.getIdentity().then((identi)=>{
       let identity=JSON.parse(identi);
@@ -143,6 +143,8 @@ export class Tab2Page {
     })
   }
   //comprueba si algún dato se ha marcado con visibilidad
+  //anulado
+  /*
   testVisibility(user){
 
     this.counter++;
@@ -163,7 +165,8 @@ export class Tab2Page {
     //console.log("visibilidad: ",this.visibility)
     //console.log("visibilidad: ", id)
     */
-  }
+  //}
+
 
   setDataIfVisibility(){
     console.log(this.visibility)

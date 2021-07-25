@@ -61,7 +61,7 @@ export class Tab1Page implements OnInit{
     });
 
     popover.onDidDismiss().then((result) => {
-      console.log(result)
+      console.log("result: ",result)
       //si se ha pulsado borrar borramos la publicación
       if(result && result.data){
         if(result.data == "delete"){
@@ -160,25 +160,26 @@ export class Tab1Page implements OnInit{
     if(!this.publications){
       this.page=1;
       this.getPublications(this.page);
-    }else{
+    }
+    /*
+    else{
       this.getPublications(1);
     }
-    console.log(this.publications)
-
-
+    */
   }
 
   getPublications(page,adding=false){
     this._publicationService.getPublications(page).subscribe(
       response => {
         if(response){
+          console.log("hay respuesta")
           if(response.publications){
             if(response.publications.docs && response.publications.docs.length >0){
               if(this.page == 1 && response.publications.totalPages == 1){
                 this.switchMore=true;
               }
               this.pages=response.publications.totalPages;
-              console.log(response.publications);
+              console.log("res:",response.publications);
               //(this.page == this.pages) ? false:true;
               if(!adding)
                 this.publications = response.publications.docs;
@@ -190,6 +191,7 @@ export class Tab1Page implements OnInit{
 
             }else{
               this.publications=[];
+              this.switchMore=true;
               console.log("no existe ninguna publicación")
               //this.switchMore=false;
             }
@@ -198,6 +200,8 @@ export class Tab1Page implements OnInit{
           //(aunque no es lo recomendable) indicarlo en formato de array y no nos mostrará error
           //this.publications=response["publications"]
           }else{
+            this.publications=[];
+            //this.switchMore=false;
             console.log("no existen publicaciones")
           }
 

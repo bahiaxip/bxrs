@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
             this._router.navigate(["/tabs"]);
           }
           //this._userService.setIdentity(this.userIdentity.user);
-          console.log(this.userIdentity)
+          console.log("this: ",this.userIdentity)
         })
         //await this._storageService.getToken().then((token) => {
           //this._userService.setToken(token);

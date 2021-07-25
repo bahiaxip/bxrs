@@ -39,7 +39,7 @@ export class PublicationService {
     return this._http.post(this.url+"publication",publication,{headers:headers});
   }
 
-  updatePublication(token,publication){
+  updatePublication(token,publication):Observable<any>{
     let headers = new HttpHeaders({
       "Content-Type":"application/json",
       "Authorization":token

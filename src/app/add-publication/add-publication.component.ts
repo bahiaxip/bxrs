@@ -118,11 +118,28 @@ export class AddPublicationComponent implements OnInit {
       this._publicationService.updatePublication(token,this.publicationUser).subscribe(
         response => {
           console.log("respuesta: ",response);
-
-
-
-          this.formAddPublication.reset();
-          this.dismiss();
+          if(response && response.publication)
+          if(this.filesToUpload){
+            this._uploadService.makeFileRequest(
+              this.url+"upload-image-pub/"+response.publication._id,[],
+              this.filesToUpload,
+              token,
+              "imagepub").then((result)=>{
+                //para poder acceder a la propiedad "user" mediante punto
+                //en lugar de corchetes sin mostrar error es necesario declarar
+                //el tipo (Promise) en el método (upload.service)
+                //ej:  makeFileRequest(...):Promise<any>
+                if(result){
+                  console.log("result_publication: ",result)
+                  this.formAddPublication.reset();
+                  this.dismiss();
+                }
+            });
+          }else{
+            console.log("no existe imagen")
+            this.formAddPublication.reset();
+            this.dismiss();
+          }
         },
         error => {
 
