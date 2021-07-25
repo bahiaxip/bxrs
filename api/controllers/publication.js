@@ -41,7 +41,7 @@ var controller = {
         followList.push(follow.followed);
       });
       followList.push(req.user.sub);
-      var itemsPage=7;
+      var itemsPage=3;
       var options={
         page:page,
         limit:itemsPage,

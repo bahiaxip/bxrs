@@ -24,7 +24,7 @@ export class Tab1Page implements OnInit{
   private data;
   private page:number;
   private pages;
-  private switchMore:boolean;
+  private switchMore:boolean=false;
   private url:string;
   private clickButton=[];
   constructor(
@@ -155,6 +155,8 @@ export class Tab1Page implements OnInit{
     });
 
     console.log("nueva publicacion")
+    if(this.page != this.pages)
+      this.switchMore=false;
     if(!this.publications){
       this.page=1;
       this.getPublications(this.page);
@@ -172,9 +174,12 @@ export class Tab1Page implements OnInit{
         if(response){
           if(response.publications){
             if(response.publications.docs && response.publications.docs.length >0){
+              if(this.page == 1 && response.publications.totalPages == 1){
+                this.switchMore=true;
+              }
               this.pages=response.publications.totalPages;
               console.log(response.publications);
-              (this.page == this.pages) ? false:true;
+              //(this.page == this.pages) ? false:true;
               if(!adding)
                 this.publications = response.publications.docs;
               else{
@@ -186,7 +191,7 @@ export class Tab1Page implements OnInit{
             }else{
               this.publications=[];
               console.log("no existe ninguna publicación")
-              this.switchMore=false;
+              //this.switchMore=false;
             }
 
           //si no indicamos el tipado(Observable<any>) en el servicio, podemos
@@ -214,7 +219,7 @@ export class Tab1Page implements OnInit{
     console.log("more");
     this.page+=1;
     if(this.page==this.pages)
-      this.switchMore=false;
+      this.switchMore=true;
     this.getPublications(this.page,true)
   }
 
