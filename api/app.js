@@ -7,6 +7,7 @@ var user_routes = require("./routes/user");
 var publication_routes = require("./routes/publication");
 var follow_routes = require("./routes/follow");
 var visibility_routes = require("./routes/visibility");
+var messages_routes = require("./routes/message");
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
@@ -27,5 +28,5 @@ app.use("/",user_routes);
 app.use("/",publication_routes);
 app.use("/",follow_routes);
 app.use("/",visibility_routes);
-
+app.use("/",messages_routes);
 module.exports=app;
