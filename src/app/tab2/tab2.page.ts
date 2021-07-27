@@ -42,6 +42,22 @@ export class Tab2Page {
 
   }
 
+  //refrescar
+  doRefresh(event){
+    console.log("vaya");
+    setTimeout(()=> {
+      console.log("bien");
+      event.target.complete();
+      console.log("switchMore: ",this.switchMore)
+      if(this.switchMore)
+        this.switchMore=false;
+
+      this.getUsers(1);
+
+
+    },2000)
+  }
+
   async presentToast(name,bol){
     let toast;
     if(bol){

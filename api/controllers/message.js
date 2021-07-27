@@ -25,7 +25,7 @@ var controller = {
 
   getReceivedMessages:function(req,res){
     var userId=req.user.sub;
-    console.log("userId")
+
     Message.find({"receiver":userId}).populate("emitter","nick").exec((err,messages) =>{
       if(err) return res.status(500).send({message: "Error en la petición del mensaje"});
       if(!messages) return res.status(404).send({message: "No existen mensajes"});

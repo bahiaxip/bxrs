@@ -1,5 +1,8 @@
 <ion-header>
-  <ion-toolbar color="primary" style="width:100%">
+  <ion-toolbar color="tertiary" style="width:100%">
+    <ion-thumbnail slot="start" size="5">
+      <img src="assets/logobxrs_completo.png" />
+    </ion-thumbnail>
     <ion-title class="title2">
       MENSAJES
     </ion-title>
@@ -24,19 +27,29 @@
 
 
       <ion-slide >
-        <ion-list style="width:100%" >
-          <ion-item *ngFor="let message of messages">
-            <ion-avatar slot="start" >
-              <img [src]="'assets/icons/person.png'" />
-            </ion-avatar>
+        <ion-header style="position:absolute;top:0">
+          <ion-toolbar style="width:100%">
+            RECIBIDOS
+          </ion-toolbar>
+        </ion-header>
 
-            <ion-label style="min-width:25%;max-width:25%;margin:auto">
-              <p style="font-size:12px">{{message.text}}</p>
-              <p style="font-size:10px;color:#B3B3B3"></p>
-            </ion-label>
-            <ion-button size="small" fill="clear" style="position:absolute;top:0;right:0">
-              <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
-            </ion-button>
+        <ion-list style="width:100%" >
+          <ion-item *ngFor="let message of messages" lines="inset" class="miitem">
+              <ion-avatar slot="start" >
+                <img [src]="'assets/icons/person.png'" />
+              </ion-avatar>
+
+              <ion-label style="min-width:25%;max-width:25%;margin:auto">
+                <p style="font-size:12px">{{message.text}}</p>
+                <p style="font-size:10px;color:#B3B3B3"></p>
+              </ion-label>
+              <ion-label style="min-width:25%;max-width:25%;margin:auto">
+                <p style="font-size:12px">{{message.text}}</p>
+                <p style="font-size:10px;color:#B3B3B3"></p>
+              </ion-label>
+              <ion-button size="small" fill="clear" style="position:absolute;top:0;right:0">
+                <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
+              </ion-button>
           </ion-item>
 
           <!--<ion-button fill="clear" >
@@ -47,6 +60,11 @@
 
 
     <ion-slide>
+      <ion-header style="position:absolute;top:0">
+          <ion-toolbar style="width:100%">
+            ENVIADOS
+          </ion-toolbar>
+        </ion-header>
       <ion-list style="width:100%">
         <ion-item *ngFor="let sended of sendedMessages">
           <ion-avatar slot="start" >

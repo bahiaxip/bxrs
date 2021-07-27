@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+  <ion-toolbar color="tertiary">
     <ion-buttons slot="start">
       <ion-button (click)="dismiss()">
         <ion-icon name="arrow-back"></ion-icon>
@@ -11,9 +11,9 @@
 <div>
   <form [formGroup] ="formAddMessage" (ngSubmit)="onSubmit()" >
     <ion-item>
-      <ion-label>Enviar a:</ion-label>
-      <ion-select interface="alert" cancelText="Cancelar" okText="OK" formControlName="receiver">
-        <ion-select-option *ngFor="let user of users" [value]="user">{{user.nick}}</ion-select-option>
+      <ion-label color="tertiary">Enviar a:</ion-label>
+      <ion-select  interface="alert" cancelText="Cancelar" okText="OK" formControlName="receiver">
+        <ion-select-option color="tertiary" *ngFor="let user of users" [value]="user">{{user.nick}}</ion-select-option>
       </ion-select>
     </ion-item>
 

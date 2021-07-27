@@ -4,6 +4,7 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable,from } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { StorageService } from '../services/storage.service';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,8 @@ import { StorageService } from '../services/storage.service';
 export class PublicationService {
   private url:string=Global.url;
 
+  private publicationEndSource = new Subject<void>();
+  public publicationEnd$ = this.publicationEndSource.asObservable();
   constructor(private _http:HttpClient, private _storageService:StorageService) { }
 
   async getToken(){

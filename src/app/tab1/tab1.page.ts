@@ -44,6 +44,20 @@ export class Tab1Page implements OnInit{
 
   }
 
+  doRefresh(event){
+    console.log("vaya");
+    setTimeout(()=> {
+      console.log("bien");
+      event.target.complete();
+      console.log("switchMore: ",this.switchMore)
+      if(this.switchMore)
+        this.switchMore=false;
+
+      this.getPublications(1)
+
+    },2000)
+  }
+
   //popover (editar|borrar)
   async settingsPopover(id){
     //filtramos la publicación pulsada con el botón de popover

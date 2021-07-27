@@ -1,3 +1,22 @@
 ion-item{
 --ion-item-background:transparent;
+//quitando border inferior
+--inner-border-width:0 0 0 0;
+}
+
+.ion-item2{
+  min-height:100px;
+}
+
+.miitem{
+  min-height:70px
+
+}
+
+.item-inner{
+  margin-bottom:0
+}
+.mathover:hover{
+  background-color:#E7E7E7;
+  cursor:pointer;
 }

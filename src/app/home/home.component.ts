@@ -1,40 +1,97 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2,ViewChild,ElementRef } from '@angular/core';
 //import { Storage } from '@ionic/storage-angular';
+import { IonRouterOutlet,Platform } from '@ionic/angular';
 import { Router,ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { StorageService } from '../services/storage.service';
-
+import { Plugins } from '@capacitor/core';
+const { App } = Plugins;
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements AfterViewInit {
   private login:boolean=false;
   private userIdentity;
   private userToken;
   private title:string="IONICRRSS2";
+  private switchLogo:boolean=false;
+  private switchLogo2:boolean=false;
+  private switchLogo3:boolean=false;
   //private __storage:Storage;
+  //para ngOnInit (static:true), no necesario ElementRef
+  //@ViewChild("welcome",{static:true}) welcome: ElementRef;
+  //con renderer
+  @ViewChild("welcome") welcome:ElementRef;
   constructor(
     //private _storage:Storage,
     private _router:Router,
     private _route:ActivatedRoute,
     private _userService:UserService,
-    private _storageService:StorageService
+    private _storageService:StorageService,
+    private renderer:Renderer2,
+    private platform:Platform,
+    private routerOutlet:IonRouterOutlet
 
   )
   {
+    this.platform.backButton.subscribeWithPriority(-1,() => {
+      if(!this.routerOutlet.canGoBack()){
+        App.exitApp();
+      }
+    })
 
   }
 
-  async ngOnInit() {
-    console.log("home");
-
+  ngAfterViewInit() {
+    //console.log("home: ",this.welcome.nativeElement.innerHTML);
+    //this.welcome.nativeElement.innerHTML="";
+    this.showingTitle("Bienvenido a BXRS");
     /*if(localStorage){
       this._storageService.clear();
       console.log("yea1")
     }
     */
+  }
+
+  showingTitle(word){
+    let welcome=this.welcome.nativeElement;
+
+    let letters=word.split('');
+    let i=0;
+    let data="";
+    let show = setInterval(()=> {
+      //welcome.innerHTML += letters[i];
+      data+=letters[i];
+      this.renderer.setProperty(welcome,"innerHTML",data);
+      i++;
+      if(i==letters.length){
+        clearInterval(show);
+        console.log(data)
+        setTimeout(()=> {
+          this.switchLogo=true;
+        },1000)
+
+        setTimeout(()=> {
+          this.switchLogo2=true;
+        },2000)
+        setTimeout(()=> {
+          this.switchLogo3=true;
+        },3000)
+        /*
+        let span = this.renderer.createElement("span");
+        let image = this.renderer.createElement("img");
+        image.width="128";
+        image.className="logo_full";
+        image.src="./assets/logobxrs_completo.png";
+        this.renderer.appendChild(span,image);
+        this.renderer.appendChild(welcome,image);
+        */
+        //span.innerHTML="hola";
+        //this.renderer.;
+      }
+    },300)
   }
   async identity(){
 
