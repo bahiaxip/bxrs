@@ -18,8 +18,8 @@
   </ion-refresher>
 
   <ion-list >
-    <mat-accordion *ngFor="let user of users">
-      <div >
+    <mat-accordion >
+      <div *ngFor="let user of users">
         <mat-expansion-panel *ngIf="!user.visible" hideToggle disabled class="mathover">
           <mat-expansion-panel-header class="miitem">
             <mat-panel-title>

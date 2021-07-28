@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, AfterViewInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { StorageService } from '../services/storage.service';
@@ -29,7 +29,7 @@ export class Tab1Page implements OnInit{
   private switchMore:boolean=false;
   private url:string;
   private clickButton=[];
-
+  private itm=[];
   private miSuscription:Subscription=null;
 
   constructor(
@@ -62,6 +62,10 @@ export class Tab1Page implements OnInit{
     //console.log("nueva publicacion")
 
   }
+  ngAfterViewInit(){
+
+  }
+
 
   doRefresh(event){
     console.log("vaya");
@@ -78,13 +82,14 @@ export class Tab1Page implements OnInit{
   }
 
   //popover (editar|borrar)
-  async settingsPopover(id){
+  async settingsPopover(id,indice){
     //filtramos la publicación pulsada con el botón de popover
     let filteredPub = this.publications.filter((item)=>{
       return item._id==id
     })
     //console.log("publicaciones: ",filtroPub[0])
     //const siteInfo = {id:1,name:'edupala'};
+    const ind=indice;
     const pub = filteredPub[0];
     const popover = await this.popoverController.create({
       component:SettingsModalComponent,
@@ -105,7 +110,19 @@ export class Tab1Page implements OnInit{
             response=>{
               console.log("publicación eliminada: ",response)
               //crear toast con publicación eliminada y getPublications(this.page)
-              this.getPublications(this.page)
+            //en lugar de recargar ocultamos el elemento de la lista y así no recargamos
+              if(this.publications){
+
+                console.log("id a eliminar: ",pub)
+                console.log("el index: ",ind)
+                //
+                this.itm[ind]=true;
+
+                console.log(this.publications[0])
+              }
+
+
+              //this.getPublications(this.page)
 
             },
             error => {
@@ -223,6 +240,10 @@ export class Tab1Page implements OnInit{
                 let list1=this.publications;
                 let list2 = response.publications.docs;
                 this.publications=list1.concat(list2);
+                for(let i =0;i<this.publications.length;i++){
+                  this.itm.push(false);
+                }
+                console.log("itm: ",this.itm)
               }
 
             }else{
