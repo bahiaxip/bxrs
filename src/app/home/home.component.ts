@@ -24,6 +24,7 @@ export class HomeComponent implements AfterViewInit {
   //@ViewChild("welcome",{static:true}) welcome: ElementRef;
   //con renderer
   @ViewChild("welcome") welcome:ElementRef;
+  @ViewChild("subtitle") subtitle:ElementRef;
   constructor(
     //private _storage:Storage,
     private _router:Router,
@@ -57,6 +58,7 @@ export class HomeComponent implements AfterViewInit {
 
   showingTitle(word){
     let welcome=this.welcome.nativeElement;
+    let subtitle=this.subtitle.nativeElement;
 
     let letters=word.split('');
     let i=0;
@@ -69,6 +71,9 @@ export class HomeComponent implements AfterViewInit {
       if(i==letters.length){
         clearInterval(show);
         console.log(data)
+        this.renderer.setStyle(subtitle,"opacity","1");
+        this.renderer.setStyle(subtitle,"top","17%");
+
         setTimeout(()=> {
           this.switchLogo=true;
         },1000)

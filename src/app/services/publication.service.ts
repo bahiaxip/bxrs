@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Global } from './Global';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
-import { Observable,from } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable,from,Subject,BehaviorSubject } from 'rxjs';
+import { switchMap,tap } from 'rxjs/operators';
 import { StorageService } from '../services/storage.service';
-import { Subject } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +12,19 @@ import { Subject } from 'rxjs';
 export class PublicationService {
   private url:string=Global.url;
 
-  private publicationEndSource = new Subject<void>();
-  public publicationEnd$ = this.publicationEndSource.asObservable();
+  private miSubject = new BehaviorSubject<boolean>(false);
+  public miObservable$ = this.miSubject.asObservable();
+
+
   constructor(private _http:HttpClient, private _storageService:StorageService) { }
+
 
   async getToken(){
     //this.token=await this._storageService.getToken();
     return await this._storageService.getToken();
   }
+
+
 
 
   getPublications(page):Observable<any>{
@@ -39,7 +44,17 @@ export class PublicationService {
       "Content-Type" : "application/json",
       "Authorization" : token
     });
-    return this._http.post(this.url+"publication",publication,{headers:headers});
+    return this._http.post(this.url+"publication",publication,{headers:headers})
+    /*.pipe(
+      tap((value)=> {
+        if(value){
+          console.log("mivalue: ",value)
+          this.miSubject.next(true);
+        }
+      })
+    );
+    */
+
   }
 
   updatePublication(token,publication):Observable<any>{

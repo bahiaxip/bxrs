@@ -3,13 +3,14 @@ import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { StorageService } from '../services/storage.service';
 import { PublicationService } from '../services/publication.service';
-import { Observable } from 'rxjs';
+import { Observable,Subscription,BehaviorSubject } from 'rxjs';
 import { Global } from '../services/Global';
 
 //ejemplo modal y popover
 import { ModalController,PopoverController } from '@ionic/angular';
 import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
 import { AddPublicationComponent } from '../add-publication/add-publication.component';
+
 
 @Component({
   selector: 'app-tab1',
@@ -28,6 +29,9 @@ export class Tab1Page implements OnInit{
   private switchMore:boolean=false;
   private url:string;
   private clickButton=[];
+
+  private miSuscription:Subscription=null;
+
   constructor(
     private _storageService:StorageService,
     private _publicationService:PublicationService,
@@ -40,6 +44,21 @@ export class Tab1Page implements OnInit{
   }
 
   ngOnInit(){
+    /*
+    setInterval(()=> {
+      this._publicationService.miObservable$.subscribe(data=>{
+        if(data)
+          console.log("hay un nuevo dato: ",data);
+      })
+    },3000)
+    */
+    /*
+    this.suscription = this._publicationService.refresh$.subscribe((data)=> {
+      console.log("nueva publicación, desde subscription: ",data);
+      this.getPublications(1);
+    })
+    */
+
     //console.log("nueva publicacion")
 
   }
@@ -176,6 +195,8 @@ export class Tab1Page implements OnInit{
       this.page=1;
       this.getPublications(this.page);
     }
+
+
     /*
     else{
       this.getPublications(1);

@@ -38,9 +38,12 @@
   font-family:Britanic;
   font-size:18px
 }
-
+.p_logo_full{
+  margin-top:80px;
+}
 .logo_full{
   margin:auto;
+
   width:180px;
 }
 .logo_full .image{
@@ -61,12 +64,12 @@
   position:absolute;
   opacity:0;
   transition:all 1s linear;
-  z-index:10;
+  z-index:11;
 }
 
 .home_title{
   position:absolute;
-  width: 80%;
+  width: 100%;
   top:15%;left:50%;
   transform:translate(-50%,-50%);
 
@@ -81,7 +84,6 @@
   font-size:55px;
   color:#5260FF;
   line-height:100%;
-  margin-right:30px;
   /*
   text-shadow:2px 0 0 #ffd300, -2px 0 0 #ffd300, 0 2px 0 #ffd300, 0 -2px 0 #ffd300, 1px 1px #ffd300, -1px -1px 0 #ffd300, 1px -1px 0 #ffd300, -1px 1px 0 #ffd300;
   */
@@ -93,10 +95,23 @@
   color:#0e00ff;
 }
 */
-.home_title .subtitle{
-  font-size:25px;
+
+.subtitle{
+  width:100%;
+  font-size:22px;
   color:orange;
   text-shadow:2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+  background-color:#5260FF;
+  padding:4px 10px;
+  //border-radius:10px;
+  position:absolute;
+  left:50%;
+  top:0px;
+  transform:translate(-50%,-50%);
+
+  opacity:0;
+  transition:opacity 2s ease-in-out, top 1s linear;
+
 }
 
 @font-face{
@@ -106,27 +121,58 @@
 
 @media (max-width:650px){
   .home_title .welcome {
-    font-size:45px;
+    font-size:50px;
   }
-  .home_title .subtitle{
-    font-size:22px;
+  .subtitle{
+    font-size:20px;margin-top:0px;
+    //margin-top:17px;
   }
 
   .logo_full,.logo_full .image, .logo_full .image2, .logo_full .image3{
     width:128px;
   }
+  .p_logo_full{
 
+   //margin-top:0px;
+  }
 }
+
+/*
+@media (max-width:550px){
+  .home_title .welcome {
+    font-size:50px;
+  }
+  .subtitle{
+    font-size:17px;
+  }
+  .logo_full,.logo_full .image, .logo_full .image2, .logo_full .image3{
+    width:128px;
+  }
+}
+*/
 
 @media (max-width:450px){
   .home_title .welcome {
     font-size:40px;
   }
-  .home_title .subtitle{
-    font-size:20px;
+  .subtitle{
+    font-size:15px;
   }
   .logo_full,.logo_full .image, .logo_full .image2, .logo_full .image3{
     width:100px;
   }
 }
+
+@media (max-width:340px){
+  .home_title .welcome {
+    font-size:30px;
+  }
+  .subtitle{
+    font-size:12px;
+  }
+  .logo_full,.logo_full .image, .logo_full .image2, .logo_full .image3{
+    width:80px;
+  }
+}
+
 

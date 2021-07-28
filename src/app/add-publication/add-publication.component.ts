@@ -34,6 +34,7 @@ export class AddPublicationComponent implements OnInit {
   }
 
   ngOnInit() {
+
     let text='';
     if(this.publicationUser && this.publicationUser.text){
       text=this.publicationUser.text
@@ -42,8 +43,8 @@ export class AddPublicationComponent implements OnInit {
     this.formAddPublication=new FormGroup({
       text:new FormControl(text,[Validators.required])
     })
-
   }
+
   ionViewWillEnter(){
     this.identity();
     console.log(this.formAddPublication.controls.text)
