@@ -16,110 +16,238 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
-  <ion-list >
-    <mat-accordion >
-      <div *ngFor="let user of users">
-        <mat-expansion-panel *ngIf="!user.visible" hideToggle disabled class="mathover">
-          <mat-expansion-panel-header class="miitem">
-            <mat-panel-title>
-            <ion-item  >
-              <ion-avatar slot="start" *ngIf="user.image" >
-                <img style="max-width:300px;user-select:none;" src="{{url+'image-user/'+user.email+'/'+user.image.name}}" />
-              </ion-avatar>
-              <ion-avatar slot="start" *ngIf="!user.image">
-                <img style="max-width:300px;user-select:none;" src="assets/icons/person.png" />
-              </ion-avatar>
+  <div *ngIf="users">
+    <ion-list >
+      <mat-accordion >
+        <div *ngFor="let user of users">
+          <mat-expansion-panel *ngIf="!user.visible" hideToggle disabled class="mathover">
+            <mat-expansion-panel-header class="miitem">
+              <mat-panel-title>
+              <ion-item  >
+                <ion-avatar slot="start" *ngIf="user.image" >
+                  <img style="max-width:300px;user-select:none;" src="{{url+'image-user/'+user.email+'/'+user.image.name}}" />
+                </ion-avatar>
+                <ion-avatar slot="start" *ngIf="!user.image">
+                  <img style="max-width:300px;user-select:none;" src="assets/icons/person.png" />
+                </ion-avatar>
+              </ion-item>
+            </mat-panel-title>
+            <mat-panel-description style="text-align:center">
+              <ion-item style="margin-top:1%;" >
+                  <p style="user-select: none">{{user.nick}}</p>
+              </ion-item>
+            </mat-panel-description>
+            <ion-item style="margin-top:1%;cursor:pointer" title="Siguiendo" (click)="testFollow(user._id,'unfollow')"  background="transparent" *ngIf="testFollowing(user._id)">
+              <ion-icon name="star" style="pointer-events:none;z-index:999"></ion-icon>
             </ion-item>
-          </mat-panel-title>
-          <mat-panel-description style="text-align:center">
-            <ion-item style="margin-top:1%;" >
-                <p style="user-select: none">{{user.nick}}</p>
+            <ion-item style="margin-top:1%;cursor:pointer" title="Seguir" (click)="testFollow(user._id,'follow')"  background="trasnparent" *ngIf="!testFollowing(user._id)">
+              <ion-icon name="star-outline" style="pointer-events:none;z-index:999"></ion-icon>
             </ion-item>
-          </mat-panel-description>
-          <ion-item style="margin-top:1%;cursor:pointer" title="Siguiendo" (click)="testFollow(user._id,'unfollow')"  background="transparent" *ngIf="testFollowing(user._id)">
-            <ion-icon name="star" style="pointer-events:none;z-index:999"></ion-icon>
-          </ion-item>
-          <ion-item style="margin-top:1%;cursor:pointer" title="Seguir" (click)="testFollow(user._id,'follow')"  background="trasnparent" *ngIf="!testFollowing(user._id)">
-            <ion-icon name="star-outline" style="pointer-events:none;z-index:999"></ion-icon>
-          </ion-item>
-          <!-- añadimos el indicador y ocultamos con opacity para alinear -->
-          <span class="mat-expansion-indicator" style="opacity:0"></span>
-          <!--probando testVisibility()-->
-          <!--<button (click)="testVisibility(user._id)">boton</button>-->
-          </mat-expansion-panel-header>
+            <!-- añadimos el indicador y ocultamos con opacity para alinear -->
+            <span class="mat-expansion-indicator" style="opacity:0"></span>
+            <!--probando testVisibility()-->
+            <!--<button (click)="testVisibility(user._id)">boton</button>-->
+            </mat-expansion-panel-header>
 
 
-        </mat-expansion-panel>
-        <!-- añadimos clickButton para no abrir el desplegable al clicar el icono de seguir o dejar de seguir-->
-        <mat-expansion-panel  *ngIf="user.visible" [disabled]="clickButton" (click)="clickButton=false" class="mathover">
-          <mat-expansion-panel-header class="miitem">
-            <mat-panel-title>
-            <ion-item  >
-              <ion-avatar slot="start" *ngIf="user.image">
-                <img style="max-width:300px;user-select:none;" src="{{url+'image-user/'+user.email+'/'+user.image.name}}" draggable="false" />
-              </ion-avatar>
-              <ion-avatar slot="start" *ngIf="!user.image">
-                <img style="max-width:300px;user-select:none;" [src]="'assets/icons/person.png'" draggable="false"/>
-              </ion-avatar>
-            </ion-item>
-          </mat-panel-title>
-          <mat-panel-description>
-            <ion-item style="margin-top:1%">
-                <p style="user-select: none;font-size:17px">{{user.nick}}</p>
-          </ion-item>
-          </mat-panel-description>
-          <!-- añadimos el indicador y ocultamos con opacity para alinear -->
-          <ion-item style="margin-top:1%;z-index:999;" title="Dejar de seguir" (click)="testFollow(user._id,'unfollow',true)" *ngIf="testFollowing(user._id)">
-            <ion-icon name="star" color="tertiary" style="pointer-events:none"></ion-icon>
-          </ion-item>
-          <ion-item style="margin-top:1%;z-index:999;" title="Seguir" (click)="testFollow(user._id,'follow',true)" *ngIf="!testFollowing(user._id)">
-            <ion-icon name="star-outline" style="pointer-events:none"></ion-icon>
-          </ion-item>
-          <!--probando testVisibility()-->
-          <!--<button (click)="testVisibility(user._id)">boton</button>-->
-          </mat-expansion-panel-header>
-          <ion-item *ngIf="user.visible.name">
-            <p>{{user.name}}</p>
-          </ion-item>
-          <ion-item *ngIf="user.visible.surname">
-            {{user.surname}}
-          </ion-item>
-          <ion-item *ngIf="user.visible.email">
-            <p style="color:skyblue;margin:auto">{{user.email}}</p>
-          </ion-item>
-          <ion-item *ngIf="user.visible.city">
-            {{user.city}}
-          </ion-item>
-          <ion-item *ngIf="user.visible.phone">
-            {{user.phone}}
-          </ion-item>
-
-        </mat-expansion-panel>
-
-      </div>
-    </mat-accordion>
-    <ion-row>
-      <ion-col>
-        <ion-button color="tertiary" (click)="moreUsers()" *ngIf="!switchMore" style="display:block">
-          <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-list>
-
-
-<mat-accordion>
-        <mat-expansion-panel>
-
-            <!--
-            <mat-panel-title>
-              hola
+          </mat-expansion-panel>
+          <!-- añadimos clickButton para no abrir el desplegable al clicar el icono de seguir o dejar de seguir-->
+          <mat-expansion-panel  *ngIf="user.visible" [disabled]="clickButton" (click)="clickButton=false" class="mathover">
+            <mat-expansion-panel-header class="miitem">
+              <mat-panel-title>
+              <ion-item  >
+                <ion-avatar slot="start" *ngIf="user.image">
+                  <img style="max-width:300px;user-select:none;" src="{{url+'image-user/'+user.email+'/'+user.image.name}}" draggable="false" />
+                </ion-avatar>
+                <ion-avatar slot="start" *ngIf="!user.image">
+                  <img style="max-width:300px;user-select:none;" [src]="'assets/icons/person.png'" draggable="false"/>
+                </ion-avatar>
+              </ion-item>
             </mat-panel-title>
             <mat-panel-description>
-              adios
+              <ion-item style="margin-top:1%">
+                  <p style="user-select: none;font-size:17px">{{user.nick}}</p>
+            </ion-item>
             </mat-panel-description>
-          -->
+            <!-- añadimos el indicador y ocultamos con opacity para alinear -->
+            <ion-item style="margin-top:1%;z-index:999;" title="Dejar de seguir" (click)="testFollow(user._id,'unfollow',true)" *ngIf="testFollowing(user._id)">
+              <ion-icon name="star" color="tertiary" style="pointer-events:none"></ion-icon>
+            </ion-item>
+            <ion-item style="margin-top:1%;z-index:999;" title="Seguir" (click)="testFollow(user._id,'follow',true)" *ngIf="!testFollowing(user._id)">
+              <ion-icon name="star-outline" style="pointer-events:none"></ion-icon>
+            </ion-item>
+            <!--probando testVisibility()-->
+            <!--<button (click)="testVisibility(user._id)">boton</button>-->
+            </mat-expansion-panel-header>
+            <ion-item *ngIf="user.visible.name">
+              <p>{{user.name}}</p>
+            </ion-item>
+            <ion-item *ngIf="user.visible.surname">
+              {{user.surname}}
+            </ion-item>
+            <ion-item *ngIf="user.visible.email">
+              <p style="color:skyblue;margin:auto">{{user.email}}</p>
+            </ion-item>
+            <ion-item *ngIf="user.visible.city">
+              {{user.city}}
+            </ion-item>
+            <ion-item *ngIf="user.visible.phone">
+              {{user.phone}}
+            </ion-item>
+
+          </mat-expansion-panel>
+
+        </div>
+      </mat-accordion>
+      <ion-row>
+        <ion-col>
+          <ion-button color="tertiary" (click)="moreUsers()" *ngIf="!switchMore" style="display:block">
+            <ion-icon name="ellipsis-horizontal-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-list>
+  </div>
+
+
+  <div *ngIf="!users">
+    <ion-list>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label >
+          <p>
+            <ion-skeleton-text animated style="width:30%;margin:auto"></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label >
+          <p>
+            <ion-skeleton-text animated style="width:30%;margin:auto"></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label >
+          <p>
+            <ion-skeleton-text animated style="width:30%;margin:auto"></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label >
+          <p>
+            <ion-skeleton-text animated style="width:30%;margin:auto"></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label >
+          <p>
+            <ion-skeleton-text animated style="width:30%;margin:auto"></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label >
+          <p>
+            <ion-skeleton-text animated style="width:30%;margin:auto"></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label >
+          <p>
+            <ion-skeleton-text animated style="width:30%;margin:auto"></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label >
+          <p>
+            <ion-skeleton-text animated style="width:30%;margin:auto"></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label >
+          <p>
+            <ion-skeleton-text animated style="width:30%;margin:auto"></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label >
+          <p>
+            <ion-skeleton-text animated style="width:30%;margin:auto"></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+    <!--<mat-accordion>
+        <mat-expansion-panel>
           <ion-item  >
             <ion-avatar slot="start">
               <img [src]="'assets/icons/person.png'" />
@@ -130,22 +258,9 @@
             <ion-label>
               <p>item.email</p>
             </ion-label>
-
-
           </ion-item>
-
         </mat-expansion-panel>
-        <!--<mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-expansion-panel-header>
-              Self
-            </mat-expansion-panel-header>
-            <mat-panel-description>
-              Currently
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-        </mat-expansion-panel>-->
-    </mat-accordion>
+    </mat-accordion>-->
 
   <!--<ion-list >
         <ion-avatar slot="start">

@@ -33,12 +33,9 @@ export class AddMessageComponent implements OnInit {
       text:new FormControl('',[Validators.required]),
       receiver:new FormControl('',[Validators.required])
     })
-
-
   }
 
   ionViewWillEnter(){
-    console.log("llega")
     this.identity().then(()=> {
       this.getUsers(this.identy.user);
     });
