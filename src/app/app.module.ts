@@ -28,6 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PipelinesPipe } from './pipes/pipelines.pipe';
 
 //import { HTTP_INTERCEPTORS } from '@angular/common/http';
 //import { UserService } from './services/user.service';
@@ -41,6 +42,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HomeComponent,
     AddPublicationComponent,
     AddMessageComponent,
+    PipelinesPipe,
   ],
   entryComponents: [],
   imports: [

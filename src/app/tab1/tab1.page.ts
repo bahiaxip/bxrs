@@ -30,6 +30,9 @@ export class Tab1Page implements OnInit{
   private url:string;
   private clickButton=[];
   private itm=[];
+  private counterDeleted:number=0;
+  private lengthPublications:number=0;
+  private slideTextButton=[];
   private miSuscription:Subscription=null;
 
   constructor(
@@ -44,6 +47,7 @@ export class Tab1Page implements OnInit{
   }
 
   ngOnInit(){
+
     /*
     setInterval(()=> {
       this._publicationService.miObservable$.subscribe(data=>{
@@ -80,6 +84,14 @@ export class Tab1Page implements OnInit{
 
     },2000)
   }
+  //resetea los elementos
+  resetItm(){
+    if(this.itm.length>0)
+      this.counterDeleted=0;
+      for(let i =0;i<this.itm.length;i++){
+        this.itm[i]=false;
+      }
+  }
 
   //popover (editar|borrar)
   async settingsPopover(id,indice){
@@ -111,14 +123,37 @@ export class Tab1Page implements OnInit{
               console.log("publicación eliminada: ",response)
               //crear toast con publicación eliminada y getPublications(this.page)
             //en lugar de recargar ocultamos el elemento de la lista y así no recargamos
-              if(this.publications){
 
-                console.log("id a eliminar: ",pub)
-                console.log("el index: ",ind)
-                //
-                this.itm[ind]=true;
+              if(this.publications && this.publications.length>0){
+                //se asigna la cantidad de publicaciones al comienzo de borrar alguna
+                this.lengthPublications=this.publications.length;
+                //añadimos counterDeleted: si se eliminan las que hay(está en blanco)
+                // se reinicia el método para que nunca se quede en blanco
+                //getPublications
+                this.counterDeleted++;
+                 if(this.counterDeleted<this.lengthPublications){
+                     console.log("length: ",this.lengthPublications);
+                    console.log("id a eliminar: ",pub)
+                    console.log("el index: ",ind)
+                    //
+                    this.itm[ind]=true;
+                    let text=this.publications[1].text;
+                    let list = (text.match(/\n/g)||[]).length;
+                    let match=/'<br>'/g.exec(text);
+                    console.log("cantidad: ",match)
+                    console.log(this.publications.length);
+                    console.log(this.publications)
 
-                console.log(this.publications[0])
+                    console.log(this.counterDeleted)
+                  }else{
+                    //reseteamos itm(que permite ocultar los elementos con la
+                    //directiva hidden)
+                    this.resetItm();
+                    this.getPublications(1);
+                  }
+              }else{
+                this.resetItm();
+                this.getPublications(1);
               }
 
 
@@ -176,6 +211,8 @@ export class Tab1Page implements OnInit{
     const publicationData = await modal.onWillDismiss().then(()=>{
       //actualizamos
       this.page=1;
+      //reseteamos el itm por si se ha eliminado antes
+      this.resetItm();
       this.getPublications(this.page);
       //console.log(publicationData);
     });

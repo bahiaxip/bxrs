@@ -42,8 +42,8 @@
               {{ (item.created_at | amFromUnix) | amLocale: "es" | amTimeAgo }}
               </p>
             </ion-label>
-            <ion-label [ngStyle]="clickButton[i] ? {'white-space': 'normal'}:{'white-space':'nowrap'}">
-              <p >
+            <ion-label [ngStyle]="clickButton[i] ? {'white-space': 'normal'}:{'white-space':'nowrap'}" style="width:80%">
+              <p>
                 {{item.text}}
               </p>
             </ion-label>
@@ -51,8 +51,8 @@
               <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
             </ion-button>
             <ion-button fill="clear" (click)="showMore(i);">
-
-            <ion-icon name="caret-down-outline"></ion-icon>
+            <ion-icon name="caret-up-outline" *ngIf="clickButton[i]"></ion-icon>
+            <ion-icon name="caret-down-outline" *ngIf="!clickButton[i]"></ion-icon>
           </ion-button>
 
         </ion-item>
