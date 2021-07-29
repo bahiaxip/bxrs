@@ -23,40 +23,44 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-slides #slideMessages>
+  <ion-slides #slideMessages *ngIf="!messages">
+    <ion-slide >
+      <ion-header style="position:absolute;top:0">
+        <ion-toolbar style="width:100%">
+          RECIBIDOS
+        </ion-toolbar>
+      </ion-header>
 
+      <ion-list style="width:100%" >
+        <div *ngFor="let message of messages;let i=index" lines="inset" >
+          <ion-item  class="miitem">
+            <ion-avatar slot="start" >
+              <img [src]="'assets/icons/person.png'" />
+            </ion-avatar>
 
-      <ion-slide >
-        <ion-header style="position:absolute;top:0">
-          <ion-toolbar style="width:100%">
-            RECIBIDOS
-          </ion-toolbar>
-        </ion-header>
-
-        <ion-list style="width:100%" >
-          <ion-item *ngFor="let message of messages" lines="inset" class="miitem">
-              <ion-avatar slot="start" >
-                <img [src]="'assets/icons/person.png'" />
-              </ion-avatar>
-
-              <ion-label style="min-width:25%;max-width:25%;margin:auto">
-                <p style="font-size:14px">{{message.text}}</p>
-                <p style="font-size:10px;color:#B3B3B3"></p>
-              </ion-label>
-              <!--<ion-label style="min-width:25%;max-width:25%;margin:auto">
-                <p style="font-size:12px">{{message.text}}</p>
-                <p style="font-size:10px;color:#B3B3B3"></p>
-              </ion-label>-->
-              <ion-button size="small" fill="clear" style="position:absolute;top:0;right:0">
-                <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
-              </ion-button>
+            <ion-label style="text-align: center;width:70%;" [ngStyle]="clickButton[i] ? {'white-space': 'normal'}:{'white-space':'nowrap'}">
+              <p style="font-size:14px">{{message.text}}</p>
+              <!--<p style="font-size:10px;color:#B3B3B3"></p>-->
+            </ion-label>
+            <!--<ion-label style="min-width:25%;max-width:25%;margin:auto">
+              <p style="font-size:12px">{{message.text}}</p>
+              <p style="font-size:10px;color:#B3B3B3"></p>
+            </ion-label>-->
+            <ion-button size="small" fill="clear" (click)="settingsPopover(item._id,i)" style="position: absolute;top:0;right:0" >
+              <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+            <ion-button fill="clear" (click)="showMore(i);">
+              <ion-icon name="caret-up-outline" *ngIf="clickButton[i]"></ion-icon>
+              <ion-icon name="caret-down-outline" *ngIf="!clickButton[i]"></ion-icon>
+            </ion-button>
           </ion-item>
+        </div>
+        <!--<ion-button fill="clear" >
+          <ion-icon name="caret-down-outline"></ion-icon>
+        </ion-button>-->
+      </ion-list>
 
-          <!--<ion-button fill="clear" >
-            <ion-icon name="caret-down-outline"></ion-icon>
-          </ion-button>-->
-        </ion-list>
-      </ion-slide>
+    </ion-slide>
 
 
     <ion-slide>
@@ -90,5 +94,115 @@
       </ion-list>
     </ion-slide>
   </ion-slides>
+  <div *ngIf="messages">
+    <ion-header style="" >
+      <ion-toolbar style="width:100%;text-align: center;">
+        RECIBIDOS
+      </ion-toolbar>
+    </ion-header>
+    <ion-list style="width:100%" >
+      <ion-item>
+        <ion-avatar slot="start" >
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label style="text-align: center;width:80%;">
+          <p>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-skeleton-text animated style="width:5%;height:20%;position:absolute;top:0;right:10px"></ion-skeleton-text>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%;margin-top:15px;margin-left:10px"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start" >
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label style="text-align: center;width:80%;">
+          <p>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-skeleton-text animated style="width:5%;height:20%;position:absolute;top:0;right:10px"></ion-skeleton-text>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%;margin-top:15px;margin-left:10px"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start" >
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label style="text-align: center;width:80%;">
+          <p>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-skeleton-text animated style="width:5%;height:20%;position:absolute;top:0;right:10px"></ion-skeleton-text>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%;margin-top:15px;margin-left:10px"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start" >
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label style="text-align: center;width:80%;">
+          <p>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-skeleton-text animated style="width:5%;height:20%;position:absolute;top:0;right:10px"></ion-skeleton-text>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%;margin-top:15px;margin-left:10px"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start" >
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label style="text-align: center;width:80%;">
+          <p>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-skeleton-text animated style="width:5%;height:20%;position:absolute;top:0;right:10px"></ion-skeleton-text>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%;margin-top:15px;margin-left:10px"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start" >
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label style="text-align: center;width:80%;">
+          <p>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-skeleton-text animated style="width:5%;height:20%;position:absolute;top:0;right:10px"></ion-skeleton-text>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%;margin-top:15px;margin-left:10px"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <ion-item>
+        <ion-avatar slot="start" >
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-label style="text-align: center;width:80%;">
+          <p>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </p>
+        </ion-label>
+        <ion-skeleton-text animated style="width:5%;height:20%;position:absolute;top:0;right:10px"></ion-skeleton-text>
+        <ion-thumbnail slot="end">
+          <ion-skeleton-text animated style="width:50%;height:50%;margin-top:15px;margin-left:10px"></ion-skeleton-text>
+        </ion-thumbnail>
+      </ion-item>
+      <!--<ion-button fill="clear" >
+        <ion-icon name="caret-down-outline"></ion-icon>
+      </ion-button>-->
+    </ion-list>
+  </div>
 
 </ion-content>

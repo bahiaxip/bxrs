@@ -15,6 +15,7 @@ export class Tab3Page {
 
   private messages:Message[];
   private sendedMessages:Message[];
+  private clickButton:Array<any>=[];
 
   constructor(
     private _storageService:StorageService,
@@ -32,6 +33,7 @@ export class Tab3Page {
   }
 
   ionViewWillEnter(){
+
     this._storageService.getIdentity().then((identi)=>{
       if(!identi){
         this._storageService.logout();
@@ -54,6 +56,15 @@ export class Tab3Page {
         }
       )
     })
+  }
+
+  showMore(id){
+    let selectedButton=this.clickButton[id];
+    if(!selectedButton)
+      this.clickButton[id]=true;
+    else
+      this.clickButton[id]=false;
+    //console.log(this.publications[id])
   }
 
 }
