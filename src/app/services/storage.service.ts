@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { Router } from '@angular/router';
+import { LoadingService } from './loading.service';
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
   private _storage:Storage | null=null;
+  private loading:any;
 
   constructor(
     private storage:Storage,
-    private _router:Router
+    private _router:Router,
+    private _loadingService:LoadingService
   ){
     this.init();
+    this.loading=_loadingService;
   }
 
   async init(){
@@ -38,8 +42,13 @@ export class StorageService {
     }
   }
   async logout(){
+    await this.loading.presentLoading("logout","Cerrando sesión...");
     await this._storage.create().then((storage)=> {
+      //opción para evitar mantener variables al desloguear y loguearse de nuevo
+      //con otro usuario, pero no buena experiencia para usuario
+      //window.location.reload(true);
       storage.clear();
+      this.loading.dismiss("logout");
       this._router.navigate(["/"]);
     })
   }

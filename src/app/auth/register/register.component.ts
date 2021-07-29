@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
-
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-register',
@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   public title:string;
   public user:User;
   public status:string;
+  private loading:any;
 
   form = new FormGroup({
     nick:new FormControl('',[Validators.required]),
@@ -23,15 +24,17 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private _userService:UserService,
-    private _router:Router
+    private _router:Router,
+    private _loadingService:LoadingService,
   ) {
     this.title="Registrarse";
-
-
-
+    this.loading=_loadingService;
   }
 
+
+
   ngOnInit() {}
+
 
   onSubmit(){
     this.user={
@@ -46,11 +49,12 @@ export class RegisterComponent implements OnInit {
       role:"",
       image:null
     }
-
+    this.loading.presentLoading("register","Cargando...");
     this._userService.register(this.user).subscribe(
       response =>{
         if(response.user && response.user._id){
-          console.log(response.message);
+          //console.log(response.message);
+          this.loading.dismiss("register");
           this.status="success";
           this.form.reset();
           this._router.navigate(["/home"]);

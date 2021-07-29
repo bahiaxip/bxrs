@@ -9,7 +9,8 @@ export class PipelinesPipe implements PipeTransform {
     if(value)
     return null;
 
-//anulado, no sirve la búsqueda para salto de línea para whte-space
+//anulado, no sirve la búsqueda para salto de línea para obtener la
+//la activación de la propiedad CSS white-space
     //ejemplo de búsqueda (match) para salto de línea
     //let texto="asdfñalsikdjfñlaksdjfñlñlksjdafñlksjdfñlkjñalskdjfañsld";
     //forma corta, da error si no hay resultado(ninguno salto de línea).

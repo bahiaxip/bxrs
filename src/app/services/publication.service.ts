@@ -4,7 +4,7 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable,from,Subject,BehaviorSubject } from 'rxjs';
 import { switchMap,tap } from 'rxjs/operators';
 import { StorageService } from '../services/storage.service';
-
+import { LoadingService } from '../services/loading.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,11 @@ export class PublicationService {
   public miObservable$ = this.miSubject.asObservable();
 
 
-  constructor(private _http:HttpClient, private _storageService:StorageService) { }
+  constructor(
+    private _http:HttpClient,
+    private _storageService:StorageService,
+    private _loadingService:LoadingService
+    ) { }
 
 
   async getToken(){

@@ -18,6 +18,7 @@ export class Tab2Page {
   public clickButton:boolean=false;
   private follow:Follow;
   private identity;
+  private identity2;
   private page:number;
   private pages:number;
   private follows:Array<string>;
@@ -40,6 +41,16 @@ export class Tab2Page {
   ngOnInit(){
     console.log("eo")
 
+  }
+  ngOnDestroy(){
+    console.log("destruccion tab2");
+    this.users=null;
+    this.follow=null;
+    this.pages=null;
+    this.page=null;
+    this.follow=null;
+    this.visibility=null;
+    this.visibility=null;
   }
 
   //refrescar
@@ -82,13 +93,14 @@ export class Tab2Page {
       let identity=JSON.parse(identi);
       this.identity=identity.user;
       console.log("desde tab2 cridem a identity: ",this.identity)
+      if(this.page != this.pages)
+        this.switchMore=false;
+      if(!this.users || this.identity2 != this.identity){
+        this.page=1;
+        this.getUsers(this.page);
+      }
     });
-    if(this.page != this.pages)
-      this.switchMore=false;
-    if(!this.users){
-      this.page=1;
-      this.getUsers(this.page);
-    }
+
   }
   getUsers(page,adding=false){
     this._userService.getUsers(page).subscribe(
@@ -124,6 +136,7 @@ export class Tab2Page {
           console.log("response")
           //this.users=response.users;
         }
+        this.identity2=this.identity;
       },
       error=>{
         //console.log(error);

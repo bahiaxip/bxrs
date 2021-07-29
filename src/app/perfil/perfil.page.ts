@@ -7,7 +7,7 @@ import { UploadService } from '../services/upload.service';
 import { Router } from '@angular/router';
 import { Global } from '../services/Global';
 import { ToastController } from '@ionic/angular';
-
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-perfil',
@@ -23,6 +23,7 @@ export class PerfilPage implements OnInit {
   private url:string;
   private result2:any;
   private switchT:any;
+  private loading:any;
   newUser={
     name:'',
     surname:'',
@@ -57,10 +58,12 @@ export class PerfilPage implements OnInit {
     private _router:Router,
     private _storageService:StorageService,
     private _uploadService:UploadService,
-    private toastController:ToastController
+    private toastController:ToastController,
+    private _loadingService:LoadingService
 
     ){
     this.url=Global.url;
+    this.loading=_loadingService;
   }
 
   /*
@@ -131,9 +134,11 @@ export class PerfilPage implements OnInit {
   }
 
   onSubmit(){
-    this._storageService.getToken().then(token => {
+    this._storageService.getToken().then(async (token) => {
+      await this.loading.presentLoading("updateUser","Cargando...");
       this._userService.updateUser(this.user,token).subscribe(
         response =>{
+          this.loading.dismiss("updateUser");
           //console.log(response);
           if(!response.user){
             console.log("Error en la respuesta de la petición");

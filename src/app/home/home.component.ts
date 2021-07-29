@@ -4,7 +4,10 @@ import { IonRouterOutlet,Platform } from '@ionic/angular';
 import { Router,ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { StorageService } from '../services/storage.service';
+
+
 import { Plugins } from '@capacitor/core';
+
 const { App } = Plugins;
 @Component({
   selector: 'app-home',
@@ -33,7 +36,8 @@ export class HomeComponent implements AfterViewInit {
     private _storageService:StorageService,
     private renderer:Renderer2,
     private platform:Platform,
-    private routerOutlet:IonRouterOutlet
+    private routerOutlet:IonRouterOutlet,
+
 
   )
   {
@@ -42,6 +46,11 @@ export class HomeComponent implements AfterViewInit {
         App.exitApp();
       }
     })
+
+  }
+
+
+  ngOnInit(){
 
   }
 

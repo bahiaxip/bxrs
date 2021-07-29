@@ -10,7 +10,8 @@ import { Global } from '../services/Global';
 import { ModalController,PopoverController } from '@ionic/angular';
 import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
 import { AddPublicationComponent } from '../add-publication/add-publication.component';
-
+//import { LoadingController } from '@ionic/angular';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
   selector: 'app-tab1',
@@ -19,6 +20,7 @@ import { AddPublicationComponent } from '../add-publication/add-publication.comp
 })
 export class Tab1Page implements OnInit{
   private identity;
+  private identity2;
   private users:Array<User>;
   private publications;
   private token;
@@ -34,20 +36,24 @@ export class Tab1Page implements OnInit{
   private lengthPublications:number=0;
   private slideTextButton=[];
   private miSuscription:Subscription=null;
+  private loading:any;
 
   constructor(
     private _storageService:StorageService,
     private _publicationService:PublicationService,
     // modal
     private modalController: ModalController,
-    private popoverController:PopoverController
+    private popoverController:PopoverController,
+    private _loadingService:LoadingService,
+    //probando loading en componente
+    //private loadingController:LoadingController
   ) {
     this.page=1;
     this.url=Global.url;
+    this.loading=_loadingService;
   }
 
   ngOnInit(){
-
     /*
     setInterval(()=> {
       this._publicationService.miObservable$.subscribe(data=>{
@@ -66,10 +72,45 @@ export class Tab1Page implements OnInit{
     //console.log("nueva publicacion")
 
   }
+  ngOnDestroy(){
+    console.log("destruccion");
+    this.publications=null;
+    console.log(this.publications);
+  }
   ngAfterViewInit(){
 
   }
+  //pasado el loading a servicio
+  /*
+  async presentLoading(){
+    if(this.loading != null){
+        //this.loading.dismiss();
+    }
+    this.isLoading=true;
+    this.loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: "Please wait...",
+      duration: 10000,
+      backdropDismiss:true,
+      keyboardClose:true,
+      //showBackdrop:true
+    });
+    return await this.loading.present();
 
+    const {role,data} = await this.loading.onDidDismiss();
+    console.log("Loading dismissed");
+  }
+  async dismiss(){
+    if(this.isLoading){
+      await this.loadingController.dismiss().then((d)=> {
+        //this.loading=null;
+        this.loadingController.dismiss()
+        console.log("loading aborted",d)
+        this.isLoading=false;
+      });
+    }
+  }
+  */
 
   doRefresh(event){
     console.log("vaya");
@@ -81,7 +122,6 @@ export class Tab1Page implements OnInit{
         this.switchMore=false;
 
       this.getPublications(1)
-
     },2000)
   }
   //resetea los elementos
@@ -99,8 +139,6 @@ export class Tab1Page implements OnInit{
     let filteredPub = this.publications.filter((item)=>{
       return item._id==id
     })
-    //console.log("publicaciones: ",filtroPub[0])
-    //const siteInfo = {id:1,name:'edupala'};
     const ind=indice;
     const pub = filteredPub[0];
     const popover = await this.popoverController.create({
@@ -111,23 +149,44 @@ export class Tab1Page implements OnInit{
       }
     });
 
-    popover.onDidDismiss().then((result) => {
-      console.log("result: ",result)
+    popover.onDidDismiss().then(async (result) => {
+      //console.log("result: ",result)
+
       //si se ha pulsado borrar borramos la publicación
       if(result && result.data){
+        await this.loading.presentLoading("publications","Cargando...");
         if(result.data == "delete"){
+
           console.log("pulsando delete: ",pub);
+          //activamos loading (pasado a servicio)
+          //this.presentLoading();
+
 
           this._publicationService.deletePublication(pub._id).subscribe(
             response=>{
+              this.loading.dismiss("publications");
+              //pasado loading a servicio
+            /*
+              //desactivamos loading
+              if(this.loading){
+                console.log("entra aquí")
+                this.loading.dismiss();
+                //si ha sido muy rápida la respuesta y aun no se ha mostrado
+                //el loading se cierra asincrónicamente con el método dismiss()
+              }else{
+                this.dismiss();
+              }
+            */
+
               console.log("publicación eliminada: ",response)
               //crear toast con publicación eliminada y getPublications(this.page)
+
             //en lugar de recargar ocultamos el elemento de la lista y así no recargamos
 
               if(this.publications && this.publications.length>0){
                 //se asigna la cantidad de publicaciones al comienzo de borrar alguna
                 this.lengthPublications=this.publications.length;
-                //añadimos counterDeleted: si se eliminan las que hay(está en blanco)
+                //añadimos counterDeleted: si se eliminan las que hay(quedarse en blanco)
                 // se reinicia el método para que nunca se quede en blanco
                 //getPublications
                 this.counterDeleted++;
@@ -170,19 +229,9 @@ export class Tab1Page implements OnInit{
 
           console.log("pulsando edit: ",pub);
           this.presentModal(pub);
+          this.loading.dismiss("publications");
         }
       }
-      //enviamos los datos al modal (add-publication)
-        //console.log("filtroPub: ",filtroPub)
-        //this.presentModal(result.data);
-
-
-
-
-      //si se ha pulsado editar editamos la publicación
-
-
-      //this.getPublications(this.page)
     });
 
     return await popover.present();
@@ -197,17 +246,13 @@ export class Tab1Page implements OnInit{
     }
     const modal = await this.modalController.create({
       component:AddPublicationComponent,
-
       //pasarle datos al modal con componentProps
-
       componentProps:{
         'publicationUser': pub
       }
-
     });
     //return await modal.present();
     modal.present();
-
     const publicationData = await modal.onWillDismiss().then(()=>{
       //actualizamos
       this.page=1;
@@ -216,10 +261,9 @@ export class Tab1Page implements OnInit{
       this.getPublications(this.page);
       //console.log(publicationData);
     });
-
     //podemos llamar al getPublications
-
   }
+
   //podemos hacer la llamada a los datos al iniciar el tab de esta forma,
   //o como se encuentra en los usuarios en tab2.ts (realizando la llamada
   //desde el user.service primero al token y después la petición)
@@ -240,21 +284,22 @@ export class Tab1Page implements OnInit{
       console.log("desde tab1 cridem a identity: ",identi)
       let identity=JSON.parse(identi);
       this.identity=identity.user;
-    });
+      console.log("identity desde ionViewWillEnter: ",this.identity);
+      console.log("identity2 desde ionViewWillEnter: ",this.identity2);
 
-    console.log("nueva publicacion")
-    if(this.page != this.pages)
-      this.switchMore=false;
-    if(!this.publications){
-      this.page=1;
-      this.getPublications(this.page);
-    }
+      console.log("nueva publicacion")
+      if(this.page != this.pages)
+        this.switchMore=false;
+      if(!this.publications || this.identity!=this.identity2){
+        console.log("entra en publications recarga")
+        this.page=1;
+        this.getPublications(this.page);
+      }
+    });
 
 
     /*
-    else{
-      this.getPublications(1);
-    }
+    else{ this.getPublications(1); }
     */
   }
 
@@ -290,6 +335,7 @@ export class Tab1Page implements OnInit{
               //this.switchMore=false;
             }
 
+
           //si no indicamos el tipado(Observable<any>) en el servicio, podemos
           //(aunque no es lo recomendable) indicarlo en formato de array y no nos mostrará error
           //this.publications=response["publications"]
@@ -298,6 +344,10 @@ export class Tab1Page implements OnInit{
             //this.switchMore=false;
             console.log("no existen publicaciones")
           }
+          console.log("entra en getPublications: ",this.identity)
+
+        this.identity2=this.identity;
+        console.log("identity2: ",this.identity2)
 
         }
       },

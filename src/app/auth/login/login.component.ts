@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Global } from '../../services/Global';
 import { Storage } from '@ionic/storage-angular';
 import { StorageService } from '../../services/storage.service';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
   private status:string;
   private token;
   private title:string="Login";
-
+  private loading:any;
 
   form = new FormGroup({
     email:new FormControl('',[Validators.required,Validators.email]),
@@ -28,12 +29,37 @@ export class LoginComponent implements OnInit {
   constructor(
     private _userService:UserService,
     private _router:Router,
-    private _storageService:StorageService
-  ) {this.title="Login" }
+    private _storageService:StorageService,
+    private _loadingService:LoadingService,
+  ) {
+    this.title="Login";
+    this.loading=_loadingService;
+  }
 
-  ngOnInit() {}
+  ngOnInit(){
 
-  onSubmit(){
+  }
+  ngOnDestroy(){
+    this.loading=null;
+  }
+  /*
+  async presentLoading(){
+    this.loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: "Please wait...",
+      duration: 10000,
+      backdropDismiss:true,
+      keyboardClose:true,
+      //showBackdrop:true
+    });
+    await this.loading.present();
+
+    const {role,data} = await this.loading.onDidDismiss();
+    console.log("Loading dismissed");
+  }
+  */
+  async onSubmit(){
+
     this.user = {
       _id:null,
       name:'',
@@ -47,15 +73,16 @@ export class LoginComponent implements OnInit {
       image:null
     }
 
+    this.loading.presentLoading("login","Cargando...");
     this._userService.login(this.user).subscribe(
       response => {
+
         //console.log(response)
         this.status="success";
         this.form.reset();
         this._storageService.set("identity",JSON.stringify(response));
         this.getToken();
-        console.log("guardado con storage")
-
+        //this.loading.dismiss("data1");
 
       },
       error => {
@@ -63,6 +90,7 @@ export class LoginComponent implements OnInit {
         this.status="error";
       }
     )
+
   }
 
   getToken(){
@@ -72,8 +100,9 @@ export class LoginComponent implements OnInit {
         if(this.token.length <= 0){
           this.status="error";
         }else{
+          this.loading.dismiss("login");
           this._storageService.set("token",this.token);
-          this._router.navigate(["/home"]);
+          this._router.navigate(["/tabs/tab1"]);
         }
       },
       error => {

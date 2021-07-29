@@ -8,14 +8,21 @@ import { Router } from '@angular/router';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent{
+export class AppComponent {
 
   private title:string="IONICRRSS";
 
-  constructor(private _storage:Storage,private _router:Router)
+  constructor(
+    private _storage:Storage,
+    private _router:Router,
+
+    )
   {
     //this.init();
 
+  }
+  ngOnInit(){
+    console.log("inicia appComponent")
   }
 
   //mediante el servicio no funciona en app, si en home,
@@ -30,6 +37,7 @@ export class AppComponent{
   */
 
   async init(){
+
 //revisar si los dispositivos tienen localStorage, cambiar por platform
     //si es en el dispositivo se resetea
     /*if(localStorage)
