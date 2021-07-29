@@ -17,12 +17,12 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div *ngIf="users">
-    <ion-list >
+    <ion-list style="padding:0">
       <mat-accordion >
         <div *ngFor="let user of users">
           <mat-expansion-panel *ngIf="!user.visible" hideToggle disabled class="mathover">
             <mat-expansion-panel-header class="miitem">
-              <mat-panel-title>
+              <mat-panel-title style="width:25%">
               <ion-item  >
                 <ion-avatar slot="start" *ngIf="user.image" >
                   <img style="max-width:300px;user-select:none;" src="{{url+'image-user/'+user.email+'/'+user.image.name}}" />
@@ -34,7 +34,7 @@
             </mat-panel-title>
             <mat-panel-description style="text-align:center">
               <ion-item style="margin-top:1%;" >
-                  <p style="user-select: none">{{user.nick}}</p>
+                  <p style="user-select: none;font-size:15px">{{user.nick}}</p>
               </ion-item>
             </mat-panel-description>
             <ion-item style="margin-top:1%;cursor:pointer" title="Siguiendo" (click)="testFollow(user._id,'unfollow')"  background="transparent" *ngIf="testFollowing(user._id)">
@@ -54,7 +54,7 @@
           <!-- añadimos clickButton para no abrir el desplegable al clicar el icono de seguir o dejar de seguir-->
           <mat-expansion-panel  *ngIf="user.visible" [disabled]="clickButton" (click)="clickButton=false" class="mathover">
             <mat-expansion-panel-header class="miitem">
-              <mat-panel-title>
+              <mat-panel-title style="width:25%">
               <ion-item  >
                 <ion-avatar slot="start" *ngIf="user.image">
                   <img style="max-width:300px;user-select:none;" src="{{url+'image-user/'+user.email+'/'+user.image.name}}" draggable="false" />
@@ -66,7 +66,7 @@
             </mat-panel-title>
             <mat-panel-description>
               <ion-item style="margin-top:1%">
-                  <p style="user-select: none;font-size:17px">{{user.nick}}</p>
+                  <p style="user-select: none;font-size:15px">{{user.nick}}</p>
             </ion-item>
             </mat-panel-description>
             <!-- añadimos el indicador y ocultamos con opacity para alinear -->

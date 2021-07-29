@@ -7,10 +7,10 @@
       MENSAJES
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="slideMessages.slidePrev()">
+      <ion-button (click)="slideMessages.slidePrev()" title="Mensajes recibidos">
         <ion-icon name="mail" ></ion-icon>
       </ion-button>
-      <ion-button (click)="slideMessages.slideNext()">
+      <ion-button (click)="slideMessages.slideNext()" title="Mensajes enviados">
         <ion-icon name="create" ></ion-icon>
       </ion-button>
       <ion-button (click)="presentModal()">
@@ -21,25 +21,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" >
 
-  <ion-slides #slideMessages *ngIf="!messages">
+  <ion-slides #slideMessages [hidden]="!messages">
     <ion-slide >
-      <ion-header style="position:absolute;top:0">
-        <ion-toolbar style="width:100%">
-          RECIBIDOS
-        </ion-toolbar>
-      </ion-header>
 
-      <ion-list style="width:100%" >
+
+      <ion-list style="width:100%;padding:0" >
         <div *ngFor="let message of messages;let i=index" lines="inset" >
-          <ion-item  class="miitem">
+          <ion-item  >
             <ion-avatar slot="start" >
               <img [src]="'assets/icons/person.png'" />
             </ion-avatar>
 
             <ion-label style="text-align: center;width:70%;" [ngStyle]="clickButton[i] ? {'white-space': 'normal'}:{'white-space':'nowrap'}">
-              <p style="font-size:14px">{{message.text}}</p>
+              <p></p>
+              <p style="font-size:12px">{{message.text}}</p>
+              <p></p>
               <!--<p style="font-size:10px;color:#B3B3B3"></p>-->
             </ion-label>
             <!--<ion-label style="min-width:25%;max-width:25%;margin:auto">
@@ -49,7 +47,7 @@
             <ion-button size="small" fill="clear" (click)="settingsPopover(item._id,i)" style="position: absolute;top:0;right:0" >
               <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
             </ion-button>
-            <ion-button fill="clear" (click)="showMore(i);">
+            <ion-button fill="clear" (click)="showMore(i);" style="padding-top:15px">
               <ion-icon name="caret-up-outline" *ngIf="clickButton[i]"></ion-icon>
               <ion-icon name="caret-down-outline" *ngIf="!clickButton[i]"></ion-icon>
             </ion-button>
@@ -64,37 +62,37 @@
 
 
     <ion-slide>
-      <ion-header style="position:absolute;top:0">
-          <ion-toolbar style="width:100%">
-            ENVIADOS
-          </ion-toolbar>
-        </ion-header>
-      <ion-list style="width:100%">
-        <ion-item *ngFor="let sended of sendedMessages">
-          <ion-avatar slot="start" >
-            <img [src]="'assets/icons/person.png'" />
-          </ion-avatar>
+      <ion-list style="width:100%;padding:0">
+        <div *ngFor="let sended of sendedMessages">
+          <ion-item >
+            <ion-avatar slot="start" >
+              <img [src]="'assets/icons/person.png'" />
+            </ion-avatar>
 
-          <ion-label style="min-width:25%;max-width:25%;margin:auto">
-            <p style="font-size:12px">{{sended.text}}</p>
-            <p style="font-size:10px;color:#B3B3B3">
-            </p>
-          </ion-label>
+            <ion-label style="text-align: center;width:70%">
+              <p></p>
+              <p style="font-size:12px">{{sended.text}}</p>
+              <p></p>
+            </ion-label>
 
 
 
-          <ion-button size="small" fill="clear" style="position: absolute;top:0;right:0">
-            <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
-          </ion-button>
+            <ion-button size="small" fill="clear" style="position: absolute;top:0px;right:0">
+              <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
+            </ion-button>
 
-          <ion-button fill="clear" >
-            <ion-icon name="caret-down-outline"></ion-icon>
-          </ion-button>
-        </ion-item>
+            <ion-button fill="clear" style="padding-top:15px">
+              <ion-icon name="caret-down-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </div>
       </ion-list>
     </ion-slide>
   </ion-slides>
-  <div *ngIf="messages">
+
+
+
+  <div [hidden]="messages">
     <ion-header style="" >
       <ion-toolbar style="width:100%;text-align: center;">
         RECIBIDOS
