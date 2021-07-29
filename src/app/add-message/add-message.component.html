@@ -13,7 +13,7 @@
     <ion-item>
       <ion-label color="tertiary">Enviar a:</ion-label>
       <ion-select  interface="alert" cancelText="Cancelar" okText="OK" formControlName="receiver">
-        <ion-select-option color="tertiary" *ngFor="let user of users" [value]="user">{{user.nick}}</ion-select-option>
+        <ion-select-option color="tertiary" *ngFor="let user of users" [value]="user" [hidden]="user._id==identy._id">{{user.nick}}</ion-select-option>
       </ion-select>
     </ion-item>
 

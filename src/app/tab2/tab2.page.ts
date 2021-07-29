@@ -90,6 +90,9 @@ export class Tab2Page {
     //this.counter=0;
     //no es necesario obtener el identity...
     this._storageService.getIdentity().then((identi)=>{
+      if(!identi){
+        this._storageService.logout();
+      }
       let identity=JSON.parse(identi);
       this.identity=identity.user;
       console.log("desde tab2 cridem a identity: ",this.identity)

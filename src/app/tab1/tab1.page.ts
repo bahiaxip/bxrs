@@ -281,6 +281,9 @@ export class Tab1Page implements OnInit{
   }
   ionViewWillEnter(){
     this._storageService.getIdentity().then((identi)=>{
+      if(!identi){
+        this._storageService.logout();
+      }
       console.log("desde tab1 cridem a identity: ",identi)
       let identity=JSON.parse(identi);
       this.identity=identity.user;

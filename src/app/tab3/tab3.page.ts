@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { MessageService } from '../services/message.service';
 import { AddMessageComponent } from '../add-message/add-message.component';
 import { Message } from '../models/message';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-tab3',
@@ -16,6 +17,7 @@ export class Tab3Page {
   private sendedMessages:Message[];
 
   constructor(
+    private _storageService:StorageService,
     private modalController:ModalController,
     private _messageService:MessageService
   ) {}
@@ -30,23 +32,28 @@ export class Tab3Page {
   }
 
   ionViewWillEnter(){
-    this._messageService.getReceivedMessages().subscribe(
-      response => {
-        console.log(response);
-        this.messages=response.messages;
-      },
-      error => {
-
+    this._storageService.getIdentity().then((identi)=>{
+      if(!identi){
+        this._storageService.logout();
       }
-    )
-    this._messageService.getEmmittedMessages().subscribe(
-      response => {
-        this.sendedMessages=response.messages;
-      },
-      error => {
+      this._messageService.getReceivedMessages().subscribe(
+        response => {
+          console.log(response);
+          this.messages=response.messages;
+        },
+        error => {
 
-      }
-    )
+        }
+      )
+      this._messageService.getEmmittedMessages().subscribe(
+        response => {
+          this.sendedMessages=response.messages;
+        },
+        error => {
+
+        }
+      )
+    })
   }
 
 }

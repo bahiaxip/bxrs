@@ -33,13 +33,17 @@ export class AddMessageComponent implements OnInit {
       text:new FormControl('',[Validators.required]),
       receiver:new FormControl('',[Validators.required])
     })
-    this.getUsers();
+
 
   }
 
   ionViewWillEnter(){
     console.log("llega")
-    this.identity();
+    this.identity().then(()=> {
+      this.getUsers(this.identy.user);
+    });
+
+    //console.log(this.identy._id);
   }
 
   dismiss(){
@@ -48,11 +52,13 @@ export class AddMessageComponent implements OnInit {
     })
   }
 
-  getUsers(){
+  getUsers(identi){
     this._userService.getTotalUsers().subscribe(
       response => {
-        console.log(response)
-        this.users=response.users;
+        //filtramos para no enviar mensajes al propio usuario
+        this.users=response.users.filter(user => {
+          return user._id != identi._id
+        });
 
       },
       error => {
@@ -63,7 +69,7 @@ export class AddMessageComponent implements OnInit {
 
   async identity(){
     if(await this._storageService.getIdentity()){
-      this.identy=await this._storageService.getIdentity()
+      this.identy=JSON.parse(await this._storageService.getIdentity())
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component,OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { Router } from '@angular/router';
 //import { StorageService } from './services/storage.service';
@@ -21,9 +21,7 @@ export class AppComponent {
     //this.init();
 
   }
-  ngOnInit(){
-    console.log("inicia appComponent")
-  }
+
 
   //mediante el servicio no funciona en app, si en home,
   //es necesario hacerlo directo con Storage, async y await
