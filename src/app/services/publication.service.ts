@@ -43,6 +43,18 @@ export class PublicationService {
     )
   }
 
+  getLastPublications(lastDate):Observable<any>{
+    return from(this.getToken()).pipe(
+      switchMap(token => {
+        let headers= new HttpHeaders({
+          "Content-Type":"application/json",
+          "Authorization":token
+        });
+        return this._http.get(this.url+"last-publications/"+lastDate,{headers:headers});
+      })
+    )
+  }
+
   addPublication(token,publication):Observable<any>{
     let headers = new HttpHeaders({
       "Content-Type" : "application/json",

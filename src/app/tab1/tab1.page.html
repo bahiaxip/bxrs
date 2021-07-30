@@ -23,11 +23,17 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" >
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
+
+  <ion-refresher #refresherRef slot="fixed" (ionRefresh)="doRefresh($event)" [ngClass]="{'refresher-active refresher-refreshing':refresherActive}">
+    <ion-refresher-content ></ion-refresher-content>
   </ion-refresher>
+
   <div *ngIf="publications">
-    <ion-list *ngFor="let item of publications;let i = index" lines="inset" id="{{item._id}}" [hidden]="itm[i]" style="outline:0 ">
+    <ion-button style="position:absolute;top:75px;left: 50%;transform: translate(-50%,-50%);z-index:10;" [ngStyle]="swButtonNot ? {'opacity':'1'}:{'opacity':'0'}" (click)="doRefresh(refresherRef,'true')">
+        Nuevas publicaciones
+      </ion-button>
+    <ion-list *ngFor="let item of publications;let i = index" lines="inset" id="{{item._id}}" [hidden]="itm[i]" >
+
         <ion-item  >
 
             <ion-avatar slot="start" *ngIf="item.user.image && item.user.image.name">

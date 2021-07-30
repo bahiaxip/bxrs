@@ -1,4 +1,4 @@
-import { Component,OnInit, AfterViewInit } from '@angular/core';
+import { Component,OnInit, AfterViewInit,ViewChild, ElementRef } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
@@ -13,6 +13,7 @@ import { SettingsModalComponent } from '../settings-modal/settings-modal.compone
 import { AddPublicationComponent } from '../add-publication/add-publication.component';
 //import { LoadingController } from '@ionic/angular';
 import { LoadingService } from '../services/loading.service';
+//import { Refresher } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -37,8 +38,16 @@ export class Tab1Page implements OnInit{
   private lengthPublications:number=0;
   private slideTextButton=[];
   private miSuscription:Subscription=null;
-  private loading:any;
 
+  private loading:any;
+  //interruptor que permite mostrar/ocultar el botón de notificaciones
+  private swButtonNot:boolean=false;
+  //created_at de la última publicación para notificar nuevas publicaciones
+  private lastPublicationTime:any;
+  //activar el icono de refresh cuando se activa mediante el botón de nuevas notificaciones
+  private refresherActive:boolean=false;
+
+  @ViewChild("refresherRef", {static:false}) refresher:ElementRef;
   constructor(
     private _storageService:StorageService,
     private _publicationService:PublicationService,
@@ -56,14 +65,37 @@ export class Tab1Page implements OnInit{
   }
 
   ngOnInit(){
-    /*
+
     setInterval(()=> {
-      this._publicationService.miObservable$.subscribe(data=>{
-        if(data)
-          console.log("hay un nuevo dato: ",data);
-      })
-    },3000)
-    */
+      if(this.publications && this.lastPublicationTime)
+      this._publicationService.getLastPublications(this.lastPublicationTime).subscribe(
+        response=> {
+          if(response && response.publications){
+            let newPublications=response.publications;
+            if(newPublications.length>0){
+              //mostramos botón de nuevas publicaciones
+              this.swButtonNot=true;
+              console.log("existen nuevas publicaciones");
+            }
+          }
+        },
+        error => {
+          if(error && error.error.status==401){
+            console.log("El token no es válido o ha expirado");
+            console.log("Es necesario loguearse de nuevo")
+            setTimeout(()=> {
+              this._storageService.logout()
+
+            },10000)
+          }else{
+            var errorMessage = <any>error;
+            console.log(errorMessage);
+          }
+        }
+      )
+
+    },10000)
+
     /*
     this.suscription = this._publicationService.refresh$.subscribe((data)=> {
       console.log("nueva publicación, desde subscription: ",data);
@@ -114,30 +146,29 @@ export class Tab1Page implements OnInit{
   }
   */
 
-  async doRefresh(event){
-    console.log("vaya");
+  async doRefresh(event,data=null){
+  //ocultar botón
+  this.swButtonNot=false;
+    //console.log("evento: ",event);
+    if(data){
+      this.refresherActive=true;
+      }
     setTimeout(()=> {
-      console.log("bien");
-      event.target.complete();
-      console.log("switchMore: ",this.switchMore)
-      if(this.switchMore)
-        this.switchMore=false;
-      console.log("pagina: ",this.page)
-      if(this.page>1){
-
-        for(let i=1;i<this.page;i++){
-          if(i==1){
-            this.getPublications(1);
-          }else{
-            this.getPublications(i,true)
-          }
-
-        }
+      if(data){
+        this.refresherActive=false;
+        event.el.complete();
       }else{
-        this.getPublications(1)
+        event.target.complete();
       }
 
-    },4000)
+      if(this.switchMore)
+        this.switchMore=false;
+      if(this.publications){
+        this.getLastPublications(this.lastPublicationTime);
+      }else{
+        this.getPublications(1);
+      }
+    },5000)
   }
   //resetea los elementos
   resetItm(){
@@ -172,7 +203,7 @@ export class Tab1Page implements OnInit{
         await this.loading.presentLoading("publications","Cargando...");
         if(result.data == "delete"){
 
-          console.log("pulsando delete: ",pub);
+          //console.log("pulsando delete: ",pub);
           //activamos loading (pasado a servicio)
           //this.presentLoading();
 
@@ -320,6 +351,36 @@ export class Tab1Page implements OnInit{
     else{ this.getPublications(1); }
     */
   }
+  getLastPublications(lastDate){
+    this._publicationService.getLastPublications(lastDate).subscribe(
+      response => {
+        console.log(response)
+        if(response && response.publications){
+          let newPublications=response.publications;
+          if(newPublications.length>0){
+            this.publications=newPublications.concat(this.publications);
+            this.lastPublicationTime=this.publications[0].created_at;
+          }else{
+            console.log("nmo existen nuevos")
+          }
+        }
+
+      },
+      error => {
+        if(error && error.error.status==401){
+          console.log("El token no es válido o ha expirado");
+          console.log("Es necesario loguearse de nuevo")
+          setTimeout(()=> {
+            this._storageService.logout()
+
+          },10000)
+        }else{
+          var errorMessage = <any>error;
+          console.log(errorMessage);
+        }
+      }
+    )
+  }
 
   getPublications(page,adding=false){
     this._publicationService.getPublications(page).subscribe(
@@ -334,12 +395,15 @@ export class Tab1Page implements OnInit{
               this.pages=response.publications.totalPages;
               console.log("res:",response.publications);
               //(this.page == this.pages) ? false:true;
-              if(!adding)
+              if(!adding){
                 this.publications = response.publications.docs;
+                this.lastPublicationTime=this.publications[0].created_at;
+              }
               else{
                 let list1=this.publications;
                 let list2 = response.publications.docs;
                 this.publications=list1.concat(list2);
+                this.lastPublicationTime=this.publications[0].created_at;
                 for(let i =0;i<this.publications.length;i++){
                   this.itm.push(false);
                 }
