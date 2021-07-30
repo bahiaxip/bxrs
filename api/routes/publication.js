@@ -30,4 +30,6 @@ api.delete("/publication/:id",auth.ensureAuth,PublicationController.deletePublic
 api.post("/upload-image-pub/:id",[auth.ensureAuth,md_upload.single("imagepub")],PublicationController.uploadImage);
 //podríamos comprobar el token del usuario
 api.get("/image-pub/:email/:image",PublicationController.getImage);
+
+api.get("/last-publications/:created",auth.ensureAuth,PublicationController.getLastPublications);
 module.exports = api;

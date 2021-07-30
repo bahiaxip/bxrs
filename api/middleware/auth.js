@@ -20,7 +20,8 @@ exports.ensureAuth = function(req,res,next){
     }
   }catch(ex){
     return res.status(404).send({
-      message: "not valid authentication"
+      message: "not valid authentication",
+      status:"401"
     })
   }
   req.user = payload;

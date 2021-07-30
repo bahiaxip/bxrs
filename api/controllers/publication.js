@@ -27,6 +27,7 @@ var controller = {
       return res.status(200).send({publication:publicationStored});
     })
   },
+
   getPublications:function(req,res){
 
     var page=1;
@@ -71,7 +72,37 @@ var controller = {
     })
     */
   },
+  //últimas publicaciones a partir de una fecha de los usuarios que sigue el
+  //usuario logueado
+  getLastPublications:function(req,res){
+    var lastPubCreatedAt = req.params.created;
+    Follow.find({user:req.user.sub}).populate("followed").exec((err,follows) => {
+      if(err) return res.status(500).send({message: "Error al obtener los seguidores"});
+      var followList = [];
+      follows.forEach((follow) => {
+        followList.push(follow.followed);
+      });
+      followList.push(req.user.sub);
+      Publication.find({user:{"$in":followList},created_at:{$gt:lastPubCreatedAt}},(err,publications) => {
+        if(err) return res.status(500).send({message: "Error en la petición"});
+        if(!publications) return res.status(404).send({message: "No existen publicaciones"});
+        return res.status(200).send({ publications});
+      })
+    })
+  },
+  //ultimas publicaciones a partir de una fecha de una publicación
+  /*
+  getLastPublications:function(req,res){
+    var lastPubCreatedAt = req.params.created;
+    console.log(lastPubCreatedAt);
 
+    Publication.find({'created_at':{$gt:lastPubCreatedAt}},(err,publications) => {
+      if(err) return res.status(500).send({message: "Error en la petición"});
+      if(!publications) return res.status(404).send({message: "No existen publicaciones"});
+      return res.status(200).send({ publications});
+    })
+  },
+  */
   updatePublication:function(req,res){
     var publicationId=req.params.id;
     console.log("publicationId: ",publicationId);

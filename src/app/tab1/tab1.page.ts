@@ -1,6 +1,7 @@
 import { Component,OnInit, AfterViewInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
+import { Router } from '@angular/router';
 import { StorageService } from '../services/storage.service';
 import { PublicationService } from '../services/publication.service';
 import { Observable,Subscription,BehaviorSubject } from 'rxjs';
@@ -45,6 +46,7 @@ export class Tab1Page implements OnInit{
     private modalController: ModalController,
     private popoverController:PopoverController,
     private _loadingService:LoadingService,
+    private _router:Router,
     //probando loading en componente
     //private loadingController:LoadingController
   ) {
@@ -112,7 +114,7 @@ export class Tab1Page implements OnInit{
   }
   */
 
-  doRefresh(event){
+  async doRefresh(event){
     console.log("vaya");
     setTimeout(()=> {
       console.log("bien");
@@ -120,9 +122,22 @@ export class Tab1Page implements OnInit{
       console.log("switchMore: ",this.switchMore)
       if(this.switchMore)
         this.switchMore=false;
+      console.log("pagina: ",this.page)
+      if(this.page>1){
 
-      this.getPublications(1)
-    },2000)
+        for(let i=1;i<this.page;i++){
+          if(i==1){
+            this.getPublications(1);
+          }else{
+            this.getPublications(i,true)
+          }
+
+        }
+      }else{
+        this.getPublications(1)
+      }
+
+    },4000)
   }
   //resetea los elementos
   resetItm(){
@@ -293,7 +308,7 @@ export class Tab1Page implements OnInit{
       console.log("nueva publicacion")
       if(this.page != this.pages)
         this.switchMore=false;
-      if(!this.publications || this.identity!=this.identity2){
+      if(!this.publications || this.identity._id!=this.identity2._id){
         console.log("entra en publications recarga")
         this.page=1;
         this.getPublications(this.page);
@@ -355,9 +370,20 @@ export class Tab1Page implements OnInit{
         }
       },
       error => {
+        if(error && error.error.status==401){
+          console.log("El token no es válido o ha expirado");
+          console.log("Es necesario loguearse de nuevo")
+          setTimeout(()=> {
+            this._storageService.logout()
+
+          },10000)
+        }else{
+          var errorMessage = <any>error;
+          console.log(errorMessage);
+        }
         /*
-        var errorMessage = <any>error;
-        console.log(errorMessage);
+
+
         if(errorMessage != null){
           this.status="error";
         }

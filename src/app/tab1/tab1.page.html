@@ -27,7 +27,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div *ngIf="publications">
-    <ion-list *ngFor="let item of publications;let i = index" lines="inset" id="{{item._id}}" [hidden]="itm[i]">
+    <ion-list *ngFor="let item of publications;let i = index" lines="inset" id="{{item._id}}" [hidden]="itm[i]" style="outline:0 ">
         <ion-item  >
 
             <ion-avatar slot="start" *ngIf="item.user.image && item.user.image.name">
