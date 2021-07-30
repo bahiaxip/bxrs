@@ -1,6 +1,6 @@
 <ion-header>
-  <ion-toolbar color="tertiary" style="width:100%">
-    <ion-thumbnail slot="start" size="5">
+  <ion-toolbar color="tertiary" >
+    <ion-thumbnail slot="start" >
       <img src="assets/logobxrs_completo.png" />
     </ion-thumbnail>
     <ion-title class="title2">
@@ -20,10 +20,10 @@
 
 <ion-content  >
   <ion-slides #theSlides >
-    <ion-slide>
-      <ion-card *ngIf="user">
+    <ion-slide class="ionslide1">
+      <ion-card *ngIf="user" color="dark">
         <div *ngIf="user.image && user.image.name">
-          <img style="max-width:300px" src="{{url+'image-user/'+user.email+'/'+user.image.name}}"/>
+          <img class="perfil-image" src="{{url+'image-user/'+user.email+'/'+user.image.name}}"/>
         </div>
         <div *ngIf="!user.image ">
           <img src="assets/icons/person.png" />
@@ -32,7 +32,7 @@
             <ion-card-title>
               <ion-row >
                 <ion-col>
-                  <p style="font-size:16px;margin-top:5px">superfragilistico</p>
+                  <p class="ioncard_p">superfragilistico</p>
                 </ion-col>
                 <ion-button fill="clear" title="Visibilidad">
                   <ion-icon name="eye" color="dark"></ion-icon>
@@ -97,22 +97,22 @@
       </ion-card>
     </ion-slide>
 
-    <ion-slide>
+    <ion-slide class="ionslide2">
       <form  #profileForm="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-        <ion-card *ngIf="user">
+        <ion-card *ngIf="user" color="dark">
           <ion-row>
           <ion-col>
-            <ion-button (click)="fileButton.click()"  style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10">
+            <ion-button (click)="fileButton.click()" class="ion_button"  >
               <ion-icon name="add"></ion-icon>
 
               <!--<ion-input type="file" accept="image/*" change="changeListener($event)"></ion-input>-->
               <!--<ion-icon name="add" ></ion-icon>-->
 
             </ion-button>
-            <input name="avatar" #fileButton type="file" (change)="fileChangeEvent($event)"  style="width: 0;height:"/>
+            <input name="avatar" #fileButton type="file" (change)="fileChangeEvent($event)" class="input_file"/>
 
             <div *ngIf="user.image && user.image.name">
-              <img style="max-width:300px;opacity:0.2" src="{{url+'image-user/'+user.email+'/'+user.image.name}}"/>
+              <img class="image" src="{{url+'image-user/'+user.email+'/'+user.image.name}}"/>
             </div>
             <div *ngIf="!user.image">
               <img src="assets/icons/person.png"/>
@@ -130,7 +130,7 @@
                 <div>
                   <mat-form-field>
                     <mat-label>Nick de usuario</mat-label>
-                    <input matInput name="nick" #nick="ngModel" [ngStyle]="user.nick ?{'color':'blue'}:{'color':'blue'}" [(ngModel)]="user.nick" required/>
+                    <input matInput name="nick" #nick="ngModel" [ngStyle]="user.nick ?{'color':'#ff8c00'}:{'color':'#ff8c00'}" [(ngModel)]="user.nick" required/>
                     <mat-icon matSuffix>person</mat-icon>
                     <mat-hint *ngIf="!nick.valid && nick.touched;  else hint" style="color:red">Debe introducir un nick</mat-hint>
                     <ng-template>
@@ -145,7 +145,7 @@
                 <div>
                   <mat-form-field>
                     <mat-label>Nombre</mat-label>
-                    <input matInput name="name" #name="ngModel" [ngStyle]="user.name ?{'color':'blue'}:{'color':'blue'}" [(ngModel)]="user.name"/>
+                    <input matInput name="name" #name="ngModel"  [(ngModel)]="user.name"/>
                     <mat-icon matSuffix>person</mat-icon>
                   </mat-form-field>
                 </div>

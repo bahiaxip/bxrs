@@ -6,6 +6,7 @@ import { Follow } from '../models/follow';
 import { StorageService } from '../services/storage.service';
 import { Global } from '../services/Global';
 import { ToastController } from '@ionic/angular';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'app-tab2',
@@ -32,7 +33,8 @@ export class Tab2Page {
     private _userService:UserService,
     private _followService:FollowService,
     private _storageService:StorageService,
-    private toastController:ToastController
+    private toastController:ToastController,
+    private _toastService:ToastService
   ){
     this.page=1;
     this.url=Global.url;
@@ -83,6 +85,10 @@ export class Tab2Page {
       });
     }
     await toast.present();
+  }
+
+  setToast(user,bol){
+    this._toastService.presentToast(user,bol)
   }
 
 
@@ -226,13 +232,14 @@ export class Tab2Page {
   followUser(followed){
     console.log(followed);
     //no es necesaria la interface follow
-    let follow = {_id:'',user:this.identity._id,followed:followed}
+    let follow = {_id:'',user:this.identity._id,followed:followed._id}
     this._followService.addFollow(follow).subscribe(
       response => {
         if(response.follow){
           console.log(response);
-          this.follows.push(followed)
+          this.follows.push(followed._id)
           console.log("nuevos follows: ",this.follows)
+          this.setToast(followed.nick,true);
         }
       },
       error => {
@@ -242,10 +249,11 @@ export class Tab2Page {
   }
   //dejar de seguir usuario
   unFollowUser(followed){
-    this._followService.deleteFollow(followed).subscribe(
+    this._followService.deleteFollow(followed._id).subscribe(
       response => {
-        this.follows=this.follows.filter(id=>id!=followed);
+        this.follows=this.follows.filter(id=>id!=followed._id);
         console.log(this.follows)
+        this.setToast(followed.nick,false);
       },
       error => {
 

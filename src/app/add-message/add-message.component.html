@@ -10,14 +10,14 @@
 </ion-header>
 <div>
   <form [formGroup] ="formAddMessage" (ngSubmit)="onSubmit()" >
-    <ion-item>
-      <ion-label color="tertiary">Enviar a:</ion-label>
-      <ion-select  interface="alert" cancelText="Cancelar" okText="OK" formControlName="receiver">
-        <ion-select-option color="tertiary" *ngFor="let user of users" [value]="user" [hidden]="user._id==identy._id">{{user.nick}}</ion-select-option>
+    <ion-item color="dark">
+      <ion-label >Enviar a:</ion-label>
+      <ion-select  interface="alert" cancelText="Cancelar" okText="OK" formControlName="receiver" color="dark">
+        <ion-select-option color="dark" *ngFor="let user of users" [value]="user" [hidden]="user._id==identy._id">{{user.nick}}</ion-select-option>
       </ion-select>
     </ion-item>
 
-    <ion-card>
+    <ion-card color="dark">
       <ion-card-header>
         <ion-card-title>
           Mensajes

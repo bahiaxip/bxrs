@@ -8,15 +8,99 @@ ion-item{
   min-height:100px;
 }
 
-.miitem{
-  min-height:70px
-
+.mat-header-tab2{
+  min-height:60px;
+}
+.miitem:hover{
+  background:#474747;
 }
 
 .item-inner{
   margin-bottom:0
 }
+.mathover{
+  margin:0;
+}
 .mathover:hover{
-  background-color:#E7E7E7;
+  //background-color:#E7E7E7;
   cursor:pointer;
 }
+
+.ion-list-tab2{
+  padding:0
+}
+
+.mat-title-tab2{
+  width:25%;
+}
+
+.ion-avatar-img-tab2{
+  max-width:300px;
+  user-select:none;
+}
+
+
+.ionitem-tab2{
+  margin-top:1%;
+  color:white
+}
+.ionitem-tab2 p{
+  user-select: none;
+  font-size:15px;
+  padding-top:6px;
+}
+
+.ionitem-tab2 .ion_icon{
+  pointer-events:none;
+  z-index:10;
+  font-size:20px;
+  color:#FFF
+}
+
+.ionitem-tab2 .indicator_hidden{
+  opacity:0;
+  color:#FFF
+}
+/* item visibility */
+.item-visibility {
+  color:#FFF;
+  min-height:30px;
+}
+.item-visibility-user, {
+  color:#FFF;
+  min-height:30px;
+}
+.item-visibility-user p{
+  margin:auto;
+  font-size:14px;
+}
+.item-visibility .label-visibility-title{
+  text-align:center;
+  font-size:14px;
+  color:#ff8c00
+}
+
+.item-visibility .label-visibility{
+  font-size:14px;
+  text-align:center;
+}
+
+
+/* skeleton */
+.skeleton_label{
+  width:30%;margin:auto
+}
+.skeleton_thumb{
+  width:50%;height:50%
+}
+
+//algunos de material solo funcionan en global.scss
+/*
+.mat-expansion-indicator:after{
+  color:white;
+}
+*/
+
+
+
+

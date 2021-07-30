@@ -1,3 +1,76 @@
 ion-thumbnail{
   //--size:50px
 }
+
+ion-item{
+//--ion-item-background:orange;
+//quitando border inferior
+//--inner-border-width:0 0 0 0;
+}
+
+.list-pub{
+  background:#676767;
+  padding-top:2px;
+  padding-bottom:2px;
+}
+.list-pub .label-pub{
+  min-width:25%; max-width:25%;
+}
+.list-pub .label-nick{
+  font-size:13px;color:#ff8c00
+}
+.list-pub .label-date{
+  font-size:9px;color:#B3B3B3
+}
+.list-pub .label-text{
+  width:80%;
+}
+
+.ionheader-tab1{
+
+}
+
+.ionheader-tab1 .ion_icon{
+  float:right;
+  cursor:pointer;
+  color:#FFF;
+}
+.ioncontent-tab1{
+
+}
+.ioncontent-tab1 .new_pub{
+  position:absolute;
+  top:75px;left: 50%;
+  transform: translate(-50%,-50%);
+  z-index:10;
+}
+
+.ioncontent-tab1 .ion_button{
+  position: absolute;
+  top:0;
+  right:0;
+  color:#FFF;
+}
+
+//skeleton
+
+.ionlist_skeleton-tab1{
+
+}
+.ionlist_skeleton-tab1 .ion_label{
+  min-width:25%;max-width:25%
+}
+
+.ionlist_skeleton-tab1 .ion_skeleton_text{
+  width:5%;
+  height:20%;
+  position:absolute;
+  top:0;
+  right:10px;
+}
+.ionlist_skeleton-tab .ion_skeleton_thumb{
+  width:50%;
+  height:50%;
+  margin-top:15px;
+  margin-left:10px;
+}

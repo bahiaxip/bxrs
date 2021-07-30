@@ -1,0 +1,28 @@
+.ionslide-perfil{
+
+}
+.ionslide1 .perfil-image{
+  max-width:350px;
+}
+
+.ionslide1 .ioncard_p{
+  font-size:16px;margin-top:5px
+}
+
+.ionslide2 .ion_button{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:10;
+}
+
+.ionslide2 .input_file{
+  width:0;
+  height:0;
+}
+
+.ionslide2 .image{
+  max-width:350px;
+  opacity:0.2;
+}
