@@ -28,7 +28,7 @@
 
 
       <ion-list class="w100 p0" >
-        <div *ngFor="let message of messages;let i=index" lines="inset" class="b_gris">
+        <div *ngFor="let message of messages;let i=index" lines="inset" class="b_gris" [hidden]="itmReceived[i]">
           <ion-item  class="ionitem-tab3" color="dark">
             <ion-avatar slot="start" >
               <img [src]="'assets/icons/person.png'" />
@@ -44,7 +44,7 @@
               <p style="font-size:12px">{{message.text}}</p>
               <p style="font-size:10px;color:#B3B3B3"></p>
             </ion-label>-->
-            <ion-button size="small" fill="clear" (click)="messagePopover(message._id,i)" class="ionbutton" >
+            <ion-button size="small" fill="clear" (click)="deleteMessage(message._id,i,'received')" class="ionbutton" >
               <ion-icon name="ellipsis-horizontal-outline" slot="icon-only" class="c_white"></ion-icon>
             </ion-button>
             <ion-button fill="clear" (click)="showMore(i,'received');" class="pt_15">
@@ -63,7 +63,7 @@
 
     <ion-slide>
       <ion-list class="w100 p0">
-        <div *ngFor="let sended of sendedMessages;let i=index">
+        <div *ngFor="let sended of sendedMessages;let i=index" lines="inset" class="b_gris" [hidden]="itmSended[i]">
           <ion-item class="ionitem-tab3" color="dark">
             <ion-avatar slot="start" >
               <img [src]="'assets/icons/person.png'" />
@@ -77,7 +77,7 @@
 
 
 
-            <ion-button size="small" fill="clear" class="ionbutton">
+            <ion-button size="small" fill="clear" class="ionbutton" (click)="deleteMessage(sended._id,i,'sended')">
               <ion-icon name="ellipsis-horizontal-outline" slot="icon-only" class="c_white"></ion-icon>
             </ion-button>
 

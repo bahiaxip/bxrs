@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { ModalMessagesComponent } from '../modal-messages/modal-messages.component';
-
+import { MessageService } from '../services/message.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,8 +9,11 @@ export class PopoverService {
 
   private popover:any;
   private messageId:any
-
-  constructor(private popoverController:PopoverController) { }
+  private envio:any;
+  constructor(
+    private popoverController:PopoverController,
+    private _messageService:MessageService
+  ) { }
 
 
   async presentPopover(messageId:string,popoverMessage:string){
@@ -19,15 +22,35 @@ export class PopoverService {
       component:ModalMessagesComponent,
     });
 
-    /*
-    popover.onDidDismiss().then(async (result) => {
+
+    this.popover.onDidDismiss().then(async (result) => {
       console.log("llega al dismiss")
+      this.envio="mi nuevo dato";
     })
-    */
+
     return await this.popover.present();
   }
+
   async dismiss(dato:string){
     console.log(this.messageId);
-    await this.popover.dismiss();
+    if(dato=="delete"){
+      if(this.messageId){
+        this._messageService.deleteMessage(this.messageId).subscribe(
+          response => {
+            console.log("la respuesta: ",response);
+            return "respuesta";
+          },
+          error => {
+
+          }
+        )
+      }else{
+
+      }
+
+    }
+
+    return await this.popover.dismiss(this.envio);
+
   }
 }

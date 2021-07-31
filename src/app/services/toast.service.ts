@@ -9,20 +9,33 @@ export class ToastService {
   constructor(private toastController:ToastController) { }
 
   async presentToast(user,bol){
-    let toast;
-    if(bol){
-      toast = await this.toastController.create({
-        message: "Ahora sigues a "+user,
+    let message;
+    if(bol)
+      message="Ahora sigues a "+user;
+    else
+      message="Has dejado de seguir a "+user;
+
+      const toast = await this.toastController.create({
+        message: message,
         duration: 10000,
-        cssClass:'toast-users'
+        cssClass:'t_center'
       });
-    }else{
-      toast = await this.toastController.create({
-        message: "Has dejado de seguir a "+user,
-        duration: 10000,
-        cssClass:['toast-users','toast-users-span']
-      });
-    }
+
+    await toast.present();
+  }
+
+  async deleteToast(bol){
+    let message;
+    if(bol)
+      message="El mensaje ha sido eliminado correctamente";
+    else
+      message="No se ha podido eliminar el mensaje";
+
+    const toast = await this.toastController.create({
+      message: message,
+      duration:10000,
+      cssClass:'t_center'
+    });
     await toast.present();
   }
 }

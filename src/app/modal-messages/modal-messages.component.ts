@@ -17,8 +17,8 @@ export class ModalMessagesComponent implements OnInit {
   ngOnInit() {}
 
   deleteMessage(){
-    console.log("Borrando mensaje")
-    this._popoverService.dismiss("mi dato");
+    //console.log("Borrando mensaje")
+    this.popoverController.dismiss("delete");
 
   }
 

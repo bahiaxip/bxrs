@@ -32,6 +32,18 @@ export class MessageService {
     )
   }
 
+  deleteMessage(id):Observable<any>{
+    return from(this._storageService.getToken()).pipe(
+      switchMap(token => {
+        let headers = new HttpHeaders({
+          "Content-Type":"application",
+          "Authorization":token
+        });
+        return this._http.delete(this.url+"message/"+id,{headers:headers});
+      })
+    )
+  }
+
   getReceivedMessages():Observable<any>{
     return from(this._storageService.getToken()).pipe(
       switchMap(token => {

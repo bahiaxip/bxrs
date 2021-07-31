@@ -185,7 +185,7 @@ export class Tab1Page implements OnInit{
     //el elemento de publications a editar/eliminar de la db, el indice sirve para
     //ocultar el elemento de la lista sin recargar publications, utilizando la directiva
     //hidden y el array itm y el método resetitm() que evita que la lista de publicaciones
-    //se quede en blando (en la vista) si varios
+    //se quede en blanco (en la vista) si varios
     let filteredPub = this.publications.filter((item)=>{
       return item._id==id
     })
@@ -408,9 +408,12 @@ export class Tab1Page implements OnInit{
                 let list2 = response.publications.docs;
                 this.publications=list1.concat(list2);
                 this.lastPublicationTime=this.publications[0].created_at;
+                /*
                 for(let i =0;i<this.publications.length;i++){
                   this.itm.push(false);
                 }
+                */
+                this.itm=this.publications.map(itm=>false);
                 console.log("itm: ",this.itm)
               }
 

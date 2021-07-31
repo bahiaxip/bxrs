@@ -54,7 +54,10 @@ var controller = {
         if(!message) return res.status(404).send({message: "No se encuentra el mensaje"})
         message.remove(err=> {
           if(err) return res.status(500).send({message: "No se pudo borrar el mensaje"})
-          return res.status(200).send({message: "El mensaje ha sido eliminado"});
+          return res.status(200).send({
+            message: "El mensaje ha sido eliminado",
+            status:"success"
+          });
         });
 
       })
