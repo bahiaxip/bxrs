@@ -16,6 +16,7 @@ export class Tab3Page {
   private messages:Message[];
   private sendedMessages:Message[];
   private clickButton:Array<any>=[];
+  private clickButton2:Array<any>=[];
 
   constructor(
     private _storageService:StorageService,
@@ -58,12 +59,21 @@ export class Tab3Page {
     })
   }
 
-  showMore(id){
+  showMore(id,type){
     let selectedButton=this.clickButton[id];
-    if(!selectedButton)
-      this.clickButton[id]=true;
-    else
-      this.clickButton[id]=false;
+    let selectedButton2=this.clickButton2[id];
+    if(type=="received"){
+      if(!selectedButton)
+        this.clickButton[id]=true;
+      else
+        this.clickButton[id]=false;
+    }else if(type=="sended"){
+      if(!selectedButton2)
+        this.clickButton2[id]=true;
+      else
+        this.clickButton2[id]=false;
+    }
+
     //console.log(this.publications[id])
   }
 

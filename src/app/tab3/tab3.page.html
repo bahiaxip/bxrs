@@ -45,11 +45,11 @@
               <p style="font-size:10px;color:#B3B3B3"></p>
             </ion-label>-->
             <ion-button size="small" fill="clear" (click)="settingsPopover(item._id,i)" class="ionbutton" >
-              <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
+              <ion-icon name="ellipsis-horizontal-outline" slot="icon-only" class="c_white"></ion-icon>
             </ion-button>
-            <ion-button fill="clear" (click)="showMore(i);" class="pt_15">
-              <ion-icon name="caret-up-outline" *ngIf="clickButton[i]"></ion-icon>
-              <ion-icon name="caret-down-outline" *ngIf="!clickButton[i]"></ion-icon>
+            <ion-button fill="clear" (click)="showMore(i,'received');" class="pt_15">
+              <ion-icon name="caret-up-outline" *ngIf="clickButton[i]" class="c_white"></ion-icon>
+              <ion-icon name="caret-down-outline" *ngIf="!clickButton[i]" class="c_white"></ion-icon>
             </ion-button>
           </ion-item>
         </div>
@@ -63,13 +63,13 @@
 
     <ion-slide>
       <ion-list class="w100 p0">
-        <div *ngFor="let sended of sendedMessages">
+        <div *ngFor="let sended of sendedMessages;let i=index">
           <ion-item class="ionitem-tab3" color="dark">
             <ion-avatar slot="start" >
               <img [src]="'assets/icons/person.png'" />
             </ion-avatar>
 
-            <ion-label class="t_center w70">
+            <ion-label class="t_center w70" [ngStyle]="clickButton2[i] ? {'white-space': 'normal'}:{'white-space':'nowrap'}">
               <p></p>
               <p class="f12">{{sended.text}}</p>
               <p></p>
@@ -78,11 +78,12 @@
 
 
             <ion-button size="small" fill="clear" class="ionbutton">
-              <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
+              <ion-icon name="ellipsis-horizontal-outline" slot="icon-only" class="c_white"></ion-icon>
             </ion-button>
 
-            <ion-button fill="clear" class="pt_15">
-              <ion-icon name="caret-down-outline"></ion-icon>
+            <ion-button fill="clear" (click)="showMore(i,'sended');" class="pt_15">
+              <ion-icon name="caret-up-outline" *ngIf="clickButton2[i]" class="c_white"></ion-icon>
+              <ion-icon name="caret-down-outline" *ngIf="!clickButton2[i]" class="c_white"></ion-icon>
             </ion-button>
           </ion-item>
         </div>
