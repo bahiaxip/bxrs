@@ -22,7 +22,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ioncontent-tab1">
+<ion-content [fullscreen]="true" class="ioncontent-tab1" style="background: orange" >
 
   <ion-refresher #refresherRef slot="fixed" (ionRefresh)="doRefresh($event)" [ngClass]="{'refresher-active refresher-refreshing':refresherActive}">
     <ion-refresher-content ></ion-refresher-content>

@@ -5,19 +5,23 @@
         <ion-icon name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title class="title">NUEVO MENSAJE</ion-title>
+    <ion-title class="title2">NUEVO MENSAJE</ion-title>
   </ion-toolbar>
 </ion-header>
-<div>
+<ion-content color="dark">
+  <div style="position:absolute;bottom:0;left: 0;width:100%;margin:0">
   <form [formGroup] ="formAddMessage" (ngSubmit)="onSubmit()" >
-    <ion-item color="dark">
+    <ion-item style="margin:auto 10px;border-radius:5px;box-shadow:none;outline:none;border:0;">
       <ion-label >Enviar a:</ion-label>
-      <ion-select  interface="alert" cancelText="Cancelar" okText="OK" formControlName="receiver" color="dark">
-        <ion-select-option color="dark" *ngFor="let user of users" [value]="user" [hidden]="user._id==identy._id">{{user.nick}}</ion-select-option>
+      <ion-select  interface="alert" cancelText="Cancelar" okText="OK" formControlName="receiver" >
+        <ion-select-option  *ngFor="let user of users" [value]="user" [hidden]="user._id==identy._id">{{user.nick}}</ion-select-option>
       </ion-select>
     </ion-item>
 
-    <ion-card color="dark">
+    <!-- arriba -->
+    <!--<ion-card >-->
+      <!-- abajo -->
+    <ion-card >
       <ion-card-header>
         <ion-card-title>
           Mensajes
@@ -50,3 +54,4 @@
     </ion-card>
   </form>
 </div>
+</ion-content>
