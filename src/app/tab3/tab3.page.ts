@@ -5,6 +5,7 @@ import { MessageService } from '../services/message.service';
 import { AddMessageComponent } from '../add-message/add-message.component';
 import { Message } from '../models/message';
 import { StorageService } from '../services/storage.service';
+import { PopoverService } from '../services/popover.service';
 
 @Component({
   selector: 'app-tab3',
@@ -21,7 +22,8 @@ export class Tab3Page {
   constructor(
     private _storageService:StorageService,
     private modalController:ModalController,
-    private _messageService:MessageService
+    private _messageService:MessageService,
+    private _popoverService:PopoverService
   ) {}
 
   async presentModal(){
@@ -73,8 +75,13 @@ export class Tab3Page {
       else
         this.clickButton2[id]=false;
     }
+  }
 
-    //console.log(this.publications[id])
+  messagePopover(id,index){
+    console.log("llega")
+    let messageId=id;
+    this._popoverService.presentPopover(messageId,"mi mensaje")
+
   }
 
 }

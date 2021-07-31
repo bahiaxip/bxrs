@@ -22,6 +22,49 @@ var controller = {
       return res.status(200).send({message:messageStored})
     })
   },
+  //para más seguridad distinguimos si es received o sended
+  //y sea el que sea, debe coincidir con el id del token, pero....
+  //no se puede hacer ya que puede ser opcional, pero primero toma el primero,
+  //es decir, no puedo enviar el segundo sin enviar el primero, por tanto, anulado,
+  //se mantiene solo el token y se comprueba que el received o el sended coincidan
+  //con el id del token
+  deleteMessage:function(req,res){
+    /*
+    if(req.params.sended || req.params.received){
+      let type="";
+      if(req.params.sended){
+        var messageId = req.params.sended;
+        type="sended";
+      }else{
+        var messageId = req.params.received;
+        type="received";
+      }
+      */
+    if(req.params.id){
+      var messageId=req.params.id;
+      var userId = req.user.sub;
+      console.log(messageId);
+      console.log(userId);
+      Message.findOne({$or:
+      [
+        {"receiver":userId},{"emitter":userId}
+      ],"_id":messageId},(err,message)=> {
+
+        if(err) return res.status(500).send({message: "Error en la petición"})
+        if(!message) return res.status(404).send({message: "No se encuentra el mensaje"})
+        message.remove(err=> {
+          if(err) return res.status(500).send({message: "No se pudo borrar el mensaje"})
+          return res.status(200).send({message: "El mensaje ha sido eliminado"});
+        });
+
+      })
+    }else{
+      return res.status(500).send({message: "Faltan datos"});
+    }
+
+
+
+  },
 
   getReceivedMessages:function(req,res){
     var userId=req.user.sub;
