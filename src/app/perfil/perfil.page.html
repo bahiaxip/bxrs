@@ -18,24 +18,24 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content  >
+<ion-content color="favorite2" >
   <ion-slides #theSlides >
     <ion-slide class="ionslide1">
       <ion-card *ngIf="user" color="dark">
         <div *ngIf="user.image && user.image.name">
-          <img class="perfil-image" src="{{url+'image-user/'+user.email+'/'+user.image.name}}"/>
+          <img  class="perfil-image" src="{{url+'image-user/'+user.email+'/'+user.image.name}}"/>
         </div>
         <div *ngIf="!user.image ">
           <img src="assets/icons/person.png" />
         </div>
-        <ion-card-header>
-            <ion-card-title>
+        <ion-card-header >
+            <ion-card-title >
               <ion-row >
                 <ion-col>
-                  <p class="ioncard_p">superfragilistico</p>
+                  <p class="ioncard_p" >{{user.nick}}</p>
                 </ion-col>
                 <ion-button fill="clear" title="Visibilidad">
-                  <ion-icon name="eye" color="dark"></ion-icon>
+                  <ion-icon name="eye" color="light"></ion-icon>
                 </ion-button>
               </ion-row>
             </ion-card-title>
@@ -52,36 +52,36 @@
               <p>{{user.name}}</p>
             </ion-col>
             <!--<ion-col>-->
-              <ion-toggle [(ngModel)]="toggle.name" (ionChange)="presentToast('name',toggle.name)"></ion-toggle>
+              <ion-toggle [(ngModel)]="toggle.name" (ionChange)="presentToast('name',toggle.name)" color="favorite"></ion-toggle>
             <!--</ion-col>-->
           </ion-row>
           <ion-row *ngIf="user.surname">
             <ion-col>
               <p>{{user.surname}}</p>
             </ion-col>
-              <ion-toggle [(ngModel)]="toggle.surname" (ionChange)="presentToast('surname',toggle.surname)" checked=true></ion-toggle>
+              <ion-toggle [(ngModel)]="toggle.surname" (ionChange)="presentToast('surname',toggle.surname)" color="favorite"></ion-toggle>
           </ion-row>
           <ion-row *ngIf="user.city">
             <ion-col>
               <p>{{user.city}}</p>
             </ion-col>
-            <ion-toggle [(ngModel)]="toggle.city" (ionChange)="presentToast('city',toggle.city)"></ion-toggle>
+            <ion-toggle [(ngModel)]="toggle.city" (ionChange)="presentToast('city',toggle.city)" color="favorite"></ion-toggle>
           </ion-row >
           <ion-row *ngIf="user.email">
             <ion-col>
               <p>{{user.email}}</p>
             </ion-col>
-            <ion-toggle [(ngModel)]="toggle.email" (ionChange)="presentToast('email',toggle.email)"></ion-toggle>
+            <ion-toggle [(ngModel)]="toggle.email" (ionChange)="presentToast('email',toggle.email)" color="favorite"></ion-toggle>
           </ion-row>
           <ion-row *ngIf="user.phone">
             <ion-col>
               <p>{{user.phone}}</p>
             </ion-col>
-            <ion-toggle [(ngModel)]="toggle.phone" (ionChange)="presentToast('phone',toggle.phone)" [checked]="'true'"></ion-toggle>
+            <ion-toggle [(ngModel)]="toggle.phone" (ionChange)="presentToast('phone',toggle.phone)" color="favorite"></ion-toggle>
           </ion-row>
           <ion-row>
             <ion-col>
-              <ion-button size="small" (click)="logout()">
+              <ion-button size="small" (click)="logout()" color="tertiary">
                 Salir
               </ion-button>
             <!--
@@ -102,7 +102,7 @@
         <ion-card *ngIf="user" color="dark">
           <ion-row>
           <ion-col>
-            <ion-button (click)="fileButton.click()" class="ion_button"  >
+            <ion-button (click)="fileButton.click()" class="ion_button"  color="tertiary">
               <ion-icon name="add"></ion-icon>
 
               <!--<ion-input type="file" accept="image/*" change="changeListener($event)"></ion-input>-->
@@ -119,9 +119,9 @@
             </div>
           </ion-col>
         </ion-row>
-          <ion-card-header>
-              <ion-card-title>
-                Datos personales
+          <ion-card-header >
+              <ion-card-title >
+                Editar perfil
               </ion-card-title>
           </ion-card-header>
           <ion-card-content>
@@ -130,9 +130,11 @@
                 <div>
                   <mat-form-field>
                     <mat-label>Nick de usuario</mat-label>
-                    <input matInput name="nick" #nick="ngModel" [ngStyle]="user.nick ?{'color':'#ff8c00'}:{'color':'#ff8c00'}" [(ngModel)]="user.nick" required/>
+                    <!-- con ngStyle -->
+                    <!--<input matInput name="nick" #nick="ngModel" [ngStyle]="user.nick ?{'color':'#ff8c00'}:{'color':'#ff8c00'}" [(ngModel)]="user.nick" required/> -->
+                    <input matInput name="nick" #nick="ngModel" [(ngModel)]="user.nick" required/>
                     <mat-icon matSuffix>person</mat-icon>
-                    <mat-hint *ngIf="!nick.valid && nick.touched;  else hint" style="color:red">Debe introducir un nick</mat-hint>
+                    <mat-hint *ngIf="!nick.valid && nick.touched;  else hint" class="hint_novalid">Debe introducir un nick</mat-hint>
                     <ng-template>
                       <mat-hint #hint>Nick</mat-hint>
                     </ng-template>
@@ -156,13 +158,15 @@
                 <div>
                   <mat-form-field>
                     <mat-label>Apellidos</mat-label>
-                    <input  matInput name="surname" [(ngModel)]="user.surname" [ngStyle]="user.surname ?{'color':'blue'}:{'color':'blue'}" />
+                    <!--<input  matInput name="surname" [(ngModel)]="user.surname" [ngStyle]="user.surname ?{'color':'blue'}:{'color':'blue'}" />-->
+                    <input  matInput name="surname" [(ngModel)]="user.surname"/>
                     <mat-icon matSuffix>person</mat-icon>
                   </mat-form-field>
                 </div>
               </ion-col>
             </ion-row>
-            <ion-row>
+            <!--no se puede cambiar correo-->
+            <!--<ion-row>
               <ion-col>
                 <div>
                   <mat-form-field>
@@ -181,13 +185,13 @@
                   </mat-form-field>
                 </div>
               </ion-col>
-            </ion-row>
+            </ion-row>-->
             <ion-row>
               <ion-col>
                 <div>
                   <mat-form-field>
                     <mat-label>Teléfono</mat-label>
-                    <input matInput name="phone" #phone="ngModel" [ngStyle]="user.surname ?{'color':'blue'}:{'color':'blue'}" [(ngModel)]="user.phone"/>
+                    <input matInput name="phone" #phone="ngModel" [ngStyle]="user.surname ?{'color':'#FFF'}:{'color':'#ff8c00'}" [(ngModel)]="user.phone"/>
                     <mat-icon matSuffix>phone</mat-icon>
                   </mat-form-field>
                 </div>
@@ -198,7 +202,7 @@
                 <div>
                   <mat-form-field>
                     <mat-label>Ciudad</mat-label>
-                    <input matInput name="city" #city="ngModel" [ngStyle]="user.surname ?{'color':'blue'}:{'color':'blue'}"  [(ngModel)]="user.city"/>
+                    <input matInput name="city" #city="ngModel"   [(ngModel)]="user.city" />
                     <mat-icon matSuffix>business-outline</mat-icon>
                   </mat-form-field>
                 </div>
@@ -207,7 +211,7 @@
 
             <ion-row>
             <ion-col>
-              <ion-button size="small" type="submit">
+              <ion-button size="small" color="tertiary" type="submit">
                 Actualizar
               </ion-button>
             </ion-col>

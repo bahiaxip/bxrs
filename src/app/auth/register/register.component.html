@@ -1,79 +1,85 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
+  <ion-toolbar color="tertiary">
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
-    <ion-title class="title" >
+    <ion-title class="title2" >
       REGISTRARSE
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<div style="width:128px;position:absolute;top:20%;left:50%;transform:translate(-50%,-50%)">
-  <img src="assets/logobxrs_completo.png" />
-</div>
-<ion-card style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)">
-  <ion-card-header>
-    <ion-card-title style="text-align: center;color:blue">
-      Registrarse
-    </ion-card-title>
-  </ion-card-header>
-  <ion-card-content>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div>
-          <mat-form-field>
-            <mat-label>Nick de usuario</mat-label>
-            <input matInput name="nick" formControlName="nick" />
-            <mat-icon matSuffix>person</mat-icon>
-            <mat-hint *ngIf="!form.controls.nick.value && form.controls.nick.touched;else hintName">Debe introducir un nombre</mat-hint>
-            <ng-template #hintName>
-              <mat-hint>Nombre de usuario</mat-hint>
-            </ng-template>
-          </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field>
-            <mat-label >E-Mail</mat-label>
-            <input matInput name="email" formControlName="email" />
-            <mat-icon matSuffix>email</mat-icon>
+<ion-content color="favorite2">
+  <div style="width:128px;position:absolute;top:20%;left:50%;transform:translate(-50%,-50%)">
+    <img src="assets/logobxrs_completo.png" />
+  </div>
+  <ion-card style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)" color="dark">
+    <ion-card-header>
+      <ion-card-title style="text-align: center;">
+        Registrarse
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div>
+            <mat-form-field>
+              <mat-label>Nick de usuario</mat-label>
+              <input matInput name="nick" formControlName="nick" class="mat_name"/>
+              <mat-icon matSuffix>person</mat-icon>
+              <!-- evitamos mostrar un texto indicativo por defecto con el else
+                solo se muestra cuando no es válido -->
+              <!--<mat-hint *ngIf="!form.controls.nick.value && form.controls.nick.touched;else hintName" style="color:yellow">Debe introducir un nombre</mat-hint>-->
+              <mat-hint *ngIf="!form.controls.nick.value && form.controls.nick.touched" class="hint_novalid">Debe introducir un nombre</mat-hint>
+              <!--<ng-template #hintName>
+                <mat-hint style="color:yellow">Nombre de usuario</mat-hint>
+              </ng-template>-->
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field>
+              <mat-label >E-Mail</mat-label>
+              <input matInput name="email" formControlName="email" />
+              <mat-icon matSuffix>email</mat-icon>
 
-            <mat-hint *ngIf="!form.controls.email.value && form.controls.email.touched;  else hint">Debe introducir un correo</mat-hint>
+              <mat-hint *ngIf="!form.controls.email.value && form.controls.email.touched;  else hint" class="hint_novalid">Debe introducir un correo</mat-hint>
 
-            <ng-template #hint>
-              <mat-hint  *ngIf="form.controls.email.value && !form.controls.email.valid && form.controls.email.touched; else hint2" >Debe introducir un correo válido</mat-hint>
-            </ng-template>
+              <ng-template #hint>
+                <mat-hint  *ngIf="form.controls.email.value && !form.controls.email.valid && form.controls.email.touched;" class="hint_novalid">Debe introducir un correo válido</mat-hint>
+              </ng-template>
+              <!-- anulado -->
+              <!--<ng-template #hint2 >
+                <mat-hint >Correo electrónico</mat-hint>
+              </ng-template>-->
 
-            <ng-template #hint2 >
-              <mat-hint >Correo electrónico</mat-hint>
-            </ng-template>
+            </mat-form-field>
+          </div>
+          <div ></div>
+          <div>
+            <mat-form-field>
+              <mat-label >Password</mat-label>
+              <input matInput name="password" formControlName="password" />
+              <mat-icon matSuffix>lock</mat-icon>
+              <mat-hint *ngIf="!form.controls.password.value && form.controls.password.touched;else hintPassword" class="hint_novalid">Debe introducir una contraseña</mat-hint>
+              <ng-template #hintPassword>
+                <mat-hint *ngIf="form.controls.password.value && !form.controls.password.valid && form.controls.password.touched;" class="hint_novalid">Mínimo 8 caracteres</mat-hint>
+              </ng-template>
+              <!-- anulado -->
+              <!--<ng-template #hintPassword2>
+                <mat-hint >Contraseña</mat-hint>
+              </ng-template>-->
+            </mat-form-field>
+          </div>
+          <div style="clear:left;height:5px;width:100%"></div>
 
-          </mat-form-field>
-        </div>
-        <div ></div>
-        <div>
-          <mat-form-field>
-            <mat-label >Password</mat-label>
-            <input matInput name="password" formControlName="password" />
-            <mat-icon matSuffix>lock</mat-icon>
-            <mat-hint *ngIf="!form.controls.password.value && form.controls.password.touched;else hintPassword">Debe introducir una contraseña</mat-hint>
-            <ng-template #hintPassword>
-              <mat-hint *ngIf="form.controls.password.value && !form.controls.password.valid && form.controls.password.touched; else hintPassword2">Mínimo 8 caracteres</mat-hint>
-            </ng-template>
-            <ng-template #hintPassword2>
-              <mat-hint >Contraseña</mat-hint>
-            </ng-template>
-          </mat-form-field>
-        </div>
-        <div style="clear:left;height:5px;width:100%"></div>
-
-        <ion-row>
-          <ion-col>
-            <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">
-              Enviar
-            </button>
-          </ion-col>
-        </ion-row>
-      </form>
-  </ion-card-content>
-</ion-card>
+          <ion-row>
+            <ion-col>
+              <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">
+                Enviar
+              </button>
+            </ion-col>
+          </ion-row>
+        </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
 
 

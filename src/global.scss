@@ -66,6 +66,48 @@ ion-tab-button{
 }
 
 /* mat expansion (necesario en global) */
+
+            //formularios
+
+.mat-form-field-flex .mat-form-field-label{
+  color:skyblue
+}
+.mat-form-field-flex .mat-form-field-label span{
+  color:lightblue
+}
+
+.mat-focused .mat-form-field-flex .mat-form-field-label,.mat-focused .mat-form-field-flex .mat-form-field-label span{
+  color:#FFF
+}
+
+//no permite mostrar el texto
+
+.mat-raised-button.mat-button-disabled span.mat-button-ripple{
+  //background-color:red;
+  color:#FFF !important
+}
+
+.mat-raised-button  span.mat-button-wrapper {
+  //color:white !important;
+  //background:white !important
+}
+
+//solo cuando el input es inválido
+.mat-form-field-hide-placeholder.mat-form-field-invalid label,
+.mat-form-field-hide-placeholder.mat-form-field-invalid mat-input{
+  color:#ff5480 !important ;
+}
+.tertiary{
+  background-color:#5260ff;
+  color:white
+}
+
+//color de hint (valor no válido)
+
+
+
+        // fin de formularios
+
 .mat-expansion-indicator:after{
   color:white
 }

@@ -2,7 +2,7 @@
 
 }
 .ionslide1 .perfil-image{
-  max-width:350px;
+  max-width:300px;
 }
 
 .ionslide1 .ioncard_p{
@@ -10,6 +10,7 @@
 }
 
 .ionslide2 .ion_button{
+
   position:absolute;
   top:50%;
   left:50%;
@@ -20,9 +21,15 @@
 .ionslide2 .input_file{
   width:0;
   height:0;
+  display:none;
 }
 
 .ionslide2 .image{
-  max-width:350px;
-  opacity:0.2;
+  max-width:300px;
+  opacity:0.3;
+}
+
+//no funciona en global.scss
+.hint_novalid{
+  color:#ff5480
 }
