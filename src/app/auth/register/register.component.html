@@ -1,20 +1,20 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="tertiary">
+  <ion-toolbar color="favorite">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button>
+      <ion-back-button defaultHref="home" class="c_white"></ion-back-button>
     </ion-buttons>
     <ion-title class="title2" >
       REGISTRARSE
     </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content color="favorite2">
-  <div style="width:128px;position:absolute;top:20%;left:50%;transform:translate(-50%,-50%)">
-    <img src="assets/logobxrs_completo.png" />
+<ion-content color="favorite2 login">
+  <div class="image">
+    <img src="assets/logobxrs_completoG.png" />
   </div>
-  <ion-card style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)" color="dark">
+  <ion-card class="login_card" color="dark">
     <ion-card-header>
-      <ion-card-title style="text-align: center;">
+      <ion-card-title class="t_center">
         Registrarse
       </ion-card-title>
     </ion-card-header>
@@ -68,12 +68,12 @@
               </ng-template>-->
             </mat-form-field>
           </div>
-          <div style="clear:left;height:5px;width:100%"></div>
+          <div class="clearL w100 high5"></div>
 
           <ion-row>
             <ion-col>
-              <button type="submit" mat-raised-button color="primary" [disabled]="!form.valid">
-                Enviar
+              <button type="submit" mat-raised-button class="favorite_button" [disabled]="!form.valid">
+                ENVIAR
               </button>
             </ion-col>
           </ion-row>

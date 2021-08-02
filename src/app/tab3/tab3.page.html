@@ -1,20 +1,21 @@
-<ion-header>
-  <ion-toolbar color="tertiary" class="w100">
+<ion-header class="">
+  <ion-toolbar color="favorite" class="w100">
     <ion-thumbnail slot="start" size="5">
-      <img src="assets/logobxrs_completo.png" />
+      <img src="assets/logobxrs_completoG.png" />
     </ion-thumbnail>
     <ion-title class="title2">
       MENSAJES
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="slideMessages.slidePrev()" title="Mensajes recibidos">
-        <ion-icon name="mail" ></ion-icon>
+        <ion-icon name="mail" class="c_white"></ion-icon>
       </ion-button>
       <ion-button (click)="slideMessages.slideNext()" title="Mensajes enviados">
-        <ion-icon name="create" ></ion-icon>
+        <!--<ion-icon name="mail-open" class="c_white"></ion-icon>-->
+        <ion-icon name="send" class="c_white"></ion-icon>
       </ion-button>
-      <ion-button (click)="presentModal()">
-        <ion-icon name="add" ></ion-icon>
+      <ion-button (click)="presentModal()" title="Nuevo mensaje">
+        <ion-icon name="add-circle" class="c_white"></ion-icon>
       </ion-button>
     </ion-buttons>
 
@@ -24,7 +25,7 @@
 <ion-content [fullscreen]="true" >
 
   <ion-slides #slideMessages [hidden]="!messages">
-    <ion-slide >
+    <ion-slide class="ionslide1-tab3">
 
 
       <ion-list class="w100 p0" >
@@ -36,7 +37,7 @@
 
             <ion-label class="t_center w70" [ngStyle]="clickButton[i] ? {'white-space': 'normal'}:{'white-space':'nowrap'}">
               <p></p>
-              <p class="f12">{{message.text}}</p>
+              <p class="f12 text ">{{message.text}}</p>
               <p></p>
               <!--<p style="font-size:10px;color:#B3B3B3"></p>-->
             </ion-label>
@@ -61,7 +62,7 @@
     </ion-slide>
 
 
-    <ion-slide>
+    <ion-slide class="ionslide2-tab3">
       <ion-list class="w100 p0">
         <div *ngFor="let sended of sendedMessages;let i=index" lines="inset" class="b_gris" [hidden]="itmSended[i]">
           <ion-item class="ionitem-tab3" color="dark">
@@ -71,7 +72,7 @@
 
             <ion-label class="t_center w70" [ngStyle]="clickButton2[i] ? {'white-space': 'normal'}:{'white-space':'nowrap'}">
               <p></p>
-              <p class="f12">{{sended.text}}</p>
+              <p class="f12 text">{{sended.text}}</p>
               <p></p>
             </ion-label>
 

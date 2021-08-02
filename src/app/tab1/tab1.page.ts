@@ -168,7 +168,7 @@ export class Tab1Page implements OnInit{
       }else{
         this.getPublications(1);
       }
-    },5000)
+    },3000)
   }
   //resetea los elementos
   resetItm(){
@@ -193,6 +193,7 @@ export class Tab1Page implements OnInit{
     const pub = filteredPub[0];
     const popover = await this.popoverController.create({
       component:SettingsModalComponent,
+      cssClass:"popover-style",
       //pasamos la publicación pulsada aunque no es necesario ya que lo editamos/eliminamos en este método, no en el servicio
       componentProps:{
         publication:pub,

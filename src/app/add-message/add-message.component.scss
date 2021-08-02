@@ -9,3 +9,32 @@
   background:orange
 }
 */
+
+.add_msge{
+
+}
+.add_msge .div_select{
+  position:absolute;
+  bottom:0;
+  left: 0;
+  width:100%;
+  margin:0;
+}
+.add_msge .item_select{
+  margin:auto 10px;
+  border-radius:5px;
+  box-shadow:none;
+  outline:none;
+  border:0;
+}
+
+
+.add_msge .add_msge_card .title,.add_msge .add_msge_card textarea{
+  font-weight:bold;
+}
+
+.hint_novalid{
+  color:#ff5480;
+  //amarillo resalta +
+  //color:#ffff00
+}

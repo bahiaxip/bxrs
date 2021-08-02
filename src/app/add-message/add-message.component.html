@@ -1,46 +1,48 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="tertiary">
+  <ion-toolbar color="favorite">
     <ion-buttons slot="start">
       <ion-button (click)="dismiss()">
-        <ion-icon name="arrow-back"></ion-icon>
+        <ion-icon name="arrow-back" class="c_white"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title class="title2">NUEVO MENSAJE</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content color="dark">
-  <div style="position:absolute;bottom:0;left: 0;width:100%;margin:0">
+<ion-content color="dark" class="add_msge">
+  <div class="div_select">
   <form [formGroup] ="formAddMessage" (ngSubmit)="onSubmit()" >
-    <ion-item style="margin:auto 10px;border-radius:5px;box-shadow:none;outline:none;border:0;">
+    <ion-item class="item_select">
       <ion-label >Enviar a:</ion-label>
-      <ion-select  interface="alert" cancelText="Cancelar" okText="OK" formControlName="receiver" >
-        <ion-select-option  *ngFor="let user of users" [value]="user" [hidden]="user._id==identy._id">{{user.nick}}</ion-select-option>
+      <ion-select  interface="alert" cancelText="Cancelar" okText="OK" formControlName="receiver" [interfaceOptions]="{cssClass:'ion_select'}">
+        <ion-select-option  *ngFor="let user of users" [value]="user" [hidden]="user._id==identy._id" >{{user.nick}}</ion-select-option>
       </ion-select>
     </ion-item>
 
     <!-- arriba -->
     <!--<ion-card >-->
       <!-- abajo -->
-    <ion-card >
+    <ion-card class="add_msge_card">
       <ion-card-header>
-        <ion-card-title>
-          Mensajes
+        <ion-card-title class="title">
+          Mensaje privado
         </ion-card-title>
 
         <ion-card-content>
-          <mat-form-field style="width:100%">
-            <mat-label>Escribe aquí tu mensaje</mat-label>
+          <mat-form-field class="w100">
+            <mat-label>Escribir aquí</mat-label>
             <textarea matInput [placeholder]="data" rows="5" cols="10" name="text" formControlName="text">
             </textarea>
 
-            <mat-hint *ngIf="!formAddMessage.controls.text.value && formAddMessage.controls.text.touched;else hint" style="color:red">Debe introducir un texto</mat-hint>
+            <mat-hint *ngIf="!formAddMessage.controls.text.value && formAddMessage.controls.text.touched;else hint" class="hint_novalid">Debe introducir un texto</mat-hint>
             <ng-template #hint>
               <mat-hint>Mensaje</mat-hint>
             </ng-template>
           </mat-form-field>
           <ion-row>
             <ion-col>
-              <button mat-raised-button color="primary" type="submit" [disabled]="!formAddMessage.valid">Enviar</button>
+              <button mat-raised-button class="favorite_button" type="submit" [disabled]="!formAddMessage.valid">
+                ENVIAR
+              </button>
             </ion-col>
             <!--<ion-col>
               <ion-button (click)="fileButton.click()"  style="position:absolute;bottom:10px;right:10px;">

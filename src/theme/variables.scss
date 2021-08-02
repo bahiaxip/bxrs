@@ -87,10 +87,10 @@
 
     //(toggle)
   //favorite
-  --ion-color-favorite: #ff8c00;
+  --ion-color-favorite: #ff7500;
   //--ion-color-favorite-rgb: 105,187,123;
   --ion-color-favorite-rgb: 255,140,0;
-  --ion-color-favorite-contrast: #ffffff;
+  --ion-color-favorite-contrast: #474747;
   --ion-color-favorite-contrast-rgb: 255,255,255;
   --ion-color-favorite-shade: #5ca56c;
   --ion-color-favorite-tint: #78c288;
@@ -103,6 +103,8 @@
   --ion-color-favorite2-contrast-rgb: 255,255,255;
   --ion-color-favorite2-shade: #5ca56c;
   --ion-color-favorite2-tint: #78c288;
+
+
 
 }
 
@@ -275,6 +277,8 @@
     --ion-card-background: #1e1e1e;
   }
 }
+
+
 
 .ion-color-favorite {
   --ion-color-base: var(--ion-color-favorite);

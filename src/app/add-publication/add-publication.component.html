@@ -1,8 +1,8 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="tertiary">
+  <ion-toolbar color="favorite">
     <ion-buttons slot="start">
       <ion-button (click)="dismiss()">
-        <ion-icon name="arrow-back"></ion-icon>
+        <ion-icon name="arrow-back" class="c_white"></ion-icon>
       </ion-button>
       <!--<ion-back-button
       defaultHref="tab1"
@@ -23,17 +23,16 @@
   <!-- arriba -->
   <!--<ion-card >-->
     <!--abajo-->
-<ion-card style="position:absolute;bottom:0;left: 0;width:100%;margin:0">
+<ion-card class="add_pub_card">
   <ion-card-header>
-
-    <ion-card-title>
-      Publicaciones {{datoId}}
+    <ion-card-title class="title">
+      Comparte tu idea
     </ion-card-title>
     <ion-card-content>
       <div>
       <form [formGroup] ="formAddPublication" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-        <mat-form-field style="width:100%">
-          <mat-label>Comparte tu idea</mat-label>
+        <mat-form-field class="w100">
+          <mat-label>Escribir aquí</mat-label>
           <textarea matInput [placeholder]="data" rows="5" cols="10" name="text" formControlName="text">
           </textarea>
 
@@ -45,13 +44,17 @@
         </mat-form-field>
         <ion-row>
           <ion-col>
-            <button mat-raised-button color="primary" type="button" (click)="updatePublication()" [disabled]="!formAddPublication.valid" *ngIf="switchUpdate">Actualizar</button>
+            <button mat-raised-button class="favorite_button"  type="button" (click)="updatePublication()" [disabled]="!formAddPublication.valid" *ngIf="switchUpdate">
+              ACTUALIZAR
+            </button>
 
-            <button mat-raised-button color="primary" type="submit" [disabled]="!formAddPublication.valid" *ngIf="!switchUpdate">Enviar</button>
+            <button mat-raised-button class="favorite_button" type="submit" [disabled]="!formAddPublication.valid" *ngIf="!switchUpdate">
+              ENVIAR
+            </button>
           </ion-col>
           <ion-col>
-            <ion-button (click)="fileButton.click()"  style="position:absolute;bottom:10px;right:10px;">
-              <ion-icon name="image"></ion-icon>
+            <ion-button (click)="fileButton.click()" color="favorite"  style="position:absolute;bottom:10px;right:10px;">
+              <ion-icon name="image" class="c_white"></ion-icon>
             </ion-button>
             <input name="imagepub" #fileButton type="file" (change)="fileChangeEvent($event)"  style="width: 0;height:"/>
           </ion-col>

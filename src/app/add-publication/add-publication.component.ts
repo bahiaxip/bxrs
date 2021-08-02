@@ -51,6 +51,7 @@ export class AddPublicationComponent implements OnInit {
   }
 
   dismiss(){
+    this.formAddPublication.reset();
     this.modalController.dismiss({
       'dismissed':true,
       //pasamos el publication

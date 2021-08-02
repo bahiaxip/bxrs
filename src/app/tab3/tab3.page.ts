@@ -115,6 +115,7 @@ export class Tab3Page {
 
     const popover = await this.popoverController.create({
       component:ModalMessagesComponent,
+      cssClass:"popover-style"
     });
 
     popover.onDidDismiss().then(async (result) => {

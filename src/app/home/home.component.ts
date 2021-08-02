@@ -22,12 +22,14 @@ export class HomeComponent implements AfterViewInit {
   private switchLogo:boolean=false;
   private switchLogo2:boolean=false;
   private switchLogo3:boolean=false;
+  private switchLogo4:boolean=false;
   //private __storage:Storage;
   //para ngOnInit (static:true), no necesario ElementRef
   //@ViewChild("welcome",{static:true}) welcome: ElementRef;
   //con renderer
   @ViewChild("welcome") welcome:ElementRef;
   @ViewChild("subtitle") subtitle:ElementRef;
+  @ViewChild("#buttonshome") buttonshome:ElementRef;
   constructor(
     //private _storage:Storage,
     private _router:Router,
@@ -81,7 +83,8 @@ export class HomeComponent implements AfterViewInit {
         clearInterval(show);
         console.log(data)
         this.renderer.setStyle(subtitle,"opacity","1");
-        this.renderer.setStyle(subtitle,"top","17%");
+        this.renderer.setStyle(subtitle,"top","12%");
+        this.renderer.setStyle(welcome,"color","#FFF");
 
         setTimeout(()=> {
           this.switchLogo=true;
@@ -93,6 +96,10 @@ export class HomeComponent implements AfterViewInit {
         setTimeout(()=> {
           this.switchLogo3=true;
         },3000)
+        setTimeout(()=> {
+          this.switchLogo4=true;
+        },4000)
+
         /*
         let span = this.renderer.createElement("span");
         let image = this.renderer.createElement("img");

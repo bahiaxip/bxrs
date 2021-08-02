@@ -10,6 +10,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 //angular material
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule }  from '@angular/material/button';
 //Pages
 import { PerfilPage } from './perfil.page';
 
@@ -23,7 +24,8 @@ import { PerfilPage } from './perfil.page';
     PerfilPageRoutingModule,
     ExploreContainerComponentModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule
   ],
   declarations: [PerfilPage]
 })

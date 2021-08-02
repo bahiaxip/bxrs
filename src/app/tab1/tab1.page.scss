@@ -6,6 +6,8 @@ ion-thumbnail{
   background-color:rgba(0,0,0,.8);
 }
 
+
+
 ion-item{
 //--ion-item-background:orange;
 //quitando border inferior
@@ -21,17 +23,34 @@ ion-item{
   min-width:25%; max-width:25%;
 }
 .list-pub .label-nick{
-  font-size:13px;color:#ff8c00
+  font-family:Quicksand;
+  font-weight:bold;
+  font-size:15px;
+  line-height:100%;
+  color:#ff8c00
 }
 .list-pub .label-date{
-  font-size:9px;color:#B3B3B3
+  font-family:Quicksand;
+  font-weight:bold;
+  font-size:10px;
+  line-height:90%;
+  color:skyblue
 }
 .list-pub .label-text{
   width:80%;
 }
+.list-pub .label-text p{
+  //font-family:Arial;
+  font-size:14px;
+  font-weight:bold;
+  //letter-spacing:1px;
+}
 
 .ionheader-tab1{
 
+}
+.ionheader-tab1 p{
+  //font-size:18px;
 }
 
 .ionheader-tab1 .ion_icon{
