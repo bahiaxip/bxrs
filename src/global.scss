@@ -318,7 +318,12 @@ ion-tab-button{
   display:block
   /*compatible con width:100% y margin:auto para el botón de más entradas*/
 }
-
+.floatL{
+  float:left;
+}
+.floatR{
+  float:right;
+}
 .clearL{
   clear:left
 }

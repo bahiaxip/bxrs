@@ -43,7 +43,7 @@
           </ng-template>
         </mat-form-field>
         <ion-row>
-          <ion-col>
+          <ion-col size="4">
             <button mat-raised-button class="favorite_button"  type="button" (click)="updatePublication()" [disabled]="!formAddPublication.valid" *ngIf="switchUpdate">
               ACTUALIZAR
             </button>
@@ -52,11 +52,16 @@
               ENVIAR
             </button>
           </ion-col>
-          <ion-col>
-            <ion-button (click)="fileButton.click()" color="favorite"  style="position:absolute;bottom:10px;right:10px;">
+          <ion-col size="4">
+            <ion-button (click)="fileButton.click()" color="favorite">
               <ion-icon name="image" class="c_white"></ion-icon>
             </ion-button>
-            <input name="imagepub" #fileButton type="file" (change)="fileChangeEvent($event)"  style="width: 0;height:"/>
+            <input name="imagepub" #fileButton type="file" (change)="fileChangeEvent($event)"  class="input_hidden"/>
+          </ion-col>
+          <ion-col *ngIf="publicationUser.image && publicationUser.image.name" size="4">
+            <ion-thumbnail class="floatR">
+              <img src="{{url+'image-pub/'+publicationUser.user.email+'/'+publicationUser.image.name}}" />
+            </ion-thumbnail>
           </ion-col>
         </ion-row>
       </form>
