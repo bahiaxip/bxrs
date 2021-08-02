@@ -40,10 +40,14 @@ export class AddPublicationComponent implements OnInit {
     if(this.publicationUser && this.publicationUser.text){
       text=this.publicationUser.text
       this.switchUpdate=true;
+      /*
       if(this.publicationUser.image && this.publicationUser.image.name){
         image=this.publicationUser.image.name;
       }
+      */
       console.log("el publicationUser: ",this.publicationUser)
+
+
     }
     this.formAddPublication=new FormGroup({
       text:new FormControl(text,[Validators.required])

@@ -380,14 +380,11 @@ ion-refresher ion-refresher-content{
       background-color:#373737 !important;
       border-color:#ff7500 !important;
       border-width:1px;
-
-
     }
     //spinner
     ion-spinner{
       //background-color:orange !important;
       color: #ff7500 !important;
-
    }
    //punta de spinner cuando se arrastra al inicio
    .spinner-arrow-container ion-icon{
@@ -396,6 +393,16 @@ ion-refresher ion-refresher-content{
    }
 }
 
+
+//loading
+
+.loading_style .loading-wrapper{
+  background:#474747;
+  color:#ff7500;
+  ion-spinner{
+  color:#ff7500
+  }
+}
 
 
 

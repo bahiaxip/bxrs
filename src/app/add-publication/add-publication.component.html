@@ -58,7 +58,7 @@
             </ion-button>
             <input name="imagepub" #fileButton type="file" (change)="fileChangeEvent($event)"  class="input_hidden"/>
           </ion-col>
-          <ion-col *ngIf="publicationUser.image && publicationUser.image.name" size="4">
+          <ion-col *ngIf="switchUpdate && publicationUser.image && publicationUser.image.name" size="4">
             <ion-thumbnail class="floatR">
               <img src="{{url+'image-pub/'+publicationUser.user.email+'/'+publicationUser.image.name}}" />
             </ion-thumbnail>

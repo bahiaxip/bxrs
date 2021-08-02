@@ -11,7 +11,9 @@ export class LoadingService {
   async presentLoading(loadingId:string,loadingMessage:string){
     const loading = await this.loadingController.create({
       id:loadingId,
-      message: loadingMessage
+      message: loadingMessage,
+      duration:30000,
+      cssClass: "loading_style"
     });
     //return await loading.present();
     return loading.present();
