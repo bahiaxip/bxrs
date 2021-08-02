@@ -369,6 +369,28 @@ ion-refresher ion-refresher-content{
   }
 }
 
+.red.refresher-native{
+    //fondo circular
+    .refresher-refreshing-icon, .refresher-pulling-icon{
+      background-color:#373737 !important;
+      border-color:#ff7500 !important;
+      border-width:1px;
+
+
+    }
+    //spinner
+    ion-spinner{
+      //background-color:orange !important;
+      color: #ff7500 !important;
+
+   }
+   //punta de spinner cuando se arrastra al inicio
+   .spinner-arrow-container ion-icon{
+      //background-color:blue !important;
+      color: #ff7500!important;
+   }
+}
+
 
 
 

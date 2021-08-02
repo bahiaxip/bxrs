@@ -12,15 +12,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" >
+<ion-content [fullscreen]="true" color="favorite2">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <div *ngIf="users" >
-    <ion-list  class="ion-list-tab2">
+    <ion-list  class="ion-list-tab2" >
       <mat-accordion >
         <div *ngFor="let user of users" >
-          <mat-expansion-panel *ngIf="!user.visible" hideToggle disabled class="mathover" >
+          <mat-expansion-panel *ngIf="!user.visible" hideToggle disabled class="mathover" color="favorite2">
             <mat-expansion-panel-header class="mat-header-tab2" >
               <mat-panel-title class="mat-title-tab2" >
               <ion-item  >

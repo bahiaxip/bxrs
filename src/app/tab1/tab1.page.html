@@ -22,13 +22,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ioncontent-tab1" style="background: orange" >
+<ion-content [fullscreen]="true" class="ioncontent-tab1" color="favorite2" >
 
-  <ion-refresher #refresherRef slot="fixed" (ionRefresh)="doRefresh($event)" [ngClass]="{'refresher-active refresher-refreshing':refresherActive}" class="refresh">
-    <ion-refresher-content
-
-    refreshingSpinner="crescent">
-
+  <ion-refresher #refresherRef slot="fixed" (ionRefresh)="doRefresh($event)" [ngClass]="{'refresher-active refresher-refreshing':refresherActive}" class="red">
+    <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
 
