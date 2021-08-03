@@ -170,7 +170,7 @@ export class Tab1Page implements OnInit{
         event.target.complete();
       }
 
-      if(this.switchMore)
+      if(this.switchMore && this.page != this.pages)
         this.switchMore=false;
       if(this.publications){
         this.getLastPublications(this.lastPublicationTime);
@@ -471,7 +471,7 @@ export class Tab1Page implements OnInit{
           },10000)
         }else{
           var errorMessage = <any>error;
-          console.log(errorMessage);
+          console.log("Error en publications: ",errorMessage);
         }
         /*
 

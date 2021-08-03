@@ -10,7 +10,7 @@ export class StorageService {
   private _storage:Storage | null=null;
   private loading:any;
   private changeFollUnFoll=new Subject<void>();
-  private changeFollUnFoll$ = this.changeFollUnFoll.asObservable();
+  public changeFollUnFoll$ = this.changeFollUnFoll.asObservable();
 
   constructor(
     private storage:Storage,

@@ -107,10 +107,20 @@
               </ion-label>
             </ion-item>
             <ion-item *ngIf="user.visible.city" class="item-visibility">
-              {{user.city}}
+              <ion-label class="label-visibility-title">
+                Ciudad
+              </ion-label>
+              <ion-label class="label-visibility">
+                {{user.city}}
+              </ion-label>
             </ion-item>
             <ion-item *ngIf="user.visible.phone" class="item-visibility">
-              {{user.phone}}
+              <ion-label class="label-visibility-title">
+                Teléfono
+              </ion-label>
+              <ion-label class="label-visibility">
+                {{user.phone}}
+              </ion-label>
             </ion-item>
 
           </mat-expansion-panel>

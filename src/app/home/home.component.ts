@@ -44,14 +44,17 @@ export class HomeComponent implements AfterViewInit {
 
   )
   {
+    /*
     this.platform.backButton.subscribeWithPriority(-1,() => {
       if(this.routerOutlet.canGoBack()){
-        console.log("cangoback: ",this.routerOutlet.canGoBack());
+        console.log("cangoback: ",this.routerOutlet);
+        console.log(this._router.url);
       }
-      if(!this.routerOutlet.canGoBack()){
+      if(!this.routerOutlet.canGoBack() && this._router.url == "/tabs/tab1"){
         App.exitApp();
       }
     })
+    */
 
   }
 
