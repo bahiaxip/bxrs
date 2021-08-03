@@ -19,6 +19,7 @@ export class HomeComponent implements AfterViewInit {
   private userIdentity;
   private userToken;
   private title:string="IONICRRSS2";
+  private switchAllLogo:boolean=false;
   private switchLogo:boolean=false;
   private switchLogo2:boolean=false;
   private switchLogo3:boolean=false;
@@ -44,6 +45,9 @@ export class HomeComponent implements AfterViewInit {
   )
   {
     this.platform.backButton.subscribeWithPriority(-1,() => {
+      if(this.routerOutlet.canGoBack()){
+        console.log("cangoback: ",this.routerOutlet.canGoBack());
+      }
       if(!this.routerOutlet.canGoBack()){
         App.exitApp();
       }
@@ -54,12 +58,18 @@ export class HomeComponent implements AfterViewInit {
 
   ngOnInit(){
 
+
+
   }
 
   ngAfterViewInit() {
+
     //console.log("home: ",this.welcome.nativeElement.innerHTML);
     //this.welcome.nativeElement.innerHTML="";
-    this.showingTitle("Bienvenido a BXRS");
+    if(!this.switchAllLogo){
+      this.showingTitle("Bienvenido a BXRS");
+      this.switchAllLogo=true;
+    }
     /*if(localStorage){
       this._storageService.clear();
       console.log("yea1")
@@ -129,6 +139,8 @@ export class HomeComponent implements AfterViewInit {
           this.userIdentity=JSON.parse(identity);
           if(this.userIdentity.user){
             this._router.navigate(["/tabs"]);
+          }else{
+            console.log("no existe userIdentity.user")
           }
           //this._userService.setIdentity(this.userIdentity.user);
           console.log("this: ",this.userIdentity)
@@ -146,6 +158,7 @@ export class HomeComponent implements AfterViewInit {
       }else{
         console.log("a home")
         this._router.navigate(["/home"]);
+
       }
     //}
 

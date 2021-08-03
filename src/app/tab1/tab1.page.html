@@ -30,7 +30,7 @@
   </ion-refresher>
 
   <div *ngIf="publications">
-    <ion-button class="new_pub" [ngStyle]="swButtonNot ? {'opacity':'1'}:{'opacity':'0'}" (click)="doRefresh(refresherRef,'true')">
+    <ion-button class="new_pub" [ngStyle]="swButtonNot ? {'opacity':'1','top':'75px'}:{'opacity':'0','top':'-75px'}" (click)="doRefresh(refresherRef,'true')">
         Nuevas publicaciones
       </ion-button>
     <ion-list *ngFor="let item of publications;let i = index" lines="inset" id="{{item._id}}" [hidden]="itm[i]" class="list-pub">

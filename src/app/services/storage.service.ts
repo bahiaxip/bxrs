@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { Router } from '@angular/router';
 import { LoadingService } from './loading.service';
+import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
   private _storage:Storage | null=null;
   private loading:any;
+  private changeFollUnFoll=new Subject<void>();
+  private changeFollUnFoll$ = this.changeFollUnFoll.asObservable();
 
   constructor(
     private storage:Storage,
@@ -52,6 +55,12 @@ export class StorageService {
       this._router.navigate(["/"]);
     })
   }
+
+  setChangeFollUnFoll(){
+    this.changeFollUnFoll.next();
+  }
+
+
 
 
 }

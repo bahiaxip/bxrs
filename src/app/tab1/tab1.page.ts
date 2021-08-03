@@ -39,6 +39,9 @@ export class Tab1Page implements OnInit{
   private slideTextButton=[];
   private miSuscription:Subscription=null;
 
+  //interruptor relacionado con suscripción de cambio seguimiento en tab2
+  private switchChangeFollUnFoll:boolean=false;
+
   private loading:any;
   //interruptor que permite mostrar/ocultar el botón de notificaciones
   private swButtonNot:boolean=false;
@@ -65,6 +68,12 @@ export class Tab1Page implements OnInit{
   }
 
   ngOnInit(){
+
+    this.miSuscription = this._storageService.changeFollUnFoll$.subscribe(()=> {
+      console.log("switch antes de asignar: ",this.switchChangeFollUnFoll)
+      this.switchChangeFollUnFoll=true;
+
+    })
 
     setInterval(()=> {
       if(this.publications && this.lastPublicationTime)
@@ -338,17 +347,24 @@ export class Tab1Page implements OnInit{
       console.log("desde tab1 cridem a identity: ",identi)
       let identity=JSON.parse(identi);
       this.identity=identity.user;
-      console.log("identity desde ionViewWillEnter: ",this.identity);
-      console.log("identity2 desde ionViewWillEnter: ",this.identity2);
+      //console.log("identity desde ionViewWillEnter: ",this.identity);
+      //console.log("identity2 desde ionViewWillEnter: ",this.identity2);
 
-      console.log("nueva publicacion")
+      //console.log("nueva publicacion")
+      //console.log(this.publications);
       if(this.page != this.pages)
         this.switchMore=false;
       if(!this.publications || this.identity._id!=this.identity2._id){
-        console.log("entra en publications recarga")
+        console.log("forzamos recarga de publicaciones: ")
         this.page=1;
         this.getPublications(this.page);
+      }else if(this.publications && this.publications.length <= 0
+        || this.switchChangeFollUnFoll){
+        console.log("existe publications pero vacía: ",this.publications);
+        this.switchMore=true;
+        this.getPublications(this.page)
       }
+
     });
 
 
@@ -366,6 +382,8 @@ export class Tab1Page implements OnInit{
             this.publications=newPublications.concat(this.publications);
             this.lastPublicationTime=this.publications[0].created_at;
           }else{
+            if(this.publications && this.publications.length <= 0)
+              this.switchMore=true;
             console.log("nmo existen nuevos")
           }
         }
@@ -397,6 +415,8 @@ export class Tab1Page implements OnInit{
               if(this.page == 1 && response.publications.totalPages == 1){
                 this.switchMore=true;
               }
+              if(this.switchChangeFollUnFoll)
+                !this.switchChangeFollUnFoll;
               this.pages=response.publications.totalPages;
               console.log("res:",response.publications);
               //(this.page == this.pages) ? false:true;
@@ -421,7 +441,7 @@ export class Tab1Page implements OnInit{
             }else{
               this.publications=[];
               this.switchMore=true;
-              console.log("no existe ninguna publicación")
+              console.log("no existe ninguna publicación desde getPublications ")
               //this.switchMore=false;
             }
 
@@ -434,10 +454,10 @@ export class Tab1Page implements OnInit{
             //this.switchMore=false;
             console.log("no existen publicaciones")
           }
-          console.log("entra en getPublications: ",this.identity)
+          console.log("ha entrado en getPublications: ",this.identity)
 
         this.identity2=this.identity;
-        console.log("identity2: ",this.identity2)
+        //console.log("identity2: ",this.identity2)
 
         }
       },

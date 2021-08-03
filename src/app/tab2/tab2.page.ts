@@ -7,6 +7,8 @@ import { StorageService } from '../services/storage.service';
 import { Global } from '../services/Global';
 import { ToastController } from '@ionic/angular';
 import { ToastService } from '../services/toast.service';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-tab2',
@@ -14,6 +16,9 @@ import { ToastService } from '../services/toast.service';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
+
+  //private changeollow=new Subject<void>();
+
 
   private users:Array<User>;
   public clickButton:boolean=false;
@@ -218,7 +223,7 @@ export class Tab2Page {
     this.getUsers(this.page,true)
   }
 
-  //testFollow para que no se despliegue cuando clicamos el icono de seguir o no seguir
+  //testFollow (no se despliega cuando clicamos el icono de seguir o dejar de seguir)
   testFollow(followed,method,param=null){
     if(param)
       this.clickButton=true;
@@ -226,6 +231,7 @@ export class Tab2Page {
       this.followUser(followed);
     else if(method=="unfollow")
       this.unFollowUser(followed)
+    this._storageService.setChangeFollUnFoll();
     console.log("follow: ",followed)
   }
   //seguir usuario
