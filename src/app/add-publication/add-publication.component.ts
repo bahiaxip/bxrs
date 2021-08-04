@@ -65,7 +65,6 @@ export class AddPublicationComponent implements OnInit {
     this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
       console.log("suscribir salida desde appcomponent");
       this.dismiss();
-
     })
   }
 
