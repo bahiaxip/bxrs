@@ -5,7 +5,7 @@ import { StorageService } from '../services/storage.service';
 import { PublicationService } from '../services/publication.service';
 import { UploadService } from '../services/upload.service';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { Global } from '../services/Global';
 
 @Component({
@@ -23,12 +23,15 @@ export class AddPublicationComponent implements OnInit {
   private url:string;
   formAddPublication:FormGroup;
 
+  private exitSubscription:any;
+
   constructor(
     private _router:Router,
     private _storageService:StorageService,
     private _publicationService: PublicationService,
     private modalController:ModalController,
-    private _uploadService:UploadService
+    private _uploadService:UploadService,
+    private platform:Platform,
   ) {
     this.url=Global.url;
   }
@@ -57,6 +60,18 @@ export class AddPublicationComponent implements OnInit {
   ionViewWillEnter(){
     this.identity();
     console.log(this.formAddPublication.controls.text)
+  }
+  ionViewDidEnter(){
+    this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
+      console.log("suscribir salida desde appcomponent");
+      this.dismiss();
+
+    })
+  }
+
+  ionViewWillLeave(){
+    console.log("desuscribir salida")
+    this.exitSubscription.unsubscribe();
   }
 
   dismiss(){

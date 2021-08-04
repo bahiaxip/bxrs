@@ -8,12 +8,15 @@ import { Observable,Subscription,BehaviorSubject } from 'rxjs';
 import { Global } from '../services/Global';
 
 //ejemplo modal y popover
-import { ModalController,PopoverController } from '@ionic/angular';
+import { ModalController,PopoverController, Platform } from '@ionic/angular';
 import { SettingsModalComponent } from '../settings-modal/settings-modal.component';
 import { AddPublicationComponent } from '../add-publication/add-publication.component';
 //import { LoadingController } from '@ionic/angular';
 import { LoadingService } from '../services/loading.service';
 //import { Refresher } from '@ionic/angular';
+import { Plugins } from '@capacitor/core';
+
+const { App } = Plugins;
 
 @Component({
   selector: 'app-tab1',
@@ -49,6 +52,9 @@ export class Tab1Page implements OnInit{
   private lastPublicationTime:any;
   //activar el icono de refresh cuando se activa mediante el botón de nuevas notificaciones
   private refresherActive:boolean=false;
+  private exitSubscription:any;
+  private counterSubscription:number=0;
+
 
   @ViewChild("refresherRef", {static:false}) refresher:ElementRef;
   constructor(
@@ -59,6 +65,7 @@ export class Tab1Page implements OnInit{
     private popoverController:PopoverController,
     private _loadingService:LoadingService,
     private _router:Router,
+    private platform:Platform,
     //probando loading en componente
     //private loadingController:LoadingController
   ) {
@@ -154,6 +161,33 @@ export class Tab1Page implements OnInit{
     }
   }
   */
+
+  ionViewDidEnter(){
+    this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
+      this.counterSubscription++;
+      if(this.counterSubscription >= 2){
+        console.log("Salir");
+        App.exitApp();
+      }
+      else{
+       console.log("toque de nuevo para salir");
+       if(this.counterSubscription==1){
+         //damos 3 segundos de intervalo para volver a pulsar y salir
+         //si no reiniciamos el contador de salida a 0
+         setTimeout(()=> {
+         this.counterSubscription=0;
+       },3000)
+       }
+
+      }
+
+    })
+  }
+
+  ionViewWillLeave(){
+    console.log("desuscribir salida")
+    this.exitSubscription.unsubscribe();
+  }
 
   async doRefresh(event,data=null){
   //ocultar botón

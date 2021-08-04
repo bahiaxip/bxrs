@@ -6,7 +6,8 @@ import { StorageService } from '../services/storage.service';
 import { UploadService } from '../services/upload.service';
 import { Router } from '@angular/router';
 import { Global } from '../services/Global';
-import { ToastController } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
+import { Location } from '@angular/common';
 import { LoadingService } from '../services/loading.service';
 
 @Component({
@@ -24,6 +25,7 @@ export class PerfilPage implements OnInit {
   private result2:any;
   private switchT:any;
   private loading:any;
+  private exitSubscription:any;
   newUser={
     name:'',
     surname:'',
@@ -59,7 +61,9 @@ export class PerfilPage implements OnInit {
     private _storageService:StorageService,
     private _uploadService:UploadService,
     private toastController:ToastController,
-    private _loadingService:LoadingService
+    private _loadingService:LoadingService,
+    private platform:Platform,
+    private location:Location
 
     ){
     this.url=Global.url;
@@ -120,6 +124,18 @@ export class PerfilPage implements OnInit {
         this._router.navigate(["/"])
       }
     });
+  }
+
+  ionViewDidEnter(){
+    this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
+      console.log("suscribir salida");
+      this.location.back();
+    })
+  }
+
+  ionViewWillLeave(){
+    console.log("desuscribir salida")
+    this.exitSubscription.unsubscribe();
   }
 
   ngOnInit() {

@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
+
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
 import { FollowService } from '../services/follow.service';
 import { Follow } from '../models/follow';
 import { StorageService } from '../services/storage.service';
 import { Global } from '../services/Global';
-import { ToastController } from '@ionic/angular';
+import { ToastController, Platform } from '@ionic/angular';
 import { ToastService } from '../services/toast.service';
 import { Subscription } from 'rxjs';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -34,12 +36,16 @@ export class Tab2Page {
   private url:string;
   private visibilityWithPropOne:Array<any>;
   private counter:number;
+  private exitSubscription:any;
+
   constructor(
     private _userService:UserService,
     private _followService:FollowService,
     private _storageService:StorageService,
     private toastController:ToastController,
-    private _toastService:ToastService
+    private _toastService:ToastService,
+    private platform:Platform,
+    private location:Location,
   ){
     this.page=1;
     this.url=Global.url;
@@ -97,6 +103,17 @@ export class Tab2Page {
   }
 
 
+  ionViewDidEnter(){
+    this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
+      console.log("suscribir salida");
+      this.location.back();
+    })
+  }
+
+  ionViewWillLeave(){
+    console.log("desuscribir salida")
+    this.exitSubscription.unsubscribe();
+  }
   ionViewWillEnter(){
     //this.counter=0;
     //no es necesario obtener el identity...

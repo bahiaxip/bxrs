@@ -218,6 +218,7 @@ ion-tab-button{
   width:100%;
 }
 */
+      //título toolbar
 .title2{
   position:absolute;
   width:100%;
@@ -232,7 +233,13 @@ ion-tab-button{
   letter-spacing:1px;
   font-weight:normal;
 }
+      //imagen toolbar
+ion-thumbnail.thumb_toolbar{
+  width:35px;
+  height:35px;
+}
 
+      //botones
 .favorite_button{
   color:white;
   background-color:#ff7500;

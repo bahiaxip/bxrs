@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 //controllers
 import { ModalController } from '@ionic/angular';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController,Platform } from '@ionic/angular';
+import { Location } from '@angular/common';
 //services
 import { StorageService } from '../services/storage.service';
 import { MessageService } from '../services/message.service';
@@ -30,6 +31,7 @@ export class Tab3Page {
   private loading:any;
   private itmReceived=[];
   private itmSended=[];
+  private exitSubscription:any;
 
   constructor(
     private _storageService:StorageService,
@@ -37,7 +39,9 @@ export class Tab3Page {
     private _messageService:MessageService,
     private popoverController:PopoverController,
     private _loadingService:LoadingService,
-    private _toastService:ToastService
+    private _toastService:ToastService,
+    private platform:Platform,
+    private location:Location
   ){
     this.loading=_loadingService;
   }
@@ -79,6 +83,18 @@ export class Tab3Page {
         }
       )
     })
+  }
+
+  ionViewDidEnter(){
+    this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
+      console.log("suscribir salida");
+      this.location.back();
+    })
+  }
+
+  ionViewWillLeave(){
+    console.log("desuscribir salida")
+    this.exitSubscription.unsubscribe();
   }
 
   showMore(id,type){

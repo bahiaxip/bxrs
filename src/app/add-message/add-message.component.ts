@@ -5,7 +5,7 @@ import { StorageService } from '../services/storage.service';
 import { MessageService } from '../services/message.service';
 import { UserService } from '../services/user.service';
 
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 
 import { Message } from '../models/message';
 import { User } from '../models/user';
@@ -20,11 +20,14 @@ export class AddMessageComponent implements OnInit {
   private identy:any;
   formAddMessage:FormGroup;
   private users:Array<User>;
+  private exitSubscription:any;
+
   constructor(
     private _storageService:StorageService,
     private modalController:ModalController,
     private _messageService:MessageService,
-    private _userService:UserService
+    private _userService:UserService,
+    private platform:Platform
   ) { }
 
   ngOnInit() {
@@ -41,6 +44,17 @@ export class AddMessageComponent implements OnInit {
     });
 
     //console.log(this.identy._id);
+  }
+  ionViewDidEnter(){
+    this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
+      console.log("suscribir salida desde addmessages");
+      this.dismiss();
+    })
+  }
+
+  ionViewWillLeave(){
+    console.log("desuscribir salida")
+    this.exitSubscription.unsubscribe();
   }
 
   dismiss(){
