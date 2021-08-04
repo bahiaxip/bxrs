@@ -54,6 +54,7 @@ export class Tab1Page implements OnInit{
   private refresherActive:boolean=false;
   private exitSubscription:any;
   private counterSubscription:number=0;
+  private checkNotification:any;
 
 
   @ViewChild("refresherRef", {static:false}) refresher:ElementRef;
@@ -82,35 +83,7 @@ export class Tab1Page implements OnInit{
 
     })
 
-    setInterval(()=> {
-      if(this.publications && this.lastPublicationTime)
-      this._publicationService.getLastPublications(this.lastPublicationTime).subscribe(
-        response=> {
-          if(response && response.publications){
-            let newPublications=response.publications;
-            if(newPublications.length>0){
-              //mostramos botón de nuevas publicaciones
-              this.swButtonNot=true;
-              console.log("existen nuevas publicaciones");
-            }
-          }
-        },
-        error => {
-          if(error && error.error.status==401){
-            console.log("El token no es válido o ha expirado");
-            console.log("Es necesario loguearse de nuevo")
-            setTimeout(()=> {
-              this._storageService.logout()
 
-            },10000)
-          }else{
-            var errorMessage = <any>error;
-            console.log(errorMessage);
-          }
-        }
-      )
-
-    },10000)
 
     /*
     this.suscription = this._publicationService.refresh$.subscribe((data)=> {
@@ -187,6 +160,7 @@ export class Tab1Page implements OnInit{
   ionViewWillLeave(){
     console.log("desuscribir salida")
     this.exitSubscription.unsubscribe();
+    clearInterval(this.checkNotification);
   }
 
   async doRefresh(event,data=null){
@@ -400,6 +374,47 @@ export class Tab1Page implements OnInit{
       }
 
     });
+
+
+    //notificación nuevas publicaciones
+    this.checkNotification = setInterval(()=> {
+      console.log("interval: ",this.lastPublicationTime);
+      if(this.publications && this.lastPublicationTime)
+      this._publicationService.getLastPublications(this.lastPublicationTime).subscribe(
+        response=> {
+          if(response && response.publications){
+            let newPublications=response.publications;
+
+            if(newPublications.length>0){
+              console.log("nuevas publicaciones: ",newPublications)
+              //con everyPublications aseguramos que la publicación no es propia
+              let everyPublications = newPublications.every(publication => publication.user==this.identity._id)
+              console.log("everyPublications: ",everyPublications);
+              if(!everyPublications){
+
+              //mostramos botón de nuevas publicaciones
+              this.swButtonNot=true;
+              console.log("existen nuevas publicaciones que no son mías");
+              }
+            }
+          }
+        },
+        error => {
+          if(error && error.error.status==401){
+            console.log("El token no es válido o ha expirado");
+            console.log("Es necesario loguearse de nuevo")
+            setTimeout(()=> {
+              this._storageService.logout()
+
+            },10000)
+          }else{
+            var errorMessage = <any>error;
+            console.log(errorMessage);
+          }
+        }
+      )
+
+    },10000)
 
 
     /*
