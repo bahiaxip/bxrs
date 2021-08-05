@@ -30,14 +30,14 @@
 
       <ion-list class="w100 p0" >
         <div *ngFor="let message of messages;let i=index" lines="inset" class="b_gris" [hidden]="itmReceived[i]">
-          <ion-item  class="ionitem-tab3" color="dark">
+          <ion-item  class="ionitem-tab3 cpointer " color="dark" (click)="viewed(message)" >
             <ion-avatar slot="start" >
               <img [src]="'assets/icons/person.png'" />
             </ion-avatar>
 
             <ion-label class="t_center w70" [ngStyle]="clickButton[i] ? {'white-space': 'normal'}:{'white-space':'nowrap'}">
               <p></p>
-              <p class="f12 text ">{{message.text}}</p>
+              <p class="f12 text" [ngClass]="{'viewed':message.viewed=='true'}" >{{message.text}}</p>
               <p></p>
               <!--<p style="font-size:10px;color:#B3B3B3"></p>-->
             </ion-label>

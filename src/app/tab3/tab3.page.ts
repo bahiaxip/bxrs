@@ -81,6 +81,11 @@ export class Tab3Page {
     this.exitSubscription.unsubscribe();
   }
 
+  viewed(messageReceived){
+    messageReceived.viewed='true';
+    console.log("visto");
+  }
+
   getReceivedMessages(){
     this._messageService.getReceivedMessages().subscribe(
       response => {
