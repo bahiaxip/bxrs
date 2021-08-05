@@ -4,6 +4,7 @@ import { Publication } from '../models/publication';
 import { StorageService } from '../services/storage.service';
 import { PublicationService } from '../services/publication.service';
 import { UploadService } from '../services/upload.service';
+import { LoadingService } from '../services/loading.service';
 import { Router } from '@angular/router';
 import { ModalController, Platform } from '@ionic/angular';
 import { Global } from '../services/Global';
@@ -24,16 +25,19 @@ export class AddPublicationComponent implements OnInit {
   formAddPublication:FormGroup;
 
   private exitSubscription:any;
+  private loading:any;
 
   constructor(
     private _router:Router,
     private _storageService:StorageService,
     private _publicationService: PublicationService,
+    private _loadingService:LoadingService,
     private modalController:ModalController,
     private _uploadService:UploadService,
     private platform:Platform,
   ) {
     this.url=Global.url;
+    this.loading=_loadingService;
   }
 
   ngOnInit() {
@@ -80,6 +84,7 @@ export class AddPublicationComponent implements OnInit {
       //pasamos el publication
       'publication':this.publication
     })
+    this.loading.dismiss("publications");
   }
 
   async identity(){
@@ -93,6 +98,7 @@ export class AddPublicationComponent implements OnInit {
   //en lugar de asignar el token en el servicio lo asignamos aquí en el
   //componente, de esa forma, probamos 2 métodos distintos
   async addPublication(){
+    await this.loading.presentLoading("publications","Cargando...");
     await this._storageService.getToken().then((token)=>{
       console.log("el token: ",token)
       this.token=token;
@@ -114,13 +120,13 @@ export class AddPublicationComponent implements OnInit {
                 //ej:  makeFileRequest(...):Promise<any>
                 if(result){
                   console.log("result_publication: ",result)
-                  this.formAddPublication.reset();
+                  //this.formAddPublication.reset();
                   this.dismiss();
                 }
             });
           }else{
             console.log("no existe imagen")
-            this.formAddPublication.reset();
+            //this.formAddPublication.reset();
             this.dismiss();
           }
           //this._router.navigate(["/tabs/tab1"]);
@@ -137,6 +143,7 @@ export class AddPublicationComponent implements OnInit {
 
 
   async updatePublication(){
+    await this.loading.presentLoading("publications","Cargando...");
     this.publicationUser.text=this.formAddPublication.controls.text.value;
     console.log(this.publicationUser)
     await this._storageService.getToken().then((token) => {
@@ -156,13 +163,13 @@ export class AddPublicationComponent implements OnInit {
                 //ej:  makeFileRequest(...):Promise<any>
                 if(result){
                   console.log("result_publication: ",result)
-                  this.formAddPublication.reset();
+                  //this.formAddPublication.reset();
                   this.dismiss();
                 }
             });
           }else{
             console.log("no existe imagen")
-            this.formAddPublication.reset();
+            //this.formAddPublication.reset();
             this.dismiss();
           }
         },

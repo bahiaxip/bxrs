@@ -24,6 +24,7 @@ export class HomeComponent implements AfterViewInit {
   private switchLogo2:boolean=false;
   private switchLogo3:boolean=false;
   private switchLogo4:boolean=false;
+  private exitSubscription:any;
   //private __storage:Storage;
   //para ngOnInit (static:true), no necesario ElementRef
   //@ViewChild("welcome",{static:true}) welcome: ElementRef;
@@ -79,6 +80,17 @@ export class HomeComponent implements AfterViewInit {
       console.log("yea1")
     }
     */
+  }
+  ionViewDidEnter(){
+    this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
+        console.log("Salir");
+        App.exitApp();
+    })
+  }
+
+  ionViewWillLeave(){
+    console.log("desuscribir salida")
+    this.exitSubscription.unsubscribe();
   }
 
   showingTitle(word){

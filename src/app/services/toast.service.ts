@@ -38,4 +38,12 @@ export class ToastService {
     });
     await toast.present();
   }
+
+  async exitToast(){
+    const toast = await this.toastController.create({
+      message: "Pulse otra vez atrás para salir",
+      duration:2000,
+      cssClass:"t_center"
+    })
+  }
 }

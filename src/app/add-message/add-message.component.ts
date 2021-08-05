@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StorageService } from '../services/storage.service';
 import { MessageService } from '../services/message.service';
 import { UserService } from '../services/user.service';
+import { LoadingService } from '../services/loading.service';
 
 import { ModalController, Platform } from '@ionic/angular';
 
@@ -21,14 +22,18 @@ export class AddMessageComponent implements OnInit {
   formAddMessage:FormGroup;
   private users:Array<User>;
   private exitSubscription:any;
+  private loading:any;
 
   constructor(
     private _storageService:StorageService,
     private modalController:ModalController,
     private _messageService:MessageService,
     private _userService:UserService,
+    private _loadingService:LoadingService,
     private platform:Platform
-  ) { }
+  ) {
+    this.loading=_loadingService;
+  }
 
   ngOnInit() {
 
@@ -61,6 +66,7 @@ export class AddMessageComponent implements OnInit {
     this.modalController.dismiss({
       'dismiss':true
     })
+    this.loading.dismiss("publications");
   }
 
   getUsers(identi){
@@ -84,7 +90,7 @@ export class AddMessageComponent implements OnInit {
     }
   }
 
-  onSubmit(){
+  async onSubmit(){
     this.message={
       _id:null,
       text:this.formAddMessage.controls.text.value,
@@ -92,6 +98,7 @@ export class AddMessageComponent implements OnInit {
       emitter:this.identy._id,
       receiver:this.formAddMessage.controls.receiver.value
     }
+    await this.loading.presentLoading("messages","Cargando...");
     this._messageService.addMessage(this.message).subscribe(
       response => {
         console.log(response)

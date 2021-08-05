@@ -13,6 +13,7 @@ import { SettingsModalComponent } from '../settings-modal/settings-modal.compone
 import { AddPublicationComponent } from '../add-publication/add-publication.component';
 //import { LoadingController } from '@ionic/angular';
 import { LoadingService } from '../services/loading.service';
+import { ToastService } from '../services/toast.service';
 //import { Refresher } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 
@@ -65,6 +66,7 @@ export class Tab1Page implements OnInit{
     private modalController: ModalController,
     private popoverController:PopoverController,
     private _loadingService:LoadingService,
+    private _toastService:ToastService,
     private _router:Router,
     private platform:Platform,
     //probando loading en componente
@@ -145,6 +147,7 @@ export class Tab1Page implements OnInit{
       else{
        console.log("toque de nuevo para salir");
        if(this.counterSubscription==1){
+         this._toastService.exitToast();
          //damos 3 segundos de intervalo para volver a pulsar y salir
          //si no reiniciamos el contador de salida a 0
          setTimeout(()=> {
