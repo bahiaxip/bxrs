@@ -68,4 +68,16 @@ export class MessageService {
     )
   }
 
+  updateReceivedMessage(id):Observable<any>{
+    return from(this._storageService.getToken()).pipe(
+      switchMap(token => {
+        let headers = new HttpHeaders({
+          "Content-Type":"application/json",
+          "Authorization":token
+        });
+        return this._http.put(this.url+"message/"+id,{headers:headers});
+      })
+    )
+  }
+
 }

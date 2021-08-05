@@ -82,7 +82,21 @@ export class Tab3Page {
   }
 
   viewed(messageReceived){
-    messageReceived.viewed='true';
+    if(messageReceived.viewed == 'false'){
+      //añadimos la clase para mostrar el texto en blanco
+      messageReceived.viewed='true';
+    //actualizamos la propiedad viewed
+      this._messageService.updateReceivedMessage(messageReceived._id).subscribe(
+        response => {
+          console.log(response);
+        },
+        error =>{
+          console.log(error);
+        }
+      )
+    }
+
+
     console.log("visto");
   }
 
