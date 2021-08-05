@@ -57,10 +57,10 @@
             <ion-button size="small" fill="clear" (click)="settingsPopover(item._id,i)" class="ion_button" *ngIf="identity._id == item.user._id">
               <ion-icon name="ellipsis-horizontal-outline" slot="icon-only"></ion-icon>
             </ion-button>
-            <ion-button fill="clear" (click)="showMore(i);">
-            <ion-icon name="caret-up-outline" *ngIf="clickButton[i]" class="c_white"></ion-icon>
-            <ion-icon name="caret-down-outline" *ngIf="!clickButton[i]" class="c_white"></ion-icon>
-          </ion-button>
+            <ion-button fill="clear" (click)="showMore(i);" class="pt_10">
+              <ion-icon name="caret-up-outline" *ngIf="clickButton[i]" class="c_white"></ion-icon>
+              <ion-icon name="caret-down-outline" *ngIf="!clickButton[i]" class="c_white"></ion-icon>
+            </ion-button>
 
         </ion-item>
         <ion-item *ngIf="item.image" color="dark">
