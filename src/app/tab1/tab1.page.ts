@@ -318,7 +318,7 @@ export class Tab1Page implements OnInit{
     return await popover.present();
   }
 
-  //modal
+  //modal añadir nueva publicación
   async presentModal(pub=null){
     let text;
     if(pub){

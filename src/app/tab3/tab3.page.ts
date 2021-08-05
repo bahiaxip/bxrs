@@ -52,7 +52,10 @@ export class Tab3Page {
       component:AddMessageComponent
     });
 
-    return await modal.present();
+    modal.present();
+    const messageData = await modal.onWillDismiss().then(()=> {
+      this.getEmmittedMessages();
+    })
   }
 
   ionViewWillEnter(){
@@ -61,27 +64,8 @@ export class Tab3Page {
       if(!identi){
         this._storageService.logout();
       }
-      this._messageService.getReceivedMessages().subscribe(
-        response => {
-          console.log(response);
-          this.messages=response.messages;
-          this.itmReceived=this.messages.map(msge=>false);
-          console.log("itemReceived: ",this.itmReceived)
-        },
-        error => {
-
-        }
-      )
-      this._messageService.getEmmittedMessages().subscribe(
-        response => {
-          this.sendedMessages=response.messages;
-          this.itmSended=this.sendedMessages.map(sended => false);
-          console.log(this.itmSended)
-        },
-        error => {
-
-        }
-      )
+      this.getReceivedMessages();
+      this.getEmmittedMessages();
     })
   }
 
@@ -95,6 +79,33 @@ export class Tab3Page {
   ionViewWillLeave(){
     console.log("desuscribir salida")
     this.exitSubscription.unsubscribe();
+  }
+
+  getReceivedMessages(){
+    this._messageService.getReceivedMessages().subscribe(
+      response => {
+        console.log(response);
+        this.messages=response.messages;
+        this.itmReceived=this.messages.map(msge=>false);
+        console.log("itemReceived: ",this.itmReceived)
+      },
+      error => {
+
+      }
+    )
+  }
+
+  getEmmittedMessages(){
+    this._messageService.getEmmittedMessages().subscribe(
+      response => {
+        this.sendedMessages=response.messages;
+        this.itmSended=this.sendedMessages.map(sended => false);
+        console.log(this.itmSended)
+      },
+      error => {
+
+      }
+    )
   }
 
   showMore(id,type){
