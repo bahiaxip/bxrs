@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './tab1.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
+import { PhotoViewer } from '@ionic-native/photo-viewer';
+
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { MomentModule } from 'ngx-moment';
 @NgModule({
@@ -16,6 +18,7 @@ import { MomentModule } from 'ngx-moment';
     Tab1PageRoutingModule,
     MomentModule
   ],
+
   declarations: [Tab1Page]
 })
 export class Tab1PageModule {}

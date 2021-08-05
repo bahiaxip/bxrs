@@ -15,7 +15,7 @@ dependencies {
     implementation project(':capacitor-status-bar')
     implementation "androidx.exifinterface:exifinterface:1.2.0"
 }
-
+apply from: "../../node_modules/com-sarriaroman-photoviewer/src/android/photoviewer.gradle"
 
 if (hasProperty('postBuildExtras')) {
   postBuildExtras()

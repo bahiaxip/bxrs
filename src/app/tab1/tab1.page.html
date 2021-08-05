@@ -63,7 +63,7 @@
             </ion-button>
 
         </ion-item>
-        <ion-item *ngIf="item.image" color="dark">
+        <ion-item *ngIf="item.image" color="dark" (click)="showImage(item)">
           <img src="{{url+'image-pub/'+item.user.email+'/'+item.image.name}}" class="m_auto w50 ptb_10"/>
         </ion-item>
     </ion-list>

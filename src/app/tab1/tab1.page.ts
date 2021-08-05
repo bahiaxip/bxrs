@@ -14,7 +14,10 @@ import { AddPublicationComponent } from '../add-publication/add-publication.comp
 //import { LoadingController } from '@ionic/angular';
 import { LoadingService } from '../services/loading.service';
 import { ToastService } from '../services/toast.service';
-//import { Refresher } from '@ionic/angular';
+//import photoviewer
+import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
+
+
 import { Plugins } from '@capacitor/core';
 
 const { App } = Plugins;
@@ -22,7 +25,8 @@ const { App } = Plugins;
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  styleUrls: ['tab1.page.scss'],
+  providers:[PhotoViewer]
 })
 export class Tab1Page implements OnInit{
   private identity;
@@ -69,6 +73,7 @@ export class Tab1Page implements OnInit{
     private _toastService:ToastService,
     private _router:Router,
     private platform:Platform,
+    private photoViewer:PhotoViewer
     //probando loading en componente
     //private loadingController:LoadingController
   ) {
@@ -164,6 +169,11 @@ export class Tab1Page implements OnInit{
     console.log("desuscribir salida")
     this.exitSubscription.unsubscribe();
     clearInterval(this.checkNotification);
+  }
+
+  showImage(item){
+    console.log("wer")
+    this.photoViewer.show(this.url+'image-pub/'+item.user.email+'/'+item.image.name);
   }
 
   async doRefresh(event,data=null){
