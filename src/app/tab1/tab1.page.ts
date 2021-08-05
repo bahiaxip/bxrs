@@ -47,7 +47,8 @@ export class Tab1Page implements OnInit{
   private slideTextButton=[];
   private miSuscription:Subscription=null;
 
-  //interruptor relacionado con suscripción de cambio seguimiento en tab2
+  //interruptor relacionado con suscripción que detecta cambios en los
+  //seguimientos en tab2
   private switchChangeFollUnFoll:boolean=false;
 
   private loading:any;
@@ -407,7 +408,7 @@ export class Tab1Page implements OnInit{
 
               //mostramos botón de nuevas publicaciones
               this.swButtonNot=true;
-              console.log("existen nuevas publicaciones que no son mías");
+              console.log("existen nuevas publicaciones que no son del usuario identificado");
               }
             }
           }

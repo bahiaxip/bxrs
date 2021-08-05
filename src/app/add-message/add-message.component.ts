@@ -96,7 +96,8 @@ export class AddMessageComponent implements OnInit {
       text:this.formAddMessage.controls.text.value,
       viewed:"false",
       emitter:this.identy._id,
-      receiver:this.formAddMessage.controls.receiver.value
+      receiver:this.formAddMessage.controls.receiver.value,
+      created_at:null
     }
     await this.loading.presentLoading("messages","Cargando...");
     this._messageService.addMessage(this.message).subscribe(

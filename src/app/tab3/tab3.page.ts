@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 //controllers
 import { ModalController } from '@ionic/angular';
 import { PopoverController,Platform } from '@ionic/angular';
@@ -32,7 +32,17 @@ export class Tab3Page {
   private itmReceived=[];
   private itmSended=[];
   private exitSubscription:any;
+  //interval
+  private checkNotification:any;
+  //fecha último mensaje
+  private lastMessageTime:any;
+  //interruptor que cambia de botón si existen nuevos mensajes
+  private switchButtonMail:boolean=false;
 
+  //activar el icono de refresh cuando se activa mediante el botón de nuevas notificaciones
+  private refresherActive:boolean=false;
+
+  @ViewChild("refresherRef", {static:false}) refresher:ElementRef;
   constructor(
     private _storageService:StorageService,
     private modalController:ModalController,
@@ -58,6 +68,12 @@ export class Tab3Page {
     })
   }
 
+  reloadMessages(){
+    //this.switchButtonMail=false;
+    this.doRefresh(this.refresher,true);
+    console.log("do refresh");
+  }
+
   ionViewWillEnter(){
 
     this._storageService.getIdentity().then((identi)=>{
@@ -67,6 +83,26 @@ export class Tab3Page {
       this.getReceivedMessages();
       this.getEmmittedMessages();
     })
+
+    this.checkNotification=setInterval(()=>{
+      console.log("interval: ",this.lastMessageTime);
+      if(this.messages && this.lastMessageTime){
+        this._messageService.getLastReceivedMessages(this.lastMessageTime).subscribe(
+          response => {
+            if(response && response.messages){
+              let messages = response.messages;
+              if(messages.length > 0){
+                this.switchButtonMail=true;
+                console.log("interruptor para cambiar icono de mensajes")
+              }
+            }
+          },
+          error => {
+
+          }
+        )
+      }
+    },20000)
   }
 
   ionViewDidEnter(){
@@ -95,8 +131,6 @@ export class Tab3Page {
         }
       )
     }
-
-
     console.log("visto");
   }
 
@@ -105,6 +139,7 @@ export class Tab3Page {
       response => {
         console.log(response);
         this.messages=response.messages;
+        this.lastMessageTime=this.messages[0].created_at;
         this.itmReceived=this.messages.map(msge=>false);
         console.log("itemReceived: ",this.itmReceived)
       },
@@ -125,6 +160,50 @@ export class Tab3Page {
 
       }
     )
+  }
+
+  getLastReceivedMessages(lastTime){
+    this._messageService.getLastReceivedMessages(lastTime).subscribe(
+      response=>{
+        if(response && response.messages){
+          let messages = response.messages;
+          if(messages.length >0){
+            this.messages=messages.concat(this.messages);
+            this.lastMessageTime = this.messages[0].created_at;
+          }else{
+            console.log("no existen nuevos mensajes");
+          }
+        }
+        console.log("respuesta de getLastReceivedMessages: ",response);
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+  doRefresh(event,data=null){
+    console.log("refresh")
+    //cambiamos icono
+    this.switchButtonMail=false;
+    if(data){
+      this.refresherActive=true;
+    }
+    setTimeout(() => {
+      if(data){
+        this.refresherActive=false;
+        event.el.complete();
+      }else{
+        event.target.complete();
+      }
+
+      if(this.messages){
+        console.log(this.lastMessageTime);
+        this.getLastReceivedMessages(this.lastMessageTime);
+      }else{
+        this.getReceivedMessages();
+        console.log("no entra")
+      }
+    }, 2000);
   }
 
   showMore(id,type){

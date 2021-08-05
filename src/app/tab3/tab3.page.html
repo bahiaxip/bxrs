@@ -7,8 +7,11 @@
       MENSAJES
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="slideMessages.slidePrev()" title="Mensajes recibidos">
+      <ion-button (click)="slideMessages.slidePrev()" title="Mensajes recibidos" *ngIf="!switchButtonMail">
         <ion-icon name="mail" class="c_white"></ion-icon>
+      </ion-button>
+      <ion-button (click)="doRefresh(refresherRef,'true')" title="Mensajes recibidos" *ngIf="switchButtonMail">
+        <ion-icon name="mail-unread-outline" class="c_white"></ion-icon>
       </ion-button>
       <ion-button (click)="slideMessages.slideNext()" title="Mensajes enviados">
         <!--<ion-icon name="mail-open" class="c_white"></ion-icon>-->
@@ -26,7 +29,10 @@
 
   <ion-slides #slideMessages [hidden]="!messages">
     <ion-slide class="ionslide1-tab3">
-
+      <ion-refresher #refresherRef slot="fixed" (ionRefresh)="doRefresh($event)" [ngClass]="{'refresher-active refresher-refreshing':refresherActive}">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
 
       <ion-list class="w100 p0" >
         <div *ngFor="let message of messages;let i=index" lines="inset" class="b_gris" [hidden]="itmReceived[i]">

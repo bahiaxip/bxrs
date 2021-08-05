@@ -4,6 +4,6 @@ export interface Message {
   viewed:string,
   emitter:string,
   receiver:string,
-  //created_at:string,
+  created_at:string,
 
 }
