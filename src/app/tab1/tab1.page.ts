@@ -86,30 +86,18 @@ export class Tab1Page implements OnInit{
   }
 
   ngOnInit(){
-
     this.miSuscription = this._storageService.changeFollUnFoll$.subscribe(()=> {
-      console.log("switch antes de asignar: ",this.switchChangeFollUnFoll)
+      //console.log("switch antes de asignar: ",this.switchChangeFollUnFoll)
       this.switchChangeFollUnFoll=true;
-
     })
-
-
-
-    /*
-    this.suscription = this._publicationService.refresh$.subscribe((data)=> {
-      console.log("nueva publicación, desde subscription: ",data);
-      this.getPublications(1);
-    })
-    */
-
-    //console.log("nueva publicacion")
-
   }
+
   ngOnDestroy(){
     console.log("destruccion");
     this.publications=null;
     console.log(this.publications);
   }
+
   ngAfterViewInit(){
 
   }
@@ -149,33 +137,29 @@ export class Tab1Page implements OnInit{
     this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
       this.counterSubscription++;
       if(this.counterSubscription >= 2){
-        console.log("Salir");
         App.exitApp();
       }
       else{
-       console.log("toque de nuevo para salir");
+       //console.log("toque de nuevo para salir");
        if(this.counterSubscription==1){
          this._toastService.exitToast();
          //damos 3 segundos de intervalo para volver a pulsar y salir
          //si no reiniciamos el contador de salida a 0
          setTimeout(()=> {
-         this.counterSubscription=0;
-       },3000)
+           this.counterSubscription=0;
+         },3000)
        }
-
       }
-
     })
   }
 
   ionViewWillLeave(){
-    console.log("desuscribir salida")
     this.exitSubscription.unsubscribe();
     clearInterval(this.checkNotification);
   }
 
+  //mostrar imagen con photoviewer
   showImage(item){
-    console.log("wer")
     this.photoViewer.show(this.url+'image-pub/'+item.user.email+'/'+item.image.name);
   }
 
@@ -240,12 +224,6 @@ export class Tab1Page implements OnInit{
       if(result && result.data){
         await this.loading.presentLoading("publications","Cargando...");
         if(result.data == "delete"){
-
-          //console.log("pulsando delete: ",pub);
-          //activamos loading (pasado a servicio)
-          //this.presentLoading();
-
-
           this._publicationService.deletePublication(pub._id).subscribe(
             response=>{
               this.loading.dismiss("publications");
@@ -261,10 +239,7 @@ export class Tab1Page implements OnInit{
                 this.dismiss();
               }
             */
-
-              console.log("publicación eliminada: ",response)
-              //crear toast con publicación eliminada y getPublications(this.page)
-
+            //crear toast con publicación eliminada y getPublications(this.page)
             //en lugar de recargar ocultamos el elemento de la lista y así no recargamos
 
               if(this.publications && this.publications.length>0){
@@ -275,19 +250,13 @@ export class Tab1Page implements OnInit{
                 //getPublications
                 this.counterDeleted++;
                  if(this.counterDeleted<this.lengthPublications){
-                     console.log("length: ",this.lengthPublications);
-                    console.log("id a eliminar: ",pub)
-                    console.log("el index: ",ind)
-                    //
+                    //console.log("id a eliminar: ",pub)
+                    //console.log("el index: ",ind)
+
                     this.itm[ind]=true;
                     let text=this.publications[1].text;
                     let list = (text.match(/\n/g)||[]).length;
                     let match=/'<br>'/g.exec(text);
-                    console.log("cantidad: ",match)
-                    console.log(this.publications.length);
-                    console.log(this.publications)
-
-                    console.log(this.counterDeleted)
                   }else{
                     //reseteamos itm(que permite ocultar los elementos con la
                     //directiva hidden)
@@ -298,20 +267,21 @@ export class Tab1Page implements OnInit{
                 this.resetItm();
                 this.getPublications(1);
               }
-
-
-              //this.getPublications(this.page)
-
             },
             error => {
-              //mostrar toast con error
+              if(error.status==401 || error.status==404 || error.status==500){
+                this._alertService.presentAlert(error.error.message)
+                console.log(error.error.message);
+              }else{
+                this._alertService.presentAlert("Error desconocido");
+                var errorMessage = <any>error;
+                console.log("Error desconocido: ",errorMessage);
+              }
             }
           )
-
         }
+        //pulsando editar
         if(result.data == "edit"){
-
-          console.log("pulsando edit: ",pub);
           this.presentModal(pub);
           this.loading.dismiss("publications");
         }
@@ -325,7 +295,6 @@ export class Tab1Page implements OnInit{
   async presentModal(pub=null){
     let text;
     if(pub){
-      console.log("desde presentModal: ",pub)
       text=pub;
     }
     const modal = await this.modalController.create({
@@ -358,43 +327,34 @@ export class Tab1Page implements OnInit{
         this.token=token;
         //this.getPublications(this.token);
       });
-    //}else{
-
-    //}
-
   }
+
   ionViewWillEnter(){
     this._storageService.getIdentity().then((identi)=>{
       if(!identi){
         this._storageService.logout();
       }
-      console.log("desde tab1 cridem a identity: ",identi)
       let identity=JSON.parse(identi);
       this.identity=identity.user;
-      //console.log("identity desde ionViewWillEnter: ",this.identity);
-      //console.log("identity2 desde ionViewWillEnter: ",this.identity2);
 
-      //console.log("nueva publicacion")
-      //console.log(this.publications);
       if(this.page != this.pages)
         this.switchMore=false;
+
       if(!this.publications || this.identity._id!=this.identity2._id){
-        console.log("forzamos recarga de publicaciones: ")
+        //console.log("forzamos recarga de publicaciones: ")
         this.page=1;
         this.getPublications(this.page);
       }else if(this.publications && this.publications.length <= 0
         || this.switchChangeFollUnFoll){
-        console.log("existe publications pero vacía: ",this.publications);
+        //console.log("existe publications pero vacía: ",this.publications);
         this.switchMore=true;
         this.getPublications(this.page)
       }
-
     });
-
 
     //notificación nuevas publicaciones
     this.checkNotification = setInterval(()=> {
-      console.log("interval: ",this.lastPublicationTime);
+
       if(this.publications && this.lastPublicationTime)
       this._publicationService.getLastPublications(this.lastPublicationTime).subscribe(
         response=> {
@@ -402,45 +362,34 @@ export class Tab1Page implements OnInit{
             let newPublications=response.publications;
 
             if(newPublications.length>0){
-              console.log("nuevas publicaciones: ",newPublications)
               //con everyPublications aseguramos que la publicación no es propia
               let everyPublications = newPublications.every(publication => publication.user==this.identity._id)
-              console.log("everyPublications: ",everyPublications);
-              if(!everyPublications){
+              //console.log("everyPublications: ",everyPublications);
 
+              if(!everyPublications){
               //mostramos botón de nuevas publicaciones
-              this.swButtonNot=true;
-              console.log("existen nuevas publicaciones que no son del usuario identificado");
+                this.swButtonNot=true;
               }
             }
           }
         },
         error => {
-          if(error && error.error.status==401){
-            console.log("El token no es válido o ha expirado");
-            console.log("Es necesario loguearse de nuevo")
-            setTimeout(()=> {
-              this._storageService.logout()
-
-            },10000)
+          if(error.status==401 || error.status==404 || error.status==500){
+            console.log(error.error.message);
           }else{
             var errorMessage = <any>error;
-            console.log(errorMessage);
+            console.log("Error desconocido: ",errorMessage);
           }
         }
       )
 
     },10000)
-
-
-    /*
-    else{ this.getPublications(1); }
-    */
   }
+
   getLastPublications(lastDate){
     this._publicationService.getLastPublications(lastDate).subscribe(
       response => {
-        console.log(response)
+
         if(response && response.publications){
           let newPublications=response.publications;
           if(newPublications.length>0){
@@ -449,11 +398,10 @@ export class Tab1Page implements OnInit{
           }else{
             if(this.publications && this.publications.length <= 0)
               this.switchMore=true;
-            console.log("nmo existen nuevos")
           }
         }
-
       },
+
       error => {
         if(error.status==401 || error.status==404 || error.status==500){
           this._alertService.presentAlert(error.error.message);
@@ -473,22 +421,21 @@ export class Tab1Page implements OnInit{
 
         if(response){
           this.loading.dismiss();
-          console.log("hay respuesta")
+
           if(response.publications){
+
             if(response.publications.docs && response.publications.docs.length >0){
+
               if(this.page == 1 && response.publications.totalPages == 1){
                 this.switchMore=true;
               }
               if(this.switchChangeFollUnFoll)
                 !this.switchChangeFollUnFoll;
               this.pages=response.publications.totalPages;
-              console.log("res:",response.publications);
-              //(this.page == this.pages) ? false:true;
               if(!adding){
                 this.publications = response.publications.docs;
                 this.lastPublicationTime=this.publications[0].created_at;
-              }
-              else{
+              }else{
                 let list1=this.publications;
                 let list2 = response.publications.docs;
                 this.publications=list1.concat(list2);
@@ -499,30 +446,24 @@ export class Tab1Page implements OnInit{
                 }
                 */
                 this.itm=this.publications.map(itm=>false);
-                console.log("itm: ",this.itm)
+                //console.log("itm: ",this.itm)
               }
 
             }else{
               this.publications=[];
               this.switchMore=true;
-              console.log("no existe ninguna publicación desde getPublications ")
+              //console.log("no existe ninguna publicación desde getPublications ")
               //this.switchMore=false;
             }
-
-
           //si no indicamos el tipado(Observable<any>) en el servicio, podemos
           //(aunque no es lo recomendable) indicarlo en formato de array y no nos mostrará error
           //this.publications=response["publications"]
           }else{
             this.publications=[];
             //this.switchMore=false;
-            console.log("no existen publicaciones")
           }
-          console.log("ha entrado en getPublications: ",this.identity)
-
-        this.identity2=this.identity;
-        //console.log("identity2: ",this.identity2)
-
+          this.identity2=this.identity;
+          //console.log("identity2: ",this.identity2)
         }
       },
       error => {
@@ -540,7 +481,6 @@ export class Tab1Page implements OnInit{
   }
 
   morePublications(){
-    console.log("more");
     this.page+=1;
     if(this.page==this.pages)
       this.switchMore=true;
@@ -553,8 +493,6 @@ export class Tab1Page implements OnInit{
       this.clickButton[id]=true;
     else
       this.clickButton[id]=false;
-    //console.log(this.publications[id])
   }
-
 
 }

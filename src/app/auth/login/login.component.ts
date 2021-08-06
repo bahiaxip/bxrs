@@ -74,22 +74,17 @@ export class LoginComponent implements OnInit {
       role:"",
       image:null
     }
-    console.log("llega al loading")
     this.loading.presentLoading("login","Cargando...");
-    console.log(this.user)
     this._userService.login(this.user).subscribe(
       response => {
         this.loading.dismiss();
-        console.log("hay respuesta: ",response)
         this.status="success";
         this.form.reset();
         this._storageService.set("identity",JSON.stringify(response));
         this.getToken();
         //this.loading.dismiss("data1");
-
       },
       error => {
-        console.log(error.error)
         this.loading.dismiss();
         if(error.status==404 || error.status==500){
           this._alertService.presentAlert(error.error.message)
@@ -99,14 +94,11 @@ export class LoginComponent implements OnInit {
           var errorMessage = <any>error;
           console.log("Error desconocido: ",errorMessage);
         }
-
       }
     )
-
   }
 
   getToken(){
-    console.log("segunda petición")
     this.loading.presentLoading("login","Cargando...");
     this._userService.login(this.user,"true").subscribe(
       response => {
@@ -115,7 +107,6 @@ export class LoginComponent implements OnInit {
         if(this.token.length <= 0){
           this.status="error";
         }else{
-
           this._storageService.set("token",this.token);
           this._router.navigate(["/tabs/tab1"]);
         }

@@ -53,13 +53,13 @@ export class AddMessageComponent implements OnInit {
   }
   ionViewDidEnter(){
     this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
-      console.log("suscribir salida desde addmessages");
+     // console.log("suscribir salida desde addmessages");
       this.dismiss();
     })
   }
 
   ionViewWillLeave(){
-    console.log("desuscribir salida")
+    //console.log("desuscribir salida")
     this.exitSubscription.unsubscribe();
   }
 
@@ -110,11 +110,11 @@ export class AddMessageComponent implements OnInit {
     await this.loading.presentLoading("messages","Cargando...");
     this._messageService.addMessage(this.message).subscribe(
       response => {
-        console.log(response)
         this.formAddMessage.reset();
         this.dismiss();
       },
       error => {
+        this.dismiss();
         if(error.status==401 || error.status==404 || error.status==500){
           this._alertService.presentAlert(error.error.message)
           console.log(error.error.message);
@@ -123,10 +123,8 @@ export class AddMessageComponent implements OnInit {
           var errorMessage = <any>error;
           console.log("Error desconocido: ",errorMessage);
         }
-
       }
     )
-
   }
 
 }

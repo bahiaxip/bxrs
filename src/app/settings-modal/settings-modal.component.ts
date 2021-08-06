@@ -29,13 +29,13 @@ export class SettingsModalComponent implements OnInit {
 
   ionViewDidEnter(){
     this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
-      console.log("suscribir salida desde settingsmodalcomponent");
+      //console.log("suscribir salida desde settingsmodalcomponent");
       this.popoverController.dismiss();
     })
   }
 
   ionViewWillLeave(){
-    console.log("desuscribir salida")
+    //console.log("desuscribir salida")
     this.exitSubscription.unsubscribe();
   }
 

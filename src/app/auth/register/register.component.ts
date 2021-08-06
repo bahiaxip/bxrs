@@ -33,10 +33,7 @@ export class RegisterComponent implements OnInit {
     this.loading=_loadingService;
   }
 
-
-
   ngOnInit() {}
-
 
   onSubmit(){
     this.user={
@@ -63,19 +60,15 @@ export class RegisterComponent implements OnInit {
           this._router.navigate(["/home"]);
         }else{
           this.status="error";
-          console.log("hola:",response);
         }
-
       },
       error=>{
-        if(error.status==404 || error.status==409 || error.status== 422 || error.status==500){
-
+        if(error.status==404 || error.status==409
+          || error.status== 422 || error.status==500){
           this._alertService.presentAlert(error.error.message);
         }
         console.log(<any>error);
       }
     );
-
   }
-
 }

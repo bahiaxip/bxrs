@@ -21,13 +21,13 @@ export class ModalMessagesComponent implements OnInit {
 
   ionViewDidEnter(){
     this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
-      console.log("suscribir salida desde modalmessagecomponent");
+      //console.log("suscribir salida desde modalmessagecomponent");
       this.popoverController.dismiss();
     })
   }
 
   ionViewWillLeave(){
-    console.log("desuscribir salida")
+    //console.log("desuscribir salida")
     this.exitSubscription.unsubscribe();
   }
 

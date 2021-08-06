@@ -24,7 +24,7 @@ export class PopoverService {
 
 
     this.popover.onDidDismiss().then(async (result) => {
-      console.log("llega al dismiss")
+      //console.log("llega al dismiss")
       this.envio="mi nuevo dato";
     })
 
@@ -32,7 +32,6 @@ export class PopoverService {
   }
 
   async dismiss(dato:string){
-    console.log(this.messageId);
     if(dato=="delete"){
       if(this.messageId){
         this._messageService.deleteMessage(this.messageId).subscribe(

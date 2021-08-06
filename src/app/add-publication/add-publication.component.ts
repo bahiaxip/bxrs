@@ -54,9 +54,6 @@ export class AddPublicationComponent implements OnInit {
         image=this.publicationUser.image.name;
       }
       */
-      console.log("el publicationUser: ",this.publicationUser)
-
-
     }
     this.formAddPublication=new FormGroup({
       text:new FormControl(text,[Validators.required])
@@ -65,17 +62,17 @@ export class AddPublicationComponent implements OnInit {
 
   ionViewWillEnter(){
     this.identity();
-    console.log(this.formAddPublication.controls.text)
   }
+
   ionViewDidEnter(){
     this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
-      console.log("suscribir salida desde appcomponent");
+      //console.log("suscribir salida desde appcomponent");
       this.dismiss();
     })
   }
 
   ionViewWillLeave(){
-    console.log("desuscribir salida")
+    //console.log("desuscribir salida")
     this.exitSubscription.unsubscribe();
   }
 
@@ -92,8 +89,7 @@ export class AddPublicationComponent implements OnInit {
   async identity(){
     //if(this._router.url=="/home"){
     if(await this._storageService.getIdentity()){
-      //llega más tarse que tabs
-      console.log("desde add-publication: ",JSON.parse(await this._storageService.getIdentity()));
+      //console.log("desde add-publication: ",JSON.parse(await this._storageService.getIdentity()));
       this.identy=await this._storageService.getIdentity();
     }
   }
@@ -102,13 +98,12 @@ export class AddPublicationComponent implements OnInit {
   async addPublication(){
     await this.loading.presentLoading("publications","Cargando...");
     await this._storageService.getToken().then((token)=>{
-      console.log("el token: ",token)
       this.token=token;
       this._publicationService.addPublication(this.token,this.publication).subscribe(
         response => {
-          console.log("respuesta de addPublication: ",response);
           if(response && response.publication){
-            console.log("resultado publication: ",response.publication)
+            //no hacemos nada, se realiza en el dismiss()
+            //console.log("resultado publication: ",response.publication)
           }
           if(this.filesToUpload){
             this._uploadService.makeFileRequest(
@@ -127,7 +122,7 @@ export class AddPublicationComponent implements OnInit {
                 }
             });
           }else{
-            console.log("no existe imagen")
+            //console.log("no existe imagen")
             //this.formAddPublication.reset();
             this.dismiss();
           }
@@ -151,11 +146,10 @@ export class AddPublicationComponent implements OnInit {
   async updatePublication(){
     await this.loading.presentLoading("publications","Cargando...");
     this.publicationUser.text=this.formAddPublication.controls.text.value;
-    console.log(this.publicationUser)
+
     await this._storageService.getToken().then((token) => {
       this._publicationService.updatePublication(token,this.publicationUser).subscribe(
         response => {
-          console.log("respuesta: ",response);
           if(response && response.publication)
           if(this.filesToUpload){
             this._uploadService.makeFileRequest(
@@ -168,14 +162,12 @@ export class AddPublicationComponent implements OnInit {
                 //el tipo (Promise) en el método (upload.service)
                 //ej:  makeFileRequest(...):Promise<any>
                 if(result){
-                  console.log("result_publication: ",result)
                   //this.formAddPublication.reset();
                   this.dismiss();
                 }
             });
           }else{
-            console.log("no existe imagen")
-            //this.formAddPublication.reset();
+            //console.log("no existe imagen")
             this.dismiss();
           }
         },
@@ -199,14 +191,13 @@ export class AddPublicationComponent implements OnInit {
       file:"null",
       user_id:this.identy._id
     }
-    console.log("publicación añadida: ",this.publication)
     this.addPublication();
   }
 
   public filesToUpload:Array<File>;
   fileChangeEvent(fileInput: any){
     this.filesToUpload= <Array<File>>fileInput.target.files;
-    console.log(this.filesToUpload);
+    //console.log(this.filesToUpload);
   }
 
 }

@@ -109,7 +109,6 @@ export class PerfilPage implements OnInit {
   ionViewWillEnter(){
     this._storageService.getIdentity().then((identi)=>{
       if(identi){
-        console.log("existe pero no muestra: ",identi)
         let identityUser = JSON.parse(identi);
         this.user=identityUser.user;
         //se podría obtener el visibility desde el mismo identity con un método asíncrono
@@ -117,13 +116,11 @@ export class PerfilPage implements OnInit {
         this._userService.getVisibility(this.user._id).subscribe(
           response=>{
             if(response.visibility)
-              console.log(response.visibility)
                 //al crearse en el registro siempre debería devolver algún resultado.
                 this.toggle=response.visibility;
                 setTimeout(()=> {
                   this.switchT=true;
                 },1000);
-                console.log("asignar los visibilities: ",this.toggle)
           },
           error => {
             if(error.status==401 || error.status==404 || error.status==500){
@@ -145,42 +142,40 @@ export class PerfilPage implements OnInit {
 
   ionViewDidEnter(){
     this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
-      console.log("suscribir salida");
+      //console.log("suscribir salida");
       this.location.back();
     })
   }
 
   ionViewWillLeave(){
-    console.log("desuscribir salida")
+    //console.log("desuscribir salida")
     this.exitSubscription.unsubscribe();
   }
 
-  ngOnInit() {
-    console.log("user: ",this.user)
-
-  }
+  ngOnInit() { }
 
   public filesToUpload:Array<File>;
   fileChangeEvent(fileInput: any){
     this.filesToUpload= <Array<File>>fileInput.target.files;
-    console.log(this.filesToUpload);
+    //console.log(this.filesToUpload);
   }
 
   onSubmit(){
     this._storageService.getToken().then(async (token) => {
       await this.loading.presentLoading("updateUser","Cargando...");
+      this._storageService.setChangeFollUnFoll();
       this._userService.updateUser(this.user,token).subscribe(
         response =>{
           this.loading.dismiss("updateUser");
           //console.log(response);
           if(!response.user){
-            console.log("Error en la respuesta de la petición");
+            //console.log("Error en la respuesta de la petición");
           }else{
             if(response.visibilityUser){
               this.toggle=response.visibilityUser;
             }
         //actualizar el visibility
-            console.log(response.visibilityUser);
+            //console.log(response.visibilityUser);
             //subir imagen y actualizar storage (set identity)
       //antes comprobar si existe imagen subida
             //this._storageService.set("identity",JSON.stringify(response.user));
@@ -196,7 +191,7 @@ export class PerfilPage implements OnInit {
                   //el tipo (Promise) en el método (upload.service)
                   //ej:  makeFileRequest(...):Promise<any>
                   if(result.user){
-                    console.log("result_user: ",this.user)
+                    //console.log("result_user: ",this.user)
 
                     this.user.image=result.user.image;
                     this._storageService.set("identity",JSON.stringify(result));
@@ -204,7 +199,7 @@ export class PerfilPage implements OnInit {
                   }
               });
             }else{
-              console.log("no existe imagen")
+              //console.log("no existe imagen")
               this._storageService.set("identity",JSON.stringify(response));
             }
           }
@@ -226,7 +221,6 @@ export class PerfilPage implements OnInit {
   getUser(id){
     this._userService.getUser(id).subscribe(
       response => {
-        console.log("respuesta getUserid: ",response);
         this.user=response.user;
       },
       error => {
@@ -250,7 +244,7 @@ export class PerfilPage implements OnInit {
     //console.log("cambio de toggle: "+this.toggle)
     this._userService.updateVisibility(this.toggle,this.user._id).subscribe(
       response => {
-        console.log(response)
+        //console.log(response)
       },
       error => {
         if(error.status==401 || error.status==404 || error.status==500){
@@ -264,10 +258,12 @@ export class PerfilPage implements OnInit {
       }
     )
   }
-
+//anulado
+/*
   showToast(toggleName,name){
     console.log(name+": "+toggleName)
   }
+*/
 }
 
 /*

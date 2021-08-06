@@ -28,9 +28,6 @@ export class PublicationService {
     return await this._storageService.getToken();
   }
 
-
-
-
   getPublications(page):Observable<any>{
     return from(this.getToken()).pipe(
       switchMap(token=>{

@@ -27,7 +27,6 @@ export class UserService {
     }
 
   async getToken(){
-    //this.token=await this._storageService.getToken();
     return await this._storageService.getToken();
   }
 
@@ -89,7 +88,6 @@ export class UserService {
   getUsers(page):Observable<any>{
     return from(this.getToken()).pipe(
       switchMap(token =>{
-        console.log(token)
         let headers=new HttpHeaders({
           "Content-Type":"application/json",
          "Authorization":token
@@ -125,9 +123,7 @@ export class UserService {
   */
 
   getUser(id):Observable<any>{
-
     let headers = new HttpHeaders().set("Content-Type","application/json");
-
     return this._http.get(this.url+"user/"+id,{headers:headers});
   }
 
@@ -154,8 +150,5 @@ export class UserService {
       })
     )
   }
-
-
-
 
 }

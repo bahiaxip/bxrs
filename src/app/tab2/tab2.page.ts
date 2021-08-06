@@ -54,11 +54,9 @@ export class Tab2Page {
   }
 
   ngOnInit(){
-    console.log("eo")
 
   }
   ngOnDestroy(){
-    console.log("destruccion tab2");
     this.users=null;
     this.follow=null;
     this.pages=null;
@@ -70,17 +68,11 @@ export class Tab2Page {
 
   //refrescar
   doRefresh(event){
-    console.log("vaya");
     setTimeout(()=> {
-      console.log("bien");
       event.target.complete();
-      console.log("switchMore: ",this.switchMore)
       if(this.switchMore)
         this.switchMore=false;
-
       this.getUsers(1);
-
-
     },2000)
   }
 
@@ -104,16 +96,15 @@ export class Tab2Page {
     this._toastService.presentToast(user,bol)
   }
 
-
   ionViewDidEnter(){
     this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
-      console.log("suscribir salida");
+      //console.log("suscribir salida");
       this.location.back();
     })
   }
 
   ionViewWillLeave(){
-    console.log("desuscribir salida")
+    //console.log("desuscribir salida")
     this.exitSubscription.unsubscribe();
   }
   ionViewWillEnter(){
@@ -125,7 +116,7 @@ export class Tab2Page {
       }
       let identity=JSON.parse(identi);
       this.identity=identity.user;
-      console.log("desde tab2 cridem a identity: ",this.identity)
+      //console.log("desde tab2 cridem a identity: ",this.identity)
       if(this.page != this.pages)
         this.switchMore=false;
       if(!this.users || this.identity2 != this.identity){
@@ -139,34 +130,27 @@ export class Tab2Page {
     this._userService.getUsers(page).subscribe(
       response=>{
         if(response && response.users){
-          console.log(response.users)
           //si solo hay una página no mostramos el botón
           if(this.page == 1 && response.users.totalPages==1)
             this.switchMore=true;
           this.pages=response.users.totalPages;
           if(!adding){
-            console.log(response.users.docs)
             this.users = response.users.docs;
           }
           else{
-            console.log("siguiente pagina: ",response.users.docs)
             this.users = this.concatList(this.users,response.users.docs);
           }
-          console.log("users: ",this.users);
+
           this.follows = response.users_following;
-          console.log("followings: ",this.follows)
-          console.log(this.testFollowing(this.identity._id));
-          console.log("visibility: ",response.visibility)
+
           this.visibility = response.visibility;
           //filtramos todos con propiedad one = true , para primer filtrado
           this.visibilityWithPropOne=this.visibility.filter(vis => vis.one)
-          console.log("propone: ", this.visibilityWithPropOne)
     //la visibilidad habría que comprobar sin recargar users
           this.setVisibilityToUsers(this.users);
           //this.follows=response.users_following;
           //this.total=response.users.totalDocs;
         }else {
-          console.log("response")
           //this.users=response.users;
         }
         this.identity2=this.identity;
@@ -208,7 +192,7 @@ export class Tab2Page {
         user.visible=null;
       }
 
-       console.log("array de filtrados de cada user: ",user)
+       //console.log("array de filtrados de cada user: ",user)
     })
   }
   //comprueba si algún dato se ha marcado con visibilidad
@@ -236,13 +220,12 @@ export class Tab2Page {
     */
   //}
 
-
+/*
   setDataIfVisibility(){
     console.log(this.visibility)
   }
-
+*/
   moreUsers(){
-    console.log("more");
     this.page+=1;
     if(this.page==this.pages)
       this.switchMore=true;
@@ -258,19 +241,17 @@ export class Tab2Page {
     else if(method=="unfollow")
       this.unFollowUser(followed)
     this._storageService.setChangeFollUnFoll();
-    console.log("follow: ",followed)
   }
+
   //seguir usuario
   followUser(followed){
-    console.log(followed);
     //no es necesaria la interface follow
     let follow = {_id:'',user:this.identity._id,followed:followed._id}
     this._followService.addFollow(follow).subscribe(
       response => {
         if(response.follow){
-          console.log(response);
           this.follows.push(followed._id)
-          console.log("nuevos follows: ",this.follows)
+          //console.log("nuevos follows: ",this.follows)
           this.setToast(followed.nick,true);
         }
       },
@@ -278,7 +259,6 @@ export class Tab2Page {
         this._alertService.presentAlert("Error desconocido");
           var errorMessage = <any>error;
           console.log("Error desconocido: ",errorMessage);
-
       }
     );
   }
@@ -287,7 +267,7 @@ export class Tab2Page {
     this._followService.deleteFollow(followed._id).subscribe(
       response => {
         this.follows=this.follows.filter(id=>id!=followed._id);
-        console.log(this.follows)
+        //console.log(this.follows)
         this.setToast(followed.nick,false);
       },
       error => {
@@ -297,5 +277,4 @@ export class Tab2Page {
       }
     )
   }
-
 }

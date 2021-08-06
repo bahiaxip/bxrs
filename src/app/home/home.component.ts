@@ -45,17 +45,19 @@ export class HomeComponent implements AfterViewInit {
 
   )
   {
-
+    //anulado y pasado al ionViewDidEnter() y al ionViewWillLeave()
+    /*
     this.platform.backButton.subscribeWithPriority(-1,() => {
       if(this.routerOutlet.canGoBack()){
-        console.log("cangoback: ",this.routerOutlet);
-        console.log(this._router.url);
+        //console.log("cangoback: ",this.routerOutlet);
+        //console.log(this._router.url);
       }
       if(!this.routerOutlet.canGoBack() && this._router.url == "/tabs/tab1"){
         //App.exitApp();
-        console.log(this._router.url);
+        //console.log(this._router.url);
       }
     })
+    */
 
 
   }
@@ -88,13 +90,13 @@ export class HomeComponent implements AfterViewInit {
   }
   ionViewDidEnter(){
     this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
-        console.log("Salir");
+        //console.log("Salir");
         App.exitApp();
     })
   }
 
   ionViewWillLeave(){
-    console.log("desuscribir salida")
+    //console.log("desuscribir salida")
     this.exitSubscription.unsubscribe();
   }
 
@@ -112,7 +114,6 @@ export class HomeComponent implements AfterViewInit {
       i++;
       if(i==letters.length){
         clearInterval(show);
-        console.log(data)
         this.renderer.setStyle(subtitle,"opacity","1");
         this.renderer.setStyle(subtitle,"top","12%");
         this.renderer.setStyle(welcome,"color","#FFF");
@@ -161,47 +162,19 @@ export class HomeComponent implements AfterViewInit {
           if(this.userIdentity.user){
             this._router.navigate(["/tabs"]);
           }else{
-            console.log("no existe userIdentity.user")
+            //console.log("no existe userIdentity.user")
           }
-          //this._userService.setIdentity(this.userIdentity.user);
-          console.log("this: ",this.userIdentity)
         })
         //await this._storageService.getToken().then((token) => {
           //this._userService.setToken(token);
-
-        //})
-        //this.login=true;
-
-
-        //llega más tarse que tabs
-        //console.log("desde home: ",JSON.parse(await this._storageService.getIdentity()));
-
       }else{
-        console.log("a home")
+        //console.log("a home")
         this._router.navigate(["/home"]);
-
       }
-    //}
-
   }
 
   ionViewWillEnter(){
-
-    //if(!this.login){
-      //console.log("no existe login")
       this.identity();
-    //}
-
-    //this.getPublications();
-
-    //this.init();
-    /*
-    this.databaseExists("__mydb",function(yesno){
-      console.log("__mydb  exists? "+yesno);
-    })
-    */
-
-
   }
 
   /*

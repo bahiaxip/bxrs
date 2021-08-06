@@ -15,8 +15,6 @@ import { ModalMessagesComponent } from '../modal-messages/modal-messages.compone
 //models
 import { Message } from '../models/message';
 
-
-
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
@@ -69,15 +67,15 @@ export class Tab3Page {
       this.getEmmittedMessages();
     })
   }
-
+  //anulado reloadMessages()
+/*
   reloadMessages(){
     //this.switchButtonMail=false;
     this.doRefresh(this.refresher,true);
-    console.log("do refresh");
   }
+*/
 
   ionViewWillEnter(){
-
     this._storageService.getIdentity().then((identi)=>{
       if(!identi){
         this._storageService.logout();
@@ -89,14 +87,14 @@ export class Tab3Page {
     this.checkNotification=setInterval(()=>{
       //console.log("interval: ",this.lastMessageTime);
       if(this.messages && this.messages.length>0 && this.lastMessageTime){
-        console.log("messages dsd interval: ",this.messages)
+        //console.log("messages dsd interval: ",this.messages)
         this._messageService.getLastReceivedMessages(this.lastMessageTime).subscribe(
           response => {
             if(response && response.messages){
               let messages = response.messages;
               if(messages.length > 0){
                 this.switchButtonMail=true;
-                console.log("interruptor para cambiar icono de mensajes")
+                //console.log("interruptor para cambiar icono de mensajes")
               }
             }
           },
@@ -107,7 +105,6 @@ export class Tab3Page {
               var errorMessage = <any>error;
               console.log("Error desconocido: ",errorMessage);
             }
-
           }
         )
       }
@@ -116,13 +113,13 @@ export class Tab3Page {
 
   ionViewDidEnter(){
     this.exitSubscription=this.platform.backButton.subscribeWithPriority(9999,()=> {
-      console.log("suscribir salida");
+      //console.log("suscribir salida");
       this.location.back();
     })
   }
 
   ionViewWillLeave(){
-    console.log("desuscribir salida")
+    //console.log("desuscribir salida")
     this.exitSubscription.unsubscribe();
   }
 
@@ -135,7 +132,6 @@ export class Tab3Page {
         response => {
           //toast
           this._toastService.genericToast("Mensaje visualizado")
-          console.log(response);
         },
         error =>{
           var errorMessage = <any>error;
@@ -143,21 +139,17 @@ export class Tab3Page {
         }
       )
     }
-    console.log("visto");
   }
 
   getReceivedMessages(){
     this._messageService.getReceivedMessages().subscribe(
       response => {
-        console.log(response);
-        console.log("mensajes recibidos: ",response.messages)
+        //console.log("mensajes recibidos: ",response.messages)
         this.messages=response.messages;
         if(this.messages.length > 0){
           this.lastMessageTime=this.messages[0].created_at;
           this.itmReceived=this.messages.map(msge=>false);
-          console.log("itemReceived: ",this.itmReceived)
         }
-
       },
       error => {
         if(error.status==401 || error.status==404 || error.status==500){
@@ -178,7 +170,7 @@ export class Tab3Page {
         this.sendedMessages=response.messages;
         if(this.sendedMessages.length > 0){
           this.itmSended=this.sendedMessages.map(sended => false);
-          console.log(this.itmSended)
+          //console.log(this.itmSended)
         }
       },
       error => {
@@ -203,10 +195,9 @@ export class Tab3Page {
             this.messages=messages.concat(this.messages);
             this.lastMessageTime = this.messages[0].created_at;
           }else{
-            console.log("no existen nuevos mensajes");
+            //console.log("no existen nuevos mensajes");
           }
         }
-        console.log("respuesta de getLastReceivedMessages: ",response);
       },
       error => {
         if(error.status==401 || error.status==404 || error.status==500){
@@ -221,7 +212,6 @@ export class Tab3Page {
     )
   }
   doRefresh(event,data=null){
-    console.log("refresh")
     //cambiamos icono
     this.switchButtonMail=false;
     if(data){
@@ -240,7 +230,6 @@ export class Tab3Page {
         this.getLastReceivedMessages(this.lastMessageTime);
       }else{
         this.getReceivedMessages();
-        console.log("no entra")
       }
     }, 2000);
   }
@@ -296,7 +285,7 @@ export class Tab3Page {
                     this.itmReceived[index]=true : this.itmSended[index]=true;
 
               }else{
-                console.log("hubo un error")
+                console.log("Se originó un error")
               }
 
             },
@@ -322,8 +311,9 @@ export class Tab3Page {
     return await popover.present();
   }
 
+//anulado
+/*
   async dismiss(dato:string){
-    console.log(this.messageId);
     if(dato=="delete"){
 
 
@@ -332,5 +322,6 @@ export class Tab3Page {
     return await this.popoverController.dismiss();
 
   }
+*/
 
 }

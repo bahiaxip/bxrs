@@ -26,22 +26,18 @@ export class FollowService {
   addFollow(followed):Observable<any>{
     return from(this._storageService.getToken()).pipe(
       switchMap(token => {
-        console.log("token: ",token)
         let headers = new HttpHeaders({
           "Content-Type":"application/json",
           "Authorization":token
         });
-        console.log("el follow: ",followed)
         return this._http.post(this.url+"follow",followed,{headers:headers});
       })
-
     )
   }
 
   deleteFollow(id){
     return from(this._storageService.getToken()).pipe(
       switchMap(token => {
-        console.log("token: ",token);
         let headers = new HttpHeaders({
           "Content-Type":"application/json",
           "Authorization":token
@@ -50,6 +46,5 @@ export class FollowService {
       })
     )
   }
-
 
 }
