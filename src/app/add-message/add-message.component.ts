@@ -5,7 +5,7 @@ import { StorageService } from '../services/storage.service';
 import { MessageService } from '../services/message.service';
 import { UserService } from '../services/user.service';
 import { LoadingService } from '../services/loading.service';
-
+import { AlertService } from '../services/alert.service';
 import { ModalController, Platform } from '@ionic/angular';
 
 import { Message } from '../models/message';
@@ -30,6 +30,7 @@ export class AddMessageComponent implements OnInit {
     private _messageService:MessageService,
     private _userService:UserService,
     private _loadingService:LoadingService,
+    private _alertService:AlertService,
     private platform:Platform
   ) {
     this.loading=_loadingService;
@@ -79,7 +80,14 @@ export class AddMessageComponent implements OnInit {
 
       },
       error => {
-        console.log(error)
+        if(error.status==401 || error.status==404 || error.status==500){
+          this._alertService.presentAlert(error.error.message)
+          console.log(error.error.message);
+        }else{
+          this._alertService.presentAlert("Error desconocido");
+          var errorMessage = <any>error;
+          console.log("Error desconocido: ",errorMessage);
+        }
       }
     )
   }
@@ -107,6 +115,14 @@ export class AddMessageComponent implements OnInit {
         this.dismiss();
       },
       error => {
+        if(error.status==401 || error.status==404 || error.status==500){
+          this._alertService.presentAlert(error.error.message)
+          console.log(error.error.message);
+        }else{
+          this._alertService.presentAlert("Error desconocido");
+          var errorMessage = <any>error;
+          console.log("Error desconocido: ",errorMessage);
+        }
 
       }
     )

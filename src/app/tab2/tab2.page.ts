@@ -8,6 +8,7 @@ import { StorageService } from '../services/storage.service';
 import { Global } from '../services/Global';
 import { ToastController, Platform } from '@ionic/angular';
 import { ToastService } from '../services/toast.service';
+import { AlertService } from '../services/alert.service';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 
@@ -44,6 +45,7 @@ export class Tab2Page {
     private _storageService:StorageService,
     private toastController:ToastController,
     private _toastService:ToastService,
+    private _alertService:AlertService,
     private platform:Platform,
     private location:Location,
   ){
@@ -170,7 +172,14 @@ export class Tab2Page {
         this.identity2=this.identity;
       },
       error=>{
-        //console.log(error);
+        if(error.status==401 || error.status==404 || error.status==500){
+          this._alertService.presentAlert(error.error.message)
+          console.log(error.error.message);
+        }else{
+          this._alertService.presentAlert("Error desconocido");
+          var errorMessage = <any>error;
+          console.log("Error desconocido: ",errorMessage);
+        }
       }
     )
   }
@@ -266,6 +275,9 @@ export class Tab2Page {
         }
       },
       error => {
+        this._alertService.presentAlert("Error desconocido");
+          var errorMessage = <any>error;
+          console.log("Error desconocido: ",errorMessage);
 
       }
     );
@@ -279,7 +291,9 @@ export class Tab2Page {
         this.setToast(followed.nick,false);
       },
       error => {
-
+        this._alertService.presentAlert("Error desconocido");
+          var errorMessage = <any>error;
+          console.log("Error desconocido: ",errorMessage);
       }
     )
   }

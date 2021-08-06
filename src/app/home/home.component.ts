@@ -62,7 +62,12 @@ export class HomeComponent implements AfterViewInit {
 
 
   ngOnInit(){
+    if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
 
+      console.log("es dispositivo movil");
+    }else{
+      console.log("mostrar botón para APK")
+    }
 
 
   }

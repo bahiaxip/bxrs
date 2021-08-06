@@ -4,6 +4,7 @@ import { Router,ActivatedRoute,Params } from '@angular/router';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { LoadingService } from '../../services/loading.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-register',
@@ -26,6 +27,7 @@ export class RegisterComponent implements OnInit {
     private _userService:UserService,
     private _router:Router,
     private _loadingService:LoadingService,
+    private _alertService:AlertService
   ) {
     this.title="Registrarse";
     this.loading=_loadingService;
@@ -52,19 +54,24 @@ export class RegisterComponent implements OnInit {
     this.loading.presentLoading("register","Cargando...");
     this._userService.register(this.user).subscribe(
       response =>{
+        this.loading.dismiss("register");
         if(response.user && response.user._id){
           //console.log(response.message);
-          this.loading.dismiss("register");
+
           this.status="success";
           this.form.reset();
           this._router.navigate(["/home"]);
         }else{
           this.status="error";
-          console.log(response);
+          console.log("hola:",response);
         }
 
       },
       error=>{
+        if(error.status==404 || error.status==409 || error.status== 422 || error.status==500){
+
+          this._alertService.presentAlert(error.error.message);
+        }
         console.log(<any>error);
       }
     );

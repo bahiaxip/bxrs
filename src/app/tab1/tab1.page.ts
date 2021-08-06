@@ -14,6 +14,7 @@ import { AddPublicationComponent } from '../add-publication/add-publication.comp
 //import { LoadingController } from '@ionic/angular';
 import { LoadingService } from '../services/loading.service';
 import { ToastService } from '../services/toast.service';
+import { AlertService } from '../services/alert.service';
 //import photoviewer
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
 
@@ -70,8 +71,9 @@ export class Tab1Page implements OnInit{
     // modal
     private modalController: ModalController,
     private popoverController:PopoverController,
-    private _loadingService:LoadingService,
+    public _loadingService:LoadingService,
     private _toastService:ToastService,
+    private _alertService:AlertService,
     private _router:Router,
     private platform:Platform,
     private photoViewer:PhotoViewer
@@ -453,25 +455,24 @@ export class Tab1Page implements OnInit{
 
       },
       error => {
-        if(error && error.error.status==401){
-          console.log("El token no es válido o ha expirado");
-          console.log("Es necesario loguearse de nuevo")
-          setTimeout(()=> {
-            this._storageService.logout()
-
-          },10000)
+        if(error.status==401 || error.status==404 || error.status==500){
+          this._alertService.presentAlert(error.error.message);
         }else{
+          this._alertService.presentAlert("Error desconocido");
           var errorMessage = <any>error;
-          console.log(errorMessage);
+          console.log("Error desconocido: ",errorMessage);
         }
       }
     )
   }
 
   getPublications(page,adding=false){
+    this.loading.presentLoading("publications","Cargando...");
     this._publicationService.getPublications(page).subscribe(
       response => {
+
         if(response){
+          this.loading.dismiss();
           console.log("hay respuesta")
           if(response.publications){
             if(response.publications.docs && response.publications.docs.length >0){
@@ -525,24 +526,15 @@ export class Tab1Page implements OnInit{
         }
       },
       error => {
-        if(error && error.error.status==401){
-          console.log("El token no es válido o ha expirado");
-          console.log("Es necesario loguearse de nuevo")
-          setTimeout(()=> {
-            this._storageService.logout()
-
-          },10000)
+        this.loading.dismiss();
+        if(error.status==401 || error.status==404 || error.status==500){
+          this._alertService.presentAlert(error.error.message)
+          console.log(error.error.message);
         }else{
+          this._alertService.presentAlert("Error desconocido");
           var errorMessage = <any>error;
-          console.log("Error en publications: ",errorMessage);
+          console.log("Error desconocido: ",errorMessage);
         }
-        /*
-
-
-        if(errorMessage != null){
-          this.status="error";
-        }
-        */
       }
     );
   }

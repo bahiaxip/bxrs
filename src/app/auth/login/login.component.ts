@@ -7,6 +7,7 @@ import { Global } from '../../services/Global';
 import { Storage } from '@ionic/storage-angular';
 import { StorageService } from '../../services/storage.service';
 import { LoadingService } from '../../services/loading.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +32,7 @@ export class LoginComponent implements OnInit {
     private _router:Router,
     private _storageService:StorageService,
     private _loadingService:LoadingService,
+    private _alertService:AlertService
   ) {
     this.title="Login";
     this.loading=_loadingService;
@@ -72,12 +74,13 @@ export class LoginComponent implements OnInit {
       role:"",
       image:null
     }
-
+    console.log("llega al loading")
     this.loading.presentLoading("login","Cargando...");
+    console.log(this.user)
     this._userService.login(this.user).subscribe(
       response => {
-
-        //console.log(response)
+        this.loading.dismiss();
+        console.log("hay respuesta: ",response)
         this.status="success";
         this.form.reset();
         this._storageService.set("identity",JSON.stringify(response));
@@ -86,26 +89,39 @@ export class LoginComponent implements OnInit {
 
       },
       error => {
-        console.log(error)
-        this.status="error";
+        console.log(error.error)
+        this.loading.dismiss();
+        if(error.status==404 || error.status==500){
+          this._alertService.presentAlert(error.error.message)
+          console.log(error.error.message);
+        }else{
+          this._alertService.presentAlert("Error desconocido");
+          var errorMessage = <any>error;
+          console.log("Error desconocido: ",errorMessage);
+        }
+
       }
     )
 
   }
 
   getToken(){
+    console.log("segunda petición")
+    this.loading.presentLoading("login","Cargando...");
     this._userService.login(this.user,"true").subscribe(
       response => {
+        this.loading.dismiss();
         this.token = response.token;
         if(this.token.length <= 0){
           this.status="error";
         }else{
-          this.loading.dismiss("login");
+
           this._storageService.set("token",this.token);
           this._router.navigate(["/tabs/tab1"]);
         }
       },
       error => {
+        this.loading.dismiss();
         var errorMessage = <any>error;
         console.log(errorMessage);
         if(errorMessage != null){

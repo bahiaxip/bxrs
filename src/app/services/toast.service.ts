@@ -46,4 +46,16 @@ export class ToastService {
       cssClass:"t_center"
     })
   }
+
+  async genericToast(data){
+    let message=data;
+    const toast = await this.toastController.create({
+      message: message,
+      duration:2000,
+      position:'middle',
+      cssClass:'toast_center'
+    });
+    await toast.present();
+  }
+
 }

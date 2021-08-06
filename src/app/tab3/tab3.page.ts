@@ -8,6 +8,7 @@ import { StorageService } from '../services/storage.service';
 import { MessageService } from '../services/message.service';
 import { LoadingService } from '../services/loading.service';
 import { ToastService } from '../services/toast.service';
+import { AlertService } from '../services/alert.service';
 //components
 import { AddMessageComponent } from '../add-message/add-message.component';
 import { ModalMessagesComponent } from '../modal-messages/modal-messages.component';
@@ -50,6 +51,7 @@ export class Tab3Page {
     private popoverController:PopoverController,
     private _loadingService:LoadingService,
     private _toastService:ToastService,
+    private _alertService:AlertService,
     private platform:Platform,
     private location:Location
   ){
@@ -85,8 +87,9 @@ export class Tab3Page {
     })
 
     this.checkNotification=setInterval(()=>{
-      console.log("interval: ",this.lastMessageTime);
-      if(this.messages && this.lastMessageTime){
+      //console.log("interval: ",this.lastMessageTime);
+      if(this.messages && this.messages.length>0 && this.lastMessageTime){
+        console.log("messages dsd interval: ",this.messages)
         this._messageService.getLastReceivedMessages(this.lastMessageTime).subscribe(
           response => {
             if(response && response.messages){
@@ -98,6 +101,12 @@ export class Tab3Page {
             }
           },
           error => {
+            if(error.status==401 || error.status==404 || error.status==500){
+              console.log(error.error.message);
+            }else{
+              var errorMessage = <any>error;
+              console.log("Error desconocido: ",errorMessage);
+            }
 
           }
         )
@@ -124,10 +133,13 @@ export class Tab3Page {
     //actualizamos la propiedad viewed
       this._messageService.updateReceivedMessage(messageReceived._id).subscribe(
         response => {
+          //toast
+          this._toastService.genericToast("Mensaje visualizado")
           console.log(response);
         },
         error =>{
-          console.log(error);
+          var errorMessage = <any>error;
+          console.log("Error actualizando la opción de mensaje visualizado: ",errorMessage);
         }
       )
     }
@@ -138,13 +150,24 @@ export class Tab3Page {
     this._messageService.getReceivedMessages().subscribe(
       response => {
         console.log(response);
+        console.log("mensajes recibidos: ",response.messages)
         this.messages=response.messages;
-        this.lastMessageTime=this.messages[0].created_at;
-        this.itmReceived=this.messages.map(msge=>false);
-        console.log("itemReceived: ",this.itmReceived)
+        if(this.messages.length > 0){
+          this.lastMessageTime=this.messages[0].created_at;
+          this.itmReceived=this.messages.map(msge=>false);
+          console.log("itemReceived: ",this.itmReceived)
+        }
+
       },
       error => {
-
+        if(error.status==401 || error.status==404 || error.status==500){
+          this._alertService.presentAlert(error.error.message)
+          console.log(error.error.message);
+        }else{
+          this._alertService.presentAlert("Error desconocido");
+          var errorMessage = <any>error;
+          console.log("Error desconocido: ",errorMessage);
+        }
       }
     )
   }
@@ -153,11 +176,20 @@ export class Tab3Page {
     this._messageService.getEmmittedMessages().subscribe(
       response => {
         this.sendedMessages=response.messages;
-        this.itmSended=this.sendedMessages.map(sended => false);
-        console.log(this.itmSended)
+        if(this.sendedMessages.length > 0){
+          this.itmSended=this.sendedMessages.map(sended => false);
+          console.log(this.itmSended)
+        }
       },
       error => {
-
+        if(error.status==401 || error.status==404 || error.status==500){
+          this._alertService.presentAlert(error.error.message)
+          console.log(error.error.message);
+        }else{
+          this._alertService.presentAlert("Error desconocido");
+          var errorMessage = <any>error;
+          console.log("Error desconocido: ",errorMessage);
+        }
       }
     )
   }
@@ -177,7 +209,14 @@ export class Tab3Page {
         console.log("respuesta de getLastReceivedMessages: ",response);
       },
       error => {
-        console.log(error)
+        if(error.status==401 || error.status==404 || error.status==500){
+          this._alertService.presentAlert(error.error.message)
+          console.log(error.error.message);
+        }else{
+          this._alertService.presentAlert("Error desconocido");
+          var errorMessage = <any>error;
+          console.log("Error desconocido: ",errorMessage);
+        }
       }
     )
   }
@@ -252,7 +291,7 @@ export class Tab3Page {
               if(response && response.status=="success"){
                 this.loading.dismiss("messages");
                 //llamamos al toast y ocultamos de la lista
-                this._toastService.deleteToast(true);
+                this._toastService.genericToast("El mensaje ha sido eliminado correctamente");
                 (type=='received') ?
                     this.itmReceived[index]=true : this.itmSended[index]=true;
 
@@ -262,17 +301,22 @@ export class Tab3Page {
 
             },
             error => {
-
+              if(error.status==401 || error.status==404 || error.status==500){
+                this._alertService.presentAlert(error.error.message)
+                console.log(error.error.message);
+              }else{
+                this._alertService.presentAlert("Error desconocido");
+                var errorMessage = <any>error;
+                console.log("Error desconocido: ",errorMessage);
+              }
             }
           )
         }else{
-          //toast con mensaje no se estableción el índice del mensaje
+          //toast con mensaje no se estableció el índice del mensaje
           this.loading.dismiss("messages");
-          this._toastService.deleteToast(false);
-
+          this._toastService.genericToast("No se ha podido eliminar el mensaje");
         }
       }
-
     })
 
     return await popover.present();

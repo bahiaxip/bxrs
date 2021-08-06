@@ -1,14 +1,18 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { User } from '../models/user';
 import { FormGroup, FormControl, Validators,AbstractControl } from '@angular/forms';
+//services
 import { UserService } from '../services/user.service';
 import { StorageService } from '../services/storage.service';
 import { UploadService } from '../services/upload.service';
+import { LoadingService } from '../services/loading.service';
+import { AlertService } from '../services/alert.service';
+
 import { Router } from '@angular/router';
 import { Global } from '../services/Global';
 import { ToastController, Platform } from '@ionic/angular';
 import { Location } from '@angular/common';
-import { LoadingService } from '../services/loading.service';
+
 
 @Component({
   selector: 'app-perfil',
@@ -62,6 +66,7 @@ export class PerfilPage implements OnInit {
     private _uploadService:UploadService,
     private toastController:ToastController,
     private _loadingService:LoadingService,
+    private _alertService:AlertService,
     private platform:Platform,
     private location:Location
 
@@ -75,6 +80,9 @@ export class PerfilPage implements OnInit {
     this.fileButton.nativeElement.click();
   }*/
 
+
+  //Toast directo (en lugar de servicio), llamado desde <ion-toggle>
+  //que actualiza la db llamando desde este mismo toast al updateToggle()
   async presentToast(data,bol){
     let toast;
     if(bol){
@@ -116,7 +124,14 @@ export class PerfilPage implements OnInit {
                 console.log("asignar los visibilities: ",this.toggle)
           },
           error => {
-
+            if(error.status==401 || error.status==404 || error.status==500){
+              this._alertService.presentAlert(error.error.message)
+              console.log(error.error.message);
+            }else{
+              this._alertService.presentAlert("Error desconocido");
+              var errorMessage = <any>error;
+              console.log("Error desconocido: ",errorMessage);
+            }
           }
         )
       }else{
@@ -193,8 +208,14 @@ export class PerfilPage implements OnInit {
           }
         },
         error =>{
-          var errorMessage = <any>error;
-          console.log(errorMessage);
+          if(error.status==401 || error.status==404 || error.status==500){
+            this._alertService.presentAlert(error.error.message)
+            console.log(error.error.message);
+          }else{
+            this._alertService.presentAlert("Error desconocido");
+            var errorMessage = <any>error;
+            console.log("Error desconocido: ",errorMessage);
+          }
         }
       )
     })
@@ -207,7 +228,14 @@ export class PerfilPage implements OnInit {
         this.user=response.user;
       },
       error => {
-        console.log("Error: ",error);
+        if(error.status==401 || error.status==404 || error.status==500){
+          this._alertService.presentAlert(error.error.message)
+          console.log(error.error.message);
+        }else{
+          this._alertService.presentAlert("Error desconocido");
+          var errorMessage = <any>error;
+          console.log("Error desconocido: ",errorMessage);
+        }
       }
 
     );
@@ -220,10 +248,17 @@ export class PerfilPage implements OnInit {
     //console.log("cambio de toggle: "+this.toggle)
     this._userService.updateVisibility(this.toggle,this.user._id).subscribe(
       response => {
-        //console.log(response)
+        console.log(response)
       },
       error => {
-        console.log(error)
+        if(error.status==401 || error.status==404 || error.status==500){
+          this._alertService.presentAlert(error.error.message)
+          console.log(error.error.message);
+        }else{
+          this._alertService.presentAlert("Error desconocido");
+          var errorMessage = <any>error;
+          console.log("Error desconocido: ",errorMessage);
+        }
       }
     )
   }

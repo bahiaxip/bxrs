@@ -5,6 +5,7 @@ import { StorageService } from '../services/storage.service';
 import { PublicationService } from '../services/publication.service';
 import { UploadService } from '../services/upload.service';
 import { LoadingService } from '../services/loading.service';
+import { AlertService } from '../services/alert.service';
 import { Router } from '@angular/router';
 import { ModalController, Platform } from '@ionic/angular';
 import { Global } from '../services/Global';
@@ -34,6 +35,7 @@ export class AddPublicationComponent implements OnInit {
     private _loadingService:LoadingService,
     private modalController:ModalController,
     private _uploadService:UploadService,
+    private _alertService:AlertService,
     private platform:Platform,
   ) {
     this.url=Global.url;
@@ -132,10 +134,14 @@ export class AddPublicationComponent implements OnInit {
           //this._router.navigate(["/tabs/tab1"]);
         },
         error => {
-          var errorMessage = <any>error;
-          console.log(errorMessage);
-          if(errorMessage != null)
-            this.status="error";
+          if(error.status==401 || error.status==404 || error.status==500){
+            this._alertService.presentAlert(error.error.message)
+            console.log(error.error.message);
+          }else{
+            this._alertService.presentAlert("Error desconocido");
+            var errorMessage = <any>error;
+            console.log("Error desconocido: ",errorMessage);
+          }
         }
       )
     });
@@ -174,7 +180,14 @@ export class AddPublicationComponent implements OnInit {
           }
         },
         error => {
-
+          if(error.status==401 || error.status==404 || error.status==500){
+            this._alertService.presentAlert(error.error.message)
+            console.log(error.error.message);
+          }else{
+            this._alertService.presentAlert("Error desconocido");
+            var errorMessage = <any>error;
+            console.log("Error desconocido: ",errorMessage);
+          }
         }
       )
     })
