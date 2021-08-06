@@ -53,6 +53,12 @@
   font-family:"Britanic";
   src:url('./assets/fonts/BRITANIC.TTF');
 }
+/*
+@font-face{
+  font-family:"Quicksand";
+  src:url('./assets/fonts/BRITANIC.TTF');
+}
+*/
 
 
 
@@ -395,7 +401,7 @@ ion-refresher ion-refresher-content{
   }
 }
 
-.red.refresher-native{
+.dark.refresher-native{
     //fondo circular
     .refresher-refreshing-icon, .refresher-pulling-icon{
       background-color:#373737 !important;
@@ -428,6 +434,30 @@ ion-refresher ion-refresher-content{
 .toast_center{
   text-align:center;
   font-weight:bold;
+}
+
+.alert_message{
+  .alert-wrapper{
+    background-color:#676767;
+    .alert-head h2{
+      text-align:center;
+      color:#FFFFFF;
+
+    }
+    .alert-message{
+      color:#FFF;
+      font-weight:bold;
+    }
+    .alert-button,.alert-button span{
+      color:white;
+      font-family:Britanic;
+      font-weight:bold;
+      font-size:15px;
+      background-color:#ff7500;
+    }
+
+  }
+
 }
 
 

@@ -29,7 +29,7 @@
 
   <ion-slides #slideMessages [hidden]="!messages">
     <ion-slide class="ionslide1-tab3">
-      <ion-refresher #refresherRef slot="fixed" (ionRefresh)="doRefresh($event)" [ngClass]="{'refresher-active refresher-refreshing':refresherActive}">
+      <ion-refresher #refresherRef slot="fixed" (ionRefresh)="doRefresh($event)" [ngClass]="{'refresher-active refresher-refreshing':refresherActive}" class="dark">
     <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>

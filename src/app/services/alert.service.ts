@@ -13,8 +13,9 @@ export class AlertService {
   async presentAlert(message:string){
     const alert = await this.alertController.create({
       message: message,
-      header: "Mensaje",
-      buttons:['OK']
+      header: "Error",
+      buttons:['OK'],
+      cssClass:'alert_message'
 
     });
 

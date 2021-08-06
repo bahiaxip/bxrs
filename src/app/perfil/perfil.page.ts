@@ -89,12 +89,14 @@ export class PerfilPage implements OnInit {
       toast = await this.toastController.create({
         message: "Visibilidad de "+data+" activada",
         duration: 2000,
+        position:'middle'
       });
     }
     else{
       toast = await this.toastController.create({
         message: "Visibilidad de "+data+" desactivada",
         duration: 1000,
+        position:'middle'
       });
     }
     if(this.switchT){
