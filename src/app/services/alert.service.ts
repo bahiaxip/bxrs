@@ -10,10 +10,15 @@ export class AlertService {
 
   }
 
-  async presentAlert(message:string){
+  async presentAlert(message:string,type:string=null){
+    let header="Error"
+    if(type=="sugerencia")
+      header="Sugerencia"
+    else if(type=="aviso")
+      header="Aviso"
     const alert = await this.alertController.create({
       message: message,
-      header: "Error",
+      header: header,
       buttons:['OK'],
       cssClass:'alert_message'
 

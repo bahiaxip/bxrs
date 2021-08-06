@@ -330,13 +330,15 @@ export class Tab1Page implements OnInit{
   }
 
   ionViewWillEnter(){
+
     this._storageService.getIdentity().then((identi)=>{
       if(!identi){
+
         this._storageService.logout();
       }
+
       let identity=JSON.parse(identi);
       this.identity=identity.user;
-
       if(this.page != this.pages)
         this.switchMore=false;
 
@@ -450,6 +452,7 @@ export class Tab1Page implements OnInit{
               }
 
             }else{
+              this._alertService.presentAlert("Crea una publicación o sigue a algún usuario","sugerencia");
               this.publications=[];
               this.switchMore=true;
               //console.log("no existe ninguna publicación desde getPublications ")
@@ -467,9 +470,13 @@ export class Tab1Page implements OnInit{
         }
       },
       error => {
+
         this.loading.dismiss();
         if(error.status==401 || error.status==404 || error.status==500){
           this._alertService.presentAlert(error.error.message)
+          if(error.status==401 || error.error.status==401){
+             this._storageService.logout();
+          }
           console.log(error.error.message);
         }else{
           this._alertService.presentAlert("Error desconocido");

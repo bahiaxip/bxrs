@@ -17,8 +17,9 @@ export class ToastService {
 
       const toast = await this.toastController.create({
         message: message,
-        duration: 10000,
-        cssClass:'t_center'
+        duration: 1000,
+        position:'top',
+        cssClass:'toast_center'
       });
 
     await toast.present();
@@ -34,7 +35,7 @@ export class ToastService {
     const toast = await this.toastController.create({
       message: message,
       duration:10000,
-      cssClass:'t_center'
+      cssClass:'toast_center'
     });
     await toast.present();
   }

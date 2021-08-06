@@ -88,15 +88,15 @@ export class PerfilPage implements OnInit {
     if(bol){
       toast = await this.toastController.create({
         message: "Visibilidad de "+data+" activada",
-        duration: 2000,
-        position:'middle'
+        duration: 1000,
+        position:'top'
       });
     }
     else{
       toast = await this.toastController.create({
         message: "Visibilidad de "+data+" desactivada",
         duration: 1000,
-        position:'middle'
+        position:'top'
       });
     }
     if(this.switchT){
@@ -125,6 +125,8 @@ export class PerfilPage implements OnInit {
           error => {
             if(error.status==401 || error.status==404 || error.status==500){
               this._alertService.presentAlert(error.error.message)
+              if(error.status==401 || error.error.status==401)
+                 this._storageService.logout();
               console.log(error.error.message);
             }else{
               this._alertService.presentAlert("Error desconocido");

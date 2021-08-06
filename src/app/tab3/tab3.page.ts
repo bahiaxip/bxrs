@@ -149,11 +149,14 @@ export class Tab3Page {
         if(this.messages.length > 0){
           this.lastMessageTime=this.messages[0].created_at;
           this.itmReceived=this.messages.map(msge=>false);
-        }
+        }else
+          this._alertService.presentAlert("Aun no has recibido ningún mensaje","aviso");
       },
       error => {
         if(error.status==401 || error.status==404 || error.status==500){
           this._alertService.presentAlert(error.error.message)
+          if(error.status==401 || error.error.status==401)
+             this._storageService.logout();
           console.log(error.error.message);
         }else{
           this._alertService.presentAlert("Error desconocido");
