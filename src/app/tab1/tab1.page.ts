@@ -338,6 +338,7 @@ export class Tab1Page implements OnInit{
       }
 
       let identity=JSON.parse(identi);
+
       this.identity=identity.user;
       if(this.page != this.pages)
         this.switchMore=false;
@@ -346,8 +347,10 @@ export class Tab1Page implements OnInit{
         //console.log("forzamos recarga de publicaciones: ")
         this.page=1;
         this.getPublications(this.page);
+        console.log("identi: ",identi);
       }else if(this.publications && this.publications.length <= 0
         || this.switchChangeFollUnFoll){
+
         //console.log("existe publications pero vacía: ",this.publications);
         this.switchMore=true;
         this.getPublications(this.page)
@@ -420,7 +423,6 @@ export class Tab1Page implements OnInit{
     this.loading.presentLoading("publications","Cargando...");
     this._publicationService.getPublications(page).subscribe(
       response => {
-
         if(response){
           this.loading.dismiss();
 
@@ -433,10 +435,13 @@ export class Tab1Page implements OnInit{
               }
               if(this.switchChangeFollUnFoll)
                 !this.switchChangeFollUnFoll;
+
               this.pages=response.publications.totalPages;
+
               if(!adding){
                 this.publications = response.publications.docs;
                 this.lastPublicationTime=this.publications[0].created_at;
+                console.log(this.publications)
               }else{
                 let list1=this.publications;
                 let list2 = response.publications.docs;
@@ -449,6 +454,7 @@ export class Tab1Page implements OnInit{
                 */
                 this.itm=this.publications.map(itm=>false);
                 //console.log("itm: ",this.itm)
+
               }
 
             }else{

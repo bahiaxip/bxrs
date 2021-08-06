@@ -124,6 +124,7 @@ export class PerfilPage implements OnInit {
           },
           error => {
             if(error.status==401 || error.status==404 || error.status==500){
+              console.log("entra en visibility: ",error)
               this._alertService.presentAlert(error.error.message)
               if(error.status==401 || error.error.status==401)
                  this._storageService.logout();

@@ -40,11 +40,12 @@ var controller = {
   },
 
   getVisibility:function(req,res){
-    //console.log("llega")
     var userId = req.user.sub;
+
     Visibility.findOne({"user":userId},(err,visibility) => {
       if(err) return res.status(500).send({message: "Error al obtener visibility"});
-      if(!visibility) return res.status(404).send({message: "No se encontró visibility del usuario"});
+
+      if(!visibility) return res.status(401).send({message: "No se encontró el visibility del usuario",status:401});
       return res.status(200).send({
         visibility
       })

@@ -4,7 +4,7 @@
       <img src="assets/logobxrs_completoG.png" />
     </ion-thumbnail>
     <ion-title class="title2" >
-      PUBLICACIONES
+      ACTIVIDAD
       <!--<a (click)="presentModal()">-->
 
       <!--</a>-->
@@ -37,10 +37,10 @@
 
         <ion-item  color="dark">
 
-            <ion-avatar slot="start" *ngIf="item.user.image && item.user.image.name">
+            <ion-avatar slot="start" *ngIf="item.user && item.user.image && item.user.image.name">
               <img src="{{url+'image-user/'+item.user.email+'/'+item.user.image.name}}" />
             </ion-avatar>
-            <ion-avatar slot="start" *ngIf="!item.user.image">
+            <ion-avatar slot="start" *ngIf="!item.user || !item.user.image">
               <img [src]="'assets/icons/person.png'" />
             </ion-avatar>
             <ion-label  color="dark" class="label-pub">

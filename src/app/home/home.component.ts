@@ -25,6 +25,7 @@ export class HomeComponent implements AfterViewInit {
   private switchLogo3:boolean=false;
   private switchLogo4:boolean=false;
   private exitSubscription:any;
+  private switchDevice:boolean=false;
   //private __storage:Storage;
   //para ngOnInit (static:true), no necesario ElementRef
   //@ViewChild("welcome",{static:true}) welcome: ElementRef;
@@ -65,12 +66,12 @@ export class HomeComponent implements AfterViewInit {
 
   ngOnInit(){
     if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
-
-      console.log("es dispositivo movil");
-    }else{
-      console.log("mostrar botón para APK")
+      this.switchDevice=true;
+      //console.log("es dispositivo movil");
     }
-
+    //else{
+      //console.log("mostrar botón para APK")
+    //}
 
   }
 

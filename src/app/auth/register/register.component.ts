@@ -63,6 +63,7 @@ export class RegisterComponent implements OnInit {
         }
       },
       error=>{
+        this.loading.dismiss("register");
         if(error.status==404 || error.status==409
           || error.status== 422 || error.status==500){
           this._alertService.presentAlert(error.error.message);
