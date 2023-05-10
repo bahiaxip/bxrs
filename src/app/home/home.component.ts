@@ -15,17 +15,17 @@ const { App } = Plugins;
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements AfterViewInit {
-  private login:boolean=false;
+  public login:boolean=false;
   private userIdentity;
   private userToken;
   private title:string="IONICRRSS2";
   private switchAllLogo:boolean=false;
-  private switchLogo:boolean=false;
-  private switchLogo2:boolean=false;
-  private switchLogo3:boolean=false;
-  private switchLogo4:boolean=false;
+  public switchLogo:boolean=false;
+  public switchLogo2:boolean=false;
+  public switchLogo3:boolean=false;
+  public switchLogo4:boolean=false;
   private exitSubscription:any;
-  private switchDevice:boolean=false;
+  public switchDevice:boolean=false;
   //private __storage:Storage;
   //para ngOnInit (static:true), no necesario ElementRef
   //@ViewChild("welcome",{static:true}) welcome: ElementRef;

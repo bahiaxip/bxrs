@@ -23,7 +23,7 @@ export class Tab2Page {
   //private changeollow=new Subject<void>();
 
 
-  private users:Array<User>;
+  public users:Array<User>;
   public clickButton:boolean=false;
   private follow:Follow;
   private identity;
@@ -33,8 +33,8 @@ export class Tab2Page {
   private follows:Array<string>;
   private visibility:Array<any>;
   private total:number;
-  private switchMore:boolean=false;
-  private url:string;
+  public switchMore:boolean=false;
+  public url:string;
   private visibilityWithPropOne:Array<any>;
   private counter:number;
   private exitSubscription:any;

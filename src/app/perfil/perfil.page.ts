@@ -21,11 +21,11 @@ import { Location } from '@angular/common';
 })
 export class PerfilPage implements OnInit {
   private selectedSlide:string;
-  private user:User;
+  public user:User;
   private identity;
   private token;
   private file;
-  private url:string;
+  public url:string;
   private result2:any;
   private switchT:any;
   private loading:any;
@@ -40,7 +40,7 @@ export class PerfilPage implements OnInit {
     image: ''
   }
 
-  private toggle ={
+  public toggle ={
     name: null,
     surname:null,
     email: null,

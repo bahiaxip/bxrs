@@ -86,15 +86,16 @@ ion-tab-button{
         //home
 
 .home_super_title{
-  min-width:650px;
-  max-width: 800px;
-  opacity:0.3;
+  min-width:500px;
+  max-width: 100%;
+  opacity:0.2;
   margin:auto;
   position:absolute;
   top: 50%;
   left: 50%;
   text-align: center;
   transform:translate(-50%,-50%);
+  width:100%
 }
 
         //fin home

@@ -7,7 +7,7 @@
 </ion-header>-->
 <ion-content color="favorite2">
   <div class="home_super_title">
-    <img src="assets/smartphone.png" width="1000"  style=""/>
+    <img src="assets/network2.jpg"   style="width:100%"/>
   </div>
   <div class="w100 h100 t_center p_absolute" >
     <h1 class="subtitle" #subtitle>Comparte tus ideas en tu red social favorita</h1>
@@ -59,7 +59,7 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <div style="margin-top:50px">
+    <div style="margin-top:50px" *ngIf="!switchDevice">
       <p style="text-align:center;color:#000">Disponible en APK</p>
       <a href="#" mat-raised-button class="favorite_button mt_10" >
         APK

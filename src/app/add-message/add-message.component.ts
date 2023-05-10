@@ -18,12 +18,12 @@ import { User } from '../models/user';
 export class AddMessageComponent implements OnInit {
 
   private message:Message;
-  private identy:any;
+  public identy:any;
   formAddMessage:FormGroup;
-  private users:Array<User>;
+  public users:Array<User>;
   private exitSubscription:any;
   private loading:any;
-
+  public data:any="Escribir mensaje";
   constructor(
     private _storageService:StorageService,
     private modalController:ModalController,
@@ -67,7 +67,8 @@ export class AddMessageComponent implements OnInit {
     this.modalController.dismiss({
       'dismiss':true
     })
-    this.loading.dismiss("publications");
+    console.log("el error")
+    //this.loading.dismiss("publications");
   }
 
   getUsers(identi){

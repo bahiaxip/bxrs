@@ -22,24 +22,24 @@ import { Message } from '../models/message';
 })
 export class Tab3Page {
 
-  private messages:Message[];
-  private sendedMessages:Message[];
-  private clickButton:Array<any>=[];
-  private clickButton2:Array<any>=[];
+  public messages:Message[];
+  public sendedMessages:Message[];
+  public clickButton:Array<any>=[];
+  public clickButton2:Array<any>=[];
   private messageId:any;
   private loading:any;
-  private itmReceived=[];
-  private itmSended=[];
+  public itmReceived=[];
+  public itmSended=[];
   private exitSubscription:any;
   //interval
   private checkNotification:any;
   //fecha último mensaje
   private lastMessageTime:any;
   //interruptor que cambia de botón si existen nuevos mensajes
-  private switchButtonMail:boolean=false;
+  public switchButtonMail:boolean=false;
 
   //activar el icono de refresh cuando se activa mediante el botón de nuevas notificaciones
-  private refresherActive:boolean=false;
+  public refresherActive:boolean=false;
 
   @ViewChild("refresherRef", {static:false}) refresher:ElementRef;
   constructor(

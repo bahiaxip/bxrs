@@ -30,19 +30,19 @@ const { App } = Plugins;
   providers:[PhotoViewer]
 })
 export class Tab1Page implements OnInit{
-  private identity;
+  public identity;
   private identity2;
-  private users:Array<User>;
-  private publications;
+  public users:Array<User>;
+  public publications;
   private token;
   private status;
   private data;
   private page:number;
   private pages;
-  private switchMore:boolean=false;
-  private url:string;
-  private clickButton=[];
-  private itm=[];
+  public switchMore:boolean=false;
+  public url:string;
+  public clickButton=[];
+  public itm=[];
   private counterDeleted:number=0;
   private lengthPublications:number=0;
   private slideTextButton=[];
@@ -54,11 +54,11 @@ export class Tab1Page implements OnInit{
 
   private loading:any;
   //interruptor que permite mostrar/ocultar el botón de notificaciones
-  private swButtonNot:boolean=false;
+  public swButtonNot:boolean=false;
   //created_at de la última publicación para notificar nuevas publicaciones
   private lastPublicationTime:any;
   //activar el icono de refresh cuando se activa mediante el botón de nuevas notificaciones
-  private refresherActive:boolean=false;
+  public refresherActive:boolean=false;
   private exitSubscription:any;
   private counterSubscription:number=0;
   private checkNotification:any;

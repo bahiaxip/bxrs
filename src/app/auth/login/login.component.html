@@ -30,7 +30,8 @@
               <mat-hint *ngIf="!form.controls.email.value && form.controls.email.touched;  else hint" class="hint_novalid">Debe introducir un correo</mat-hint>
 
               <ng-template #hint >
-                <mat-hint *ngIf="form.controls.email.value && !form.controls.email.valid && form.controls.email.touched; else hint3" class="hint_novalid">Debe introducir un correo válido</mat-hint>
+                <!--<mat-hint *ngIf="form.controls.email.value && !form.controls.email.valid && form.controls.email.touched; else hint3" class="hint_novalid">Debe introducir un correo válido</mat-hint>-->
+                <mat-hint *ngIf="form.controls.email.value && !form.controls.email.valid && form.controls.email.touched" class="hint_novalid">Debe introducir un correo válido</mat-hint>
               </ng-template>
 
               <!--<ng-template #hint3>

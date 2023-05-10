@@ -21,8 +21,9 @@ export class AddPublicationComponent implements OnInit {
   public token;
   public status;
   public switchUpdate:boolean=false;
-  private publicationUser;
-  private url:string;
+  public publicationUser;
+  public url:string;
+  public data:any="Escribir mensaje";
   formAddPublication:FormGroup;
 
   private exitSubscription:any;
